@@ -1,0 +1,12 @@
+# LaTeX-related files and folders
+aux/
+*.aux
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.log
+*.out
+*.toc
+*.synctex.gz

@@ -1,0 +1,99 @@
+\documentclass[12pt,twoside,a4paper]{book}
+
+% Add preamble
+\input{preamble}
+
+% ---------------------------------------------------------------------
+% Additional packages
+
+\usepackage{setspace}           % Flexible spacing
+\usepackage{makeidx}            % Index
+\usepackage[nottoc]{tocbibind}  % Add bibliography/index/content to ToC
+\usepackage{courier}            % Adobe Courier instead of Computer Modern Typewriter
+\usepackage{type1cm}            % Scalable fonts
+\usepackage{titletoc}
+\usepackage[fixlanguage]{babelbib}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+
+% Margins
+\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry}
+
+% Colored links
+\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=DarkGreen,linkcolor=NavyBlue,urlcolor=DarkRed,filecolor=green,bookmarksopen=true]{hyperref}
+
+% Solve hyperref and chapter problem
+\usepackage[all]{hypcap}
+
+% Textual bibliography quote (plainnat-ime.bst)
+\usepackage[round,sort,nonamebreak]{natbib}
+
+\fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
+
+% ---------------------------------------------------------------------
+% Nice headers
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{#1}}{}}
+\renewcommand{\sectionmark}[1]{\markright{\MakeUppercase{#1}}{}}
+\renewcommand{\headrulewidth}{0pt}
+
+% ---------------------------------------------------------------------
+
+\urlstyle{same}  % URL with same style as text and not monospaced
+\makeindex
+\raggedbottom    % Disallow extra spaces in text
+\fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
+\cleardoublepage
+\normalsize
+
+% --------------------------------------------------------------------
+% C++ code
+% Ref: http://en.wikibooks.org/wiki/LaTeX/Packages/Listings
+
+\lstset{
+language=C++,                   % Language of the code
+basicstyle=\footnotesize,       % Code font size
+numbers=left,                   % Where to put line numbers
+numberstyle=\footnotesize,      % Line number font size
+stepnumber=1,                   % Step between two line numbers
+numbersep=5pt,                  % How far line numbers are from the code
+showspaces=false,               % Show spaces adding particular underscores
+showstringspaces=false,         % Underline spaces within strings
+showtabs=false,                 % Show tabs within strings
+frame=single,                   % Adds a frame around the code
+framerule=0.6pt,
+tabsize=2,                      % Sets default tabsize to 2 spaces
+captionpos=b,                   % Sets caption position to bottom
+breaklines=true,                % Sets automatic line breaking
+breakatwhitespace=false,        % Automatic breaks should only happen at whitespace?
+escapeinside={\%*}{*)},         % For adding a comment within the code
+backgroundcolor=\color[rgb]{1.0,1.0,1.0},
+rulecolor=\color[rgb]{0.8,0.8,0.8},
+extendedchars=true,
+xleftmargin=10pt,
+xrightmargin=10pt,
+framexleftmargin=10pt,
+framexrightmargin=10pt
+}
+
+% ---------------------------------------------------------------------
+% Document body
+
+\begin{document}
+
+\frontmatter
+% Header for pages in sections before chapter 1
+\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+\setcounter{tocdepth}{2}
+\fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
+\fancyhead[RE,LO]{}
+\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+\linespread{1.25}
+
+% Include other LaTeX files
+\input{cover}
+\input{title}
+
+\end{document}
