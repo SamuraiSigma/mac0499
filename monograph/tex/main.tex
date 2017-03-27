@@ -1,7 +1,7 @@
 \documentclass[12pt,twoside,a4paper]{book}
 
 % Add preamble
-\input{preamble}
+\input{tex/preamble}
 
 % ---------------------------------------------------------------------
 % Additional packages
@@ -24,7 +24,7 @@
 % Solve hyperref and chapter problem
 \usepackage[all]{hypcap}
 
-% Textual bibliography quote (plainnat-ime.bst)
+% Textual bibliography quote
 \usepackage[round,sort,nonamebreak]{natbib}
 
 \fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
@@ -92,10 +92,10 @@ framexrightmargin=10pt
 \fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
 \linespread{1.25}
 
-\input{cover}
-\input{title}
-\input{thanks}
-\input{abstract}
+\input{tex/cover}
+\input{tex/title}
+\input{tex/thanks}
+\input{tex/abstract}
 
 \tableofcontents
 \listoffigures
@@ -129,7 +129,7 @@ framexrightmargin=10pt
 % Bibliography
 
 \backmatter \singlespacing
-\bibliographystyle{plainnat-ime} % Textual bibliographic quote
+\bibliographystyle{bib/plainnat-ime}  % Textual bibliographic quote
 
 % Add bibliography files here
 
