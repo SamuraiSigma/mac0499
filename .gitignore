@@ -6,7 +6,9 @@ aux/
 *.idx
 *.ilg
 *.ind
+*.lof
 *.log
+*.lot
 *.out
 *.toc
 *.synctex.gz

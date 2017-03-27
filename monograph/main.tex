@@ -79,7 +79,7 @@ framexrightmargin=10pt
 }
 
 % ---------------------------------------------------------------------
-% Document body
+% Document initial pages
 
 \begin{document}
 
@@ -92,8 +92,27 @@ framexrightmargin=10pt
 \fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
 \linespread{1.25}
 
-% Include other LaTeX files
 \input{cover}
 \input{title}
+\input{thanks}
+\input{abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+% ---------------------------------------------------------------------
+% Document main body
+
+\mainmatter
+% Header for all pages in chapters
+\fancyhead[RE,LO]{\thesection}
+\singlespacing
+
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }
+\fancyhead[RE,LO]{}
+\appendix
+
+% Add chapters here
 
 \end{document}

@@ -22,6 +22,14 @@ the most researched option was *speech recognition*.
 
 *(To be done)*
 
+## Repository organization
+
+This project consists in the following directories:
+
+- **monograph/**: A monograph registering steps done in the project (in
+*Portuguese*).
+
+
 [ime-usp]: https://www.ime.usp.br/en
 [godot]: https://godotengine.org/
 [godotGitHub]:https://github.com/godotengine/godot
