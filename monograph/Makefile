@@ -1,8 +1,9 @@
 # ---------------------------------------------------------------------
 # LaTeX-related files
 
+MONO    = monograph
 TARGET  = main.pdf
-TEMPTEX = *.aux *.fls *.log *.fdb_latexmk *.toc
+TEMPTEX = *.aux *.fdb_latexmk *.fls *.idx *.ilg *.ind *.lof *.log *.lot *.out *.toc
 
 # ---------------------------------------------------------------------
 # Directories
@@ -14,13 +15,14 @@ AUXDIR = aux
 .PHONY: all clean view
 
 all:
-	@[ -d aux/ ] || mkdir aux ||:
-	@cd aux && mv * .. 2> /dev/null ||:
-	latexmk -interaction=nonstopmode  -pdf $(TARGET:.pdf=)
-	@mv *.aux *.fls *.log *.fdb_latexmk *.toc aux 2> /dev/null ||:
+	@mkdir -p $(AUXDIR)
+	@cd $(AUXDIR) && mv * .. 2> /dev/null ||:
+	latexmk -interaction=nonstopmode -jobname=$(MONO) -pdf $(TARGET:.pdf=)
+	@mv $(TEMPTEX) $(AUXDIR) 2> /dev/null ||:
 
 clean:
 	latexmk -c
+	@rm -rf $(AUXDIR)
 
 view:
 	(evince $(TARGET) || atril $(TARGET)) &
