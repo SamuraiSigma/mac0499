@@ -12,3 +12,8 @@ aux/
 *.out
 *.toc
 *.synctex.gz
+
+# BibTeX-related files and folders
+*.bbl
+*.blg
+*.brf

@@ -115,4 +115,35 @@ framexrightmargin=10pt
 
 % Add chapters here
 
+% ---------------------------------------------------------------------
+% Appendix
+
+% Header
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }
+\fancyhead[RE,LO]{}
+\appendix
+
+% Add appendix files here
+
+% ---------------------------------------------------------------------
+% Bibliography
+
+\backmatter \singlespacing
+\bibliographystyle{plainnat-ime} % Textual bibliographic quote
+
+% Add bibliography files here
+
+% ---------------------------------------------------------------------
+% Index
+
+% \index{TBP|see{periodicidade região codificante}}
+% \index{DSP|see{processamento digital de sinais}}
+% \index{STFT|see{transformada de Fourier de tempo reduzido}}
+% \index{DFT|see{transformada discreta de Fourier}}
+% \index{Fourier!transformada|see{transformada de Fourier}}
+
+% \printindex  % imprime o índice remissivo no documento
+
+% ---------------------------------------------------------------------
+
 \end{document}
