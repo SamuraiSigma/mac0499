@@ -1,7 +1,7 @@
 # Monograph
 
 This directory contains all monograph-related files. The end document,
-*monograph.pdf*, is available only in *Portuguese*.
+*Monografia.pdf*, is available only in *Portuguese*.
 
 ## Organization
 
@@ -20,7 +20,7 @@ monograph can be generated with:
 
     $ make
 
-If all goes well, the *monograph.pdf* file should be generated. Note that an
+If all goes well, the *Monografia.pdf* file should be generated. Note that an
 **aux/** directory will be created, containing temporary `latexmk` stuff used during
 the document generation.
 

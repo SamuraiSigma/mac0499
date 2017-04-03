@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # LaTeX-related files
 
-MONO    = monograph.pdf
+MONO    = Monografia.pdf
 TARGET  = main.tex
 TEMPTEX = *.aux *.fdb_latexmk *.bbl *.blg *.brf *.fls *.idx *.ilg *.ind *.lof \
           *.log  *.lot *.out *.toc
