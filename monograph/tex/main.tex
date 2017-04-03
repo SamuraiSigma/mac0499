@@ -92,8 +92,13 @@ framexrightmargin=10pt
 \fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
 \linespread{1.25}
 
+\pagenumbering{gobble}
+\hypersetup{pageanchor=false}
 \input{tex/cover}
 \input{tex/title}
+
+\hypersetup{pageanchor=true}
+\pagenumbering{roman}
 \input{tex/thanks}
 \input{tex/abstract}
 
@@ -105,15 +110,14 @@ framexrightmargin=10pt
 % Document main body
 
 \mainmatter
+\pagenumbering{arabic}
+
 % Header for all pages in chapters
 \fancyhead[RE,LO]{\thesection}
 \singlespacing
 
-\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }
-\fancyhead[RE,LO]{}
-\appendix
-
 % Add chapters here
+\input{tex/1-introduction}
 
 % ---------------------------------------------------------------------
 % Appendix
@@ -132,6 +136,7 @@ framexrightmargin=10pt
 \bibliographystyle{bib/plainnat-ime}  % Textual bibliographic quote
 
 % Add bibliography files here
+\bibliography{bib/reference}
 
 % ---------------------------------------------------------------------
 % Index

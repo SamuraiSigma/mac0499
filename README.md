@@ -5,10 +5,10 @@ Project** at [IME-USP][ime-usp].
 
 ## Title
 
-Development of a module for the Godot game engine.
+***Development of a module for the Godot game engine***  
 *(Note: This title is currently temporary)*
 
-### Summary
+## Summary
 
 [Godot][godot] is a open source 2D and 3D game engine, its code being available at
 [GitHub][godotGitHub]. The software allows the creation of new modules to extend its

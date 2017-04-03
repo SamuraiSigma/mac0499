@@ -15,5 +15,8 @@ aux/
 
 # BibTeX-related files and folders
 *.bbl
+*.bcf
 *.blg
+*-blx.bib
 *.brf
+*.run.xml

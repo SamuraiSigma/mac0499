@@ -2,10 +2,10 @@
 % Versão modificada do arquivo plainnat.bst
 % by J.P. Mena-Chalco
 % Wed Nov 25 09:38:47 BRST 2009
-% 
+%
 %
 %% File: `plainnat.bst'
-%% A modification of `plain.bst' for use with natbib package 
+%% A modification of `plain.bst' for use with natbib package
 %%
 %% Copyright 1993-2007 Patrick W Daly
 %% Max-Planck-Institut f\"ur Sonnensystemforschung
@@ -132,7 +132,6 @@ FUNCTION {output.check}
 FUNCTION {fin.entry}
 { add.period$
   write$
-  "   {\scriptsize Citado na p\'{a}g.}" write$
   newline$
 }
 
