@@ -25,5 +25,6 @@ all:
 clean:
 	rm -rf $(AUXDIR)
 
-view: all
-	@(evince $(MONO) || atril $(MONO)) &
+view:
+	@[ -f $(MONO) ] || (echo "Must generate '$(MONO)' first!" && exit 1)
+	(evince $(MONO) || atril $(MONO)) &
