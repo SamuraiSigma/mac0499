@@ -48,9 +48,9 @@ código publicado em 2011. Escrita em C++.
 
 \item \emph{CMUSphinx} \citep{cmusphinx}: Desenvolvida pela \emph{Carnegie Mellon
 University}, possui diversos pacotes para diferentes tarefas e aplicações. O pacote
-principal é escrito em Java. Existe também a variante \emph{Pocketsphinx}: escrita
-em C e com suporte para sistemas embutidos, é uma opção mais interessante a ser
-considerada para este trabalho.
+principal é escrito em Java. Existe também a variante \emph{Pocketsphinx}, com
+características interessantes para este trabalho: é escrita em C, possuindo maior
+velocidade e portabilidade que a biblioteca original.
 
 \item \emph{HTK} \citep{htk}: Desenvolvida pela \emph{Cambridge University
 Engineering Department}, HTK é uma sigla para \emph{Hidden Markov Model Toolkit}. É
@@ -76,4 +76,89 @@ vastamente superiores; \emph{CMUSphinx} obteve bons resultados em pouco tempo;
 \emph{HTK} precisou de muito mais tempo e treino para conseguir resultados na ordem
 dos outros dois.
 
+No restante deste capítulo, analisaremos com mais cuidado as bibliotecas
+\emph{Kaldi}, \emph{PocketSphinx} e \emph{HTK}, com o intuito de acompanhar mais de
+perto suas funcionalidades, vantagens e desvantagens.
+
+O sistema operacional utilizado foi \texttt{ubuntu 16.04 LTS, 64 bits}.
+
 % ---------------------------------------------------------------------
+
+\section{\emph{Pocketsphinx}}
+
+\subsection{Instalação}
+
+Os passos abaixo foram baseados nas instruções em \citep{pocketsphinxInstall}.
+Supõe-se que o usuário esteja usando um sistema \emph{Unix}, com acesso a privilégios
+administrativos (\emph{root}).
+
+Antes de começar, é necessário instalar as seguintes dependências: \texttt{gcc,
+automake, autoconf, libtool, bison, swig, python-dev, pulseaudio}. Se estiver usando
+um sistema como \emph{Ubuntu}, por exemplo, digite no terminal:
+\shellcmd{sudo apt-get install gcc automake autoconf libtool bison \textbackslash
+\linebreak \hphantom{4} swig python-dev pulseaudio}
+
+Primeiramente, baixaremos e instalaremos o pacote \emph{Sphinxbase}, que oferece
+funcionalidades comuns a todos os projetos \emph{CMUSphinx}:
+
+\begin{enumerate}
+\item Clone o repositório do \emph{Sphinxbase}, o que resultará no diretório
+\texttt{sphinxbase}:
+\shellcmd{git clone https://github.com/cmusphinx/sphinxbase}
+
+\item Dentro do diretório \texttt{sphinxbase}, execute o \emph{script}
+\texttt{autogen.sh} para gerar o arquivo \texttt{configure}:
+\shellcmd{./autogen.sh}
+
+\item Execute o \emph{script} \texttt{configure} que foi criado no último passo:
+\shellcmd{./configure}
+
+Se a plataforma utilizada não possui aritmética de ponto flutuante, deve-se rodar ao
+invés disso:
+\shellcmd{./configure ---enable-fixed ---without-lapack}
+
+Note que qualquer dependência ausente no sistema (por exemplo, o pacote \emph{swig})
+será notificada ao usuário neste passo. Se a execução ocorrer sem problemas, um
+\texttt{Makefile} será gerado.
+
+\item Construa a biblioteca através do \texttt{Makefile}:
+\shellcmd{make}
+
+\item Instale a biblioteca \emph{Sphinxbase} no sistema:
+\shellcmd{sudo make install}
+
+\emph{Observação:} Para desinstalar a biblioteca \emph{Sphinxbase} do sistema, basta digitar:
+\shellcmd{sudo make uninstall}
+\end{enumerate}
+
+Os passos necessários para baixar e instalar a biblioteca \emph{Pocketsphinx} são
+semelhantes:
+
+\begin{enumerate}
+\item Clone o repositório do \emph{Pocketsphinx}, o que resultará no diretório
+\texttt{pocketsphinx}:
+\shellcmd{git clone https://github.com/cmusphinx/pocketsphinx}
+
+\item Certifique-se que os diretórios \texttt{sphinxbase} e \texttt{pocketsphinx}
+estejam no mesmo diretório.
+
+\item Dentro do diretório \texttt{pocketsphinx}, execute o \emph{script}
+\texttt{autogen.sh} para gerar o arquivo \texttt{configure}:
+\shellcmd{./autogen.sh}
+
+\item Execute o \emph{script} \texttt{configure} que foi criado no último passo:
+\shellcmd{./configure}
+
+Note que qualquer dependência ausente no sistema será notificada ao usuário neste
+passo. Se a execução ocorrer sem problemas, um \texttt{Makefile} será gerado.
+
+\item Construa a biblioteca através do \texttt{Makefile}:
+\shellcmd{make}
+
+\item Instale a biblioteca \emph{Pocketsphinx} no sistema:
+\shellcmd{sudo make install}
+
+\emph{Observação:} Para desinstalar a biblioteca \emph{Pocketsphinx} do sistema,
+basta digitar:
+\shellcmd{sudo make uninstall}
+\end{enumerate}
