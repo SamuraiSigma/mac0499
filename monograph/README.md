@@ -7,11 +7,11 @@ This directory contains all monograph-related files. The end document,
 
 This monograph consists in the following directories:
 
-- **bib/**: Contains *BibTeX* files.
+- [**bib**](bib/): Contains *BibTeX* files.
 
-[//]: # (- **image/**: Contains images used throughout the document.)
+[//]: # (- [**image**](image/): Contains images used throughout the document.)
 
-- **tex/**: Contains the core *LaTeX* files.
+- [**tex**](tex/): Contains the core *LaTeX* files.
 
 ## Generation
 
