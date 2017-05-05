@@ -70,6 +70,3 @@ if $pocket; then
 fi
 
 echo -e "\033[1;36m>> Done!\033[0m"
-
-# Run pocketsphinx test
-# ./pocketsphinx_continuous -mdef ../../model/en-us/en-us/mdef -tmat ../../model/en-us/en-us/transition_matrices -mean ../../model/en-us/en-us/means -var ../../model/en-us/en-us/variances -sendump ../../model/en-us/en-us/sendump  -featparams ../../model/en-us/en-us/feat.params -dict ../../model/en-us/cmudict-en-us.dict -lm ../../model/en-us/en-us.lm.bin -inmic yes
