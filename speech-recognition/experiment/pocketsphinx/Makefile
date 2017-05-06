@@ -1,10 +1,4 @@
 # -------------------------------------------------------------
-# Files
-
-BIN:= hello_ps
-SRC:= hello_ps.c
-
-# -------------------------------------------------------------
 # Directories
 
 BINDIR:= bin
@@ -15,7 +9,7 @@ POCKETDIR:= ../../lib/pocketsphinx
 MODELDIR:= $(POCKETDIR)/model
 
 # -------------------------------------------------------------
-# Compiler Options
+# Compiler options
 
 CC:= gcc
 CFLAGS:= -Wall -Wextra -O3 -std=c11 -pedantic -Wno-unused-result
@@ -29,14 +23,22 @@ LIB:= -L $(BASEDIR)/src/libsphinxbase/.libs \
 
 MACRO:= -D MODELDIR=\"$(MODELDIR)\"
 
+# -------------------------------------------------------------
+# Makefile variables
+
+SRC:= $(wildcard $(SRCDIR)/*.c)
+BIN:= $(patsubst $(SRCDIR)/%.c, $(BINDIR)/%, $(SRC))
+
 # =============================================================
 
 .PHONY: all clean sound_test
 
 # Compiles all source files
-all: | $(BINDIR)
-	$(CC) -o $(BINDIR)/$(BIN) $(SRCDIR)/$(SRC) $(CFLAGS) $(INC) $(LIB) $(MACRO)
-	@echo "\033[1m>> Generating C binary \033[32m"$(BIN)"\033[0m"
+all: $(BIN)
+
+$(BINDIR)/%: $(SRCDIR)/%.c | $(BINDIR)
+	$(CC) $< -o $@ $(CFLAGS) $(INC) $(LIB) $(MACRO)
+	@echo "\033[1m>> Generating C binary \033[32m"$@"\033[0m"
 
 $(BINDIR):
 	mkdir -p $@
