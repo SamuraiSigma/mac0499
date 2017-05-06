@@ -2,10 +2,10 @@
 	path = godot
 	url = https://github.com/godotengine/godot
 [submodule "speech-recognition/sphinxbase"]
-	path = speech-recognition/sphinxbase
+	path = speech-recognition/lib/sphinxbase
 	url = https://github.com/cmusphinx/sphinxbase
 	ignore = untracked
 [submodule "speech-recognition/pocketsphinx"]
-	path = speech-recognition/pocketsphinx
+	path = speech-recognition/lib/pocketsphinx
 	url = https://github.com/cmusphinx/pocketsphinx
 	ignore = untracked

@@ -5,7 +5,7 @@
 int main(int argc, char *argv[]) {
     ps_decoder_t *ps = NULL;  // Decoder
     cmd_ln_t *config = NULL;  // Configuration object
-    int rv, score;
+    int score;
 
     if (argc < 2) {
         printf("Specify audio file as argument!\n");
@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
                          NULL);
 
     ps = ps_init(config);
-    rv = ps_start_utt(ps);
+    ps_start_utt(ps);
 
     int16 buf[512];
     FILE *fh = fopen(argv[1], "r");
@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
     }
     fclose(fh);
 
-    rv = ps_end_utt(ps);
+    ps_end_utt(ps);
 
     const char *hyp = ps_get_hyp(ps, &score);
     printf("Recognized: %s (score = %d)\n", hyp, score);

@@ -10,8 +10,8 @@ SRC:= hello_ps.c
 BINDIR:= bin
 SRCDIR:= src
 
-BASEDIR:= ../../sphinxbase
-POCKETDIR:= ../../pocketsphinx
+BASEDIR:= ../../lib/sphinxbase
+POCKETDIR:= ../../lib/pocketsphinx
 MODELDIR:= $(POCKETDIR)/model
 
 # -------------------------------------------------------------
@@ -35,6 +35,7 @@ MACRO:= -D MODELDIR=\"$(MODELDIR)\"
 
 all: | $(BINDIR)
 	$(CC) -o $(BINDIR)/$(BIN) $(SRCDIR)/$(SRC) $(CFLAGS) $(INC) $(LIB) $(MACRO)
+	echo "\033[1m>> Generating C binary \033[32m"$(BIN)"\033[0m"
 
 $(BINDIR):
 	mkdir -p $@
