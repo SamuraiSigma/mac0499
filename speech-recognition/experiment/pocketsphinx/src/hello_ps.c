@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
     int score;
 
     if (argc < 2) {
-        printf("Specify audio file as argument!\n");
+        printf("Must specify a 16 bit, 16000Hz audio file as an argument!\n");
         exit(1);
     }
 
