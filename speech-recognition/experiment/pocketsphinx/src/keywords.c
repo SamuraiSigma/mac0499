@@ -9,11 +9,19 @@ int main(int argc, char *argv[]) {
     const char *hyp = NULL;
 
     if (argc < 3) {
+        puts("DESCRIPTION\n"
+             "\tSearches for keywords in a raw audio file according to their "
+             "threshold values.\n");
         printf("USAGE\n"
                "\t%s <sound file> <keywords file>\n\n", argv[0]);
-        printf("ARGUMENTS\n"
-               "\tsound file: A 16 bit, 16000Hz sound file to be read\n"
-               "\tkeywords file: File containing keywords and their thresholds\n");
+        puts("ARGUMENTS\n"
+             "\tsound file: A 16 bit, 16000Hz sound file to be read.\n"
+             "\tkeywords file: File containing keywords and their thresholds.\n\n"
+             "\tExample of keywords file (threshold values must be between '/' " "characters):\n"
+             "\t\tup/1e-2/\n"
+             "\t\tdown/1e-5/\n"
+             "\t\tleft/1e-5/\n"
+             "\t\tright/1e-6/");
         exit(1);
     }
 
