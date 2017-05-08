@@ -1,3 +1,9 @@
+/*-------------------------------------------------------------------*
+ | Performs a speech to text operation on an audio file, which is    |
+ | specified as a command line argument. For more information, run   |
+ | the program with no arguments.                                    |
+ *-------------------------------------------------------------------*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "pocketsphinx.h"

@@ -1,3 +1,9 @@
+/*-------------------------------------------------------------------*
+ | Searches for keywords in an audio file. Both are specified as     |
+ | command line arguments (run the program with no arguments for     |
+ | more information).                                                |
+ *-------------------------------------------------------------------*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "pocketsphinx.h"
