@@ -223,6 +223,12 @@ static int mic_loop(ad_rec_t *recorder, ps_decoder_t *decoder) {
         msleep(SLEEP_TIME);
     }
 
+    // Stop recording
+    if (ad_stop_rec(recorder) < 0) {
+        E_FATAL("Failed to stop recording\n");
+        return EXIT_FAILURE;
+    }
+
     return EXIT_SUCCESS;
 }
 
