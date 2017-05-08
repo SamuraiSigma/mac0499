@@ -10,7 +10,7 @@
  | /cmusphinx/pocketsphinx/blob/master/src/programs/continuous.c     |
  *-------------------------------------------------------------------*/
 
-#include <stdio.h>   // printf()
+#include <stdio.h>   // printf(), puts()
 #include <string.h>  // strncmp(), strlen()
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
@@ -33,8 +33,8 @@
 #define END_STR "the end"
 
 /*
- *  Adds the -adcdev option as a possible command line argument.
- *  This argument corresponds to the microphone name.
+ * Adds the -adcdev option as a possible command line argument.
+ * This argument corresponds to the microphone name.
  */
 static arg_t cont_args_def[] = {
     POCKETSPHINX_OPTIONS,
