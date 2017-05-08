@@ -31,7 +31,7 @@ BIN:= $(patsubst $(SRCDIR)/%.c, $(BINDIR)/%, $(SRC))
 
 # =============================================================
 
-.PHONY: all clean sound_test
+.PHONY: all clean sound_test help
 
 # Compiles all source files
 all: $(BIN)
@@ -50,3 +50,10 @@ clean:
 # Tests a sound file
 sound_test:
 	aplay -f S16_LE -r 16000 sound/goforward.raw
+
+help:
+	@echo "[COMMANDS]"
+	@echo "  - all:        Compile all source files, creating binaries in $(BINDIR)"
+	@echo "  - clean:      Remove the created $(BINDIR) directory"
+	@echo "  - help:       Show these instructions"
+	@echo "  - sound_test: Example of how to listen to a raw audio file (16 bit, 16000Hz)"

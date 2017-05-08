@@ -1,6 +1,6 @@
 #!/bin/bash
-# Wrapper script that runs programs by first exporting the LD_LIBRARY_PATH variable
-# for Pocketsphinx applications.
+# Wrapper script that runs programs by first exporting the LD_LIBRARY_PATH
+# variable. Used for easily running Pocketsphinx applications.
 
 set -e
 
@@ -8,9 +8,9 @@ BASEDIR=../../lib/sphinxbase      # Sphinxbase directory
 POCKETDIR=../../lib/pocketsphinx  # Pocketsphinx
 
 # Library paths used on LD_LIBRARY_PATH
-LIBPATH=$BASEDIR/src/libsphinxbase/.libs:
-LIBPATH+=$BASEDIR/src/libsphinxad/.libs:
-LIBPATH+=$POCKETDIR/src/libpocketsphinx/.libs
+LIBPATH=$BASEDIR/src/libsphinxbase/.libs
+LIBPATH+=:$BASEDIR/src/libsphinxad/.libs
+LIBPATH+=:$POCKETDIR/src/libpocketsphinx/.libs
 
 # ---------------------------------------------------------------------
 

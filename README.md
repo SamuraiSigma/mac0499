@@ -16,26 +16,26 @@ present the new functionality in a simple game.
 
 |                     Activity                    | April | May | June  | July | August | September | October | November |
 |:-----------------------------------------------:|:-----:|:---:|:-----:|:----:|:------:|:---------:|:-------:|:--------:|
-| Search for speech recognition libraries to use  |   X   |  X  |       |      |        |           |         |          |
-| Study the best speech recognition library found |       |  X  |   X   |      |        |           |         |          |
-| Implement the new Godot module                  |       |     |   X   |   X  |        |           |         |          |
+| Search for speech recognition libraries to use  |   X   |     |       |      |        |           |         |          |
+| Study the best speech recognition library found |       |  X  |       |      |        |           |         |          |
+| Implement the new Godot module                  |       |     |   X   |   X  |    X   |           |         |          |
 | Create a simple game with the new module        |       |     |       |      |    X   |     X     |         |          |
 | Slides                                          |       |     |       |      |        |           |    X    |          |
 | Poster                                          |       |     |       |      |        |           |    X    |          |
-| Final touches on monograph                      |       |     |       |      |        |           |         |     X    |
+| Final touches                                   |       |     |       |      |        |           |         |     X    |
 
 ## Repository Organization
 
 This project consists in the following directories:
 
-- [**godot**](godot/): Godot submodule. The new module will be developed here. (*To
-be done*)
+- [**godot**](godot/): Godot submodule. The new module will be developed here.
 
 - [**monograph**](monograph/): A monograph registering steps done in the project (in
 *Portuguese*).
 
 - [**speech-recognition**](speech-recognition/): Contains submodules for speech
-recognition libraries, as well as instructions and code on how to build them.
+recognition libraries, as well as instructions and code on how to build them. Any
+experiments done separately for each library are also located here.
 
 [ime-usp]: https://www.ime.usp.br/en "IME-USP site"
 [godot]: https://godotengine.org "Godot site"
