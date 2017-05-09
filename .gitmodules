@@ -9,3 +9,7 @@
 	path = speech-recognition/lib/pocketsphinx
 	url = https://github.com/cmusphinx/pocketsphinx
 	ignore = untracked
+[submodule "speech-recognition/lib/kaldi"]
+	path = speech-recognition/lib/kaldi
+	url = https://github.com/kaldi-asr/kaldi
+	ignore = untracked
