@@ -1,6 +1,6 @@
 [submodule "godot"]
 	path = godot
-	url = https://github.com/godotengine/godot
+	url = https://SamuraiSigma@bitbucket.org/SamuraiSigma/godot.git
 [submodule "speech-recognition/sphinxbase"]
 	path = speech-recognition/lib/sphinxbase
 	url = https://github.com/cmusphinx/sphinxbase
