@@ -1,7 +1,7 @@
 \chapter{Conceitos básicos}
 \label{cap:structure-of-speech}
 
-Nesta seção, abordaremos uma parte teórica do reconhecimento automático de voz. Muitos dos conceitos citados serão importantes para melhor entendimento e implementação do módulo posteriormente.
+Neste capítulo, abordaremos a parte teórica necessária para melhor entendimento e implementação do módulo no restante do trabalho. Em particular, veremos conceitos básicos de reconhecimento automático de voz e um pouco de sua implementação através do \emph{modelo oculto de Markov}.
 
 % ---------------------------------------------------------------------
 
@@ -11,6 +11,8 @@ Nesta seção, abordaremos uma parte teórica do reconhecimento automático de v
 % https://en.wikipedia.org/wiki/Computational_linguistics
 
 \textit{Reconhecimento automático de voz} (ou da fala), ou \textit{speech to text} (STT), é um campo multidisciplinar que envolve as áreas de Inteligência Artificial, Estatística e Linguística. Busca-se desenvolver metodologias e tecnologias para que computadores sejam capazes de captar, reconhecer e traduzir a linguagem falada para texto.
+
+A figura \ref{speech_system} apresenta os três componentes de um programa genérico STT: o usuário, o dispositivo que realiza o reconhecimento de voz e um \textit{software} de aplicação. O usuário codifica um comando através de sua voz; o dispositivo converte a mensagem falada para um formato interpretável; e o \textit{software} de aplicação aceita esta saída e realiza uma ação apropriada.
 
 % https://www.nap.edu/read/19357/chapter/4#10
 \begin{figure}[H]
@@ -35,16 +37,56 @@ A evolução na tecnologia de reconhecimento de voz foi tamanha que, atualmente,
 
 % ---------------------------------------------------------------------
 
-\subsection{Sistemas dependentes e independentes}
+\section{Parâmetros de reconhecimento de voz}
 
-% https://speechangel.com/2016/05/04/difference-speaker-dependent-speaker-independent-recognition-software
+% https://www.nap.edu/read/19357/chapter/4#10
 % http://www.voice-commands.com/103.htm
-Existem duas variantes de reconhecimento de voz:
+Há diversos tipos de parâmetros que caracterizam as capacidades de um sistema de reconhecimento de voz. Eles se subdividem nos três tipos a seguir.
+
+% ---------------------------------------------------------------------
+
+\subsection{Específicos ao aplicativo}
+
+Relacionados a como o aplicativo em si realiza o reconhecimento de voz. Inclui dois parâmetros:
 
 \begin{itemize}
-\item Os sistemas \textbf{dependentes} (\textit{speaker-dependent}), caracterizados pelo \emph{treinamento} feito pelo usuário. Isto é, são computadores que analisam e se adaptam aos padrões particulares da fala captada, resultando em uma maior acurácia. Geralmente, o usuário deve ler algumas páginas de texto para a máquina antes de começar a usar o sistema. Esta variante é comumente usada em casos particulares, onde um número limitado de palavras deve ser reconhecido com bastante precisão.
+\item A \textbf{forma de falar}, que pode ser através de \emph{palavras isoladas}, com pausas entre elas; \emph{palavras conectadas}, que são concatenadas sem pausas; ou \emph{fala contínua}, onde o fluxo de palavras é semelhante a uma fala natural.
 
-\item Os sistemas \textbf{independentes} (\textit{speaker-independent}), que são desenvolvidos para reconhecer a voz de qualquer pessoa e não requerem treinamento. É a melhor opção para aplicações interativas que usam voz, já que não é viável fazer com que os usuários leiam páginas de texto antes do uso. Sua desvantagem é a acurácia menor se comparado ao reconhecimento dependente; para contornar isso, costuma-se limitar o vocabulário reconhecido pelo sistema.
+\item \textbf{Existência de treinamento}, que subdivide aplicativos em dois grupos:
+
+% https://speechangel.com/2016/05/04/difference-speaker-dependent-speaker-independent-recognition-software
+\begin{itemize}[label=\small\bullet]
+\item Os sistemas \emph{dependentes} (\textit{speaker-dependent}), caracterizados pelo \emph{treinamento} feito pelo usuário. Isto é, são computadores que analisam e se adaptam aos padrões particulares da fala captada, resultando em uma maior acurácia. Geralmente, o usuário deve ler algumas páginas de texto para a máquina antes de começar a usar o sistema. Esta variante é comumente usada em casos particulares, onde um número limitado de palavras deve ser reconhecido com bastante precisão.
+
+\item Os sistemas \emph{independentes} (\textit{speaker-independent}), que são desenvolvidos para reconhecer a voz de qualquer pessoa e não requerem treinamento. É a melhor opção para aplicações interativas que usam voz, já que não é viável fazer com que os usuários leiam páginas de texto antes do uso. Sua desvantagem é a acurácia menor se comparado ao reconhecimento dependente; para contornar isso, costuma-se limitar o vocabulário reconhecido pelo sistema.
+\end{itemize}
+
+\end{itemize}
+
+% ---------------------------------------------------------------------
+
+\subsection{Específicos à tarefa}
+
+Dependendo do objetivo a ser alcançado com o reconhecimento de voz, alguns parâmetros podem ser melhor ajustados para obter maior velocidade ou acurácia. São eles:
+
+\begin{itemize}
+\item O \textbf{vocabulário}, referente a quantas palavras são reconhecidas pelo sistema. O tamanho pode ser pequeno (menor que 20 palavras) até muito grande (mais de 20 mil palavras), sendo diretamente proporcional à velocidade do reconhecimento. Além disso, a similaridade entre a pronúncia de algumas palavras pode afetar a acurácia, uma vez que a distinção entre elas torna-se mais complicada.
+
+\item A \textbf{sintaxe}, isto é, a gramática artificial que o sistema aceita para uma determinada tarefa. O exemplo mais simples seria uma máquina de estados finita, onde as palavras permitidas após um estado ou nó são definidas explicitamente.
+
+\item O \textbf{fator de ramificação}, que é uma forma de medir a complexidade da sintaxe. É definido como o número médio de palavras permitidas em cada nó da gramática, e possui grande impacto sobre o desempenho do sistema.
+\end{itemize}
+
+% ---------------------------------------------------------------------
+
+\subsection{Ambientais}
+
+Dentre os vários parâmetros externos ao sistema e que podem interferir no reconhecimento de voz, destacam-se:
+
+\begin{itemize}
+\item A taxa \textbf{sinal-para-ruído}, que avalia a intensidade média do sinal recebido em relação ao ruído de fundo, tipicamente medido em decibéis (dB). Quanto menor a taxa, maior a dificuldade no reconhecimento de voz.
+
+\item O \textbf{próprio usuário}, o que inclui o volume de sua voz, a velocidade com que fala e até mesmo sua condição psicológica (o nível de estresse de um piloto sob ataque em uma aeronave é diferente de alguém simplesmente querendo ouvir uma música).
 \end{itemize}
 
 % ---------------------------------------------------------------------
