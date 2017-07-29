@@ -3,20 +3,21 @@
 \usepackage[T1]{fontenc}
 \usepackage[brazil]{babel}
 
+% Fonts: normal and monospaced
+\usepackage{mathpazo}
+\usepackage{inconsolata}
+
 % Additional commands to math mode
 \usepackage{amsmath}
 
 % Indent first line of first paragraph
 \usepackage{indentfirst}
 
-% Page numbering
-\pagestyle{empty}
+% Allow access date, author, title
+% \usepackage{titling}
 
 % Don't put page number on empty page
 \usepackage{emptypage}
-
-% Hypertext references
-% \usepackage{hyperref}
 
 % Line breaks URLs on '-' and '_'
 \usepackage[hyphens]{url}
@@ -33,6 +34,12 @@
 % Easier control over itemize icon
 \usepackage{enumitem}
 
+% Tables with automatic line breaks
+\usepackage{tabularx}
+
+% Multiple columns
+\usepackage{multicol}
+
 % Support graphics
 \usepackage[pdftex]{graphicx}
 
@@ -47,6 +54,21 @@
 
 % Input code
 \usepackage{listings} \lstset{basicstyle=\ttfamily}
+
+% Link colors
+\usepackage[pdftex,
+            plainpages=false,
+            pdfpagelabels,
+            pagebackref,
+            colorlinks=true,
+            citecolor=DarkGreen,
+            linkcolor=NavyBlue,
+            urlcolor=DarkRed,
+            filecolor=green,
+            bookmarksopen=true]{hyperref}
+
+% Support PDF bookmarks, links, etc.
+\usepackage[numbered]{bookmark}
 
 % Command to simulate shell input
 \newcommand{\shellcmd}[1]{{\color{gray}\\\indent\indent\texttt{\footnotesize\$ #1}}\\}

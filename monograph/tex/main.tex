@@ -16,10 +16,7 @@
 \usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
 
 % Margins
-\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry}
-
-% Colored links
-\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=DarkGreen,linkcolor=NavyBlue,urlcolor=DarkRed,filecolor=green,bookmarksopen=true]{hyperref}
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=2cm]{geometry}
 
 % Solve hyperref and chapter problem
 \usepackage[all]{hypcap}
@@ -112,9 +109,12 @@ framexrightmargin=10pt
 \input{tex/thanks}
 \input{tex/abstract}
 
+{
+\hypersetup{linkcolor=black}
 \tableofcontents
 \listoffigures
 \listoftables
+}
 
 % ---------------------------------------------------------------------
 % Document main body
