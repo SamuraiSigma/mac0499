@@ -1,0 +1,111 @@
+\chapter{Biblioteca para Reconhecimento de Voz}
+\label{cap:speech-libs}
+
+% ---------------------------------------------------------------------
+
+\section{Considerações iniciais}
+
+Se o objetivo do projeto é criar um módulo de reconhecimento de voz, primeiramente é necessário chegar a uma biblioteca que implemente tal funcionalidade. Uma implementação do zero fugiria do tema deste trabalho, pois seria necessário aprender sobre reconhecimento de padrões voltado a sons, assunto relacionado a Inteligência Artificial.
+
+A outra opção existente, e a que seguiremos, é procurar por uma biblioteca existente e aprender a manejá-la. Idealmente, gostaríamos que a biblioteca possuísse as seguintes características:
+
+\begin{enumerate}
+\item \emph{Ter código aberto e licença permissiva:} Provavelmente o único aspecto essencial, uma vez que integraremos a biblioteca em uma \emph{game engine}. A importância é ainda maior se levarmos em conta que jogos com fins comerciais podem ser produzidos em \emph{Godot}.
+
+% TODO: Fix chapter 3 reference later
+\item \emph{Ser implementada em C/C++:} Toda a base do \emph{Godot} é construída em C++. A criação de módulos utiliza essa mesma linguagem, como será visto no capítulo 3.
+
+\item \emph{Reconhecer inglês:} Escolheremos inglês como uma linguagem obrigatória a se ter na biblioteca pelo caráter universal dessa linguagem.
+
+\item \emph{Ser multiplataforma:} Ao menos, oferecer suporte para sistemas Windows, MacOS e Linux.
+
+\item \emph{Implementar eficientemente reconhecimento de voz:} A biblioteca será usada em jogos, onde eficiência (velocidade) é uma questão central.
+
+\item \emph{Não ser pesada:} Embora tenha menos importância que os aspectos acima, não é desejável ter uma biblioteca que ocupe muito espaço.
+\end{enumerate}
+
+Após uma pesquisa, que pode ser resumida pelo artigo em \citep{speechRecog:16}, cinco bibliotecas de reconhecimento de voz em geral se destacam por seu uso:
+
+\begin{itemize}
+\item \emph{Kaldi} \citep{kaldi}: É a biblioteca mais recente da lista, com seu código publicado em 2011. Escrita em C++.
+
+\item \emph{CMUSphinx} \citep{cmusphinx}: Desenvolvida pela \emph{Carnegie Mellon University}, possui diversos pacotes para diferentes tarefas e aplicações. O pacote principal é escrito em Java. Existe também a variante \emph{Pocketsphinx}, com características interessantes para este trabalho: é escrita em C, possuindo maior velocidade e portabilidade que a biblioteca original.
+
+\item \emph{HTK} \citep{htk}: Desenvolvida pela \emph{Cambridge University Engineering Department}, HTK é uma sigla para \emph{Hidden Markov Model Toolkit}. É escrita em C, com novas versões sendo lançadas consistentemente.
+
+\item \emph{Simon} \citep{Simon}: Popular para Linux e escrita em C++, Simon utiliza \emph{CMUSphinx}, \emph{HTK} e \emph{Julius} internamente. Não havia suporte para \emph{MacOS} até 3 de abril de 2017.
+
+\item \emph{Julius} \citep{Julius}: Desenvolvida pela \emph{Interactive Speech Technology Consortium} e escrita em C. Infelizmente, o suporte para inglês é limitado e não pode ser usado para propósitos comerciais, o que nos força a descartar esta biblioteca como uma possível opção.
+\end{itemize}
+
+Das cinco bibliotecas descritas, as mais viáveis são as três primeiras (\emph{Kaldi}, \emph{CMUSphinx} e \emph{HTK}). \emph{Simon} está em seus primeiros passos para MacOS, por isso a relutância em seu uso.
+
+Um artigo de 2014 comparou \emph{Kaldi}, \emph{CMUSphinx} e \emph{HTK} em relação a precisão e tempo gasto \citep{compareSpeech}. \emph{Kaldi} obteve resultados vastamente superiores; \emph{CMUSphinx} obteve bons resultados em pouco tempo; \emph{HTK} precisou de muito mais tempo e treino para conseguir resultados na ordem dos outros dois.
+
+No restante deste capítulo, analisaremos com mais cuidado as bibliotecas \emph{Kaldi}, \emph{PocketSphinx} e \emph{HTK}, com o intuito de acompanhar mais de perto suas funcionalidades, vantagens e desvantagens.
+
+O sistema operacional utilizado foi \texttt{ubuntu 16.04 LTS, 64 bits}.
+
+% ---------------------------------------------------------------------
+
+\section{\emph{Pocketsphinx}}
+
+\subsection{Instalação}
+
+Os passos abaixo foram baseados nas instruções em \citep{pocketsphinxInstall}. Supõe-se que o usuário esteja usando um sistema \emph{Unix}, com acesso a privilégios administrativos (\emph{root}).
+
+Antes de começar, é necessário instalar as seguintes dependências: \texttt{gcc, automake, autoconf, libtool, bison, swig, python-dev, pulseaudio}. Se estiver usando um sistema como \emph{Ubuntu}, por exemplo, digite no terminal:
+\shellcmd{sudo apt-get install gcc automake autoconf libtool bison \textbackslash \linebreak \hphantom{4} swig python-dev pulseaudio}
+
+Primeiramente, baixaremos e instalaremos o pacote \emph{Sphinxbase}, que oferece funcionalidades comuns a todos os projetos \emph{CMUSphinx}:
+
+\begin{enumerate}
+\item Clone o repositório do \emph{Sphinxbase}, o que resultará no diretório \texttt{sphinxbase}:
+\shellcmd{git clone https://github.com/cmusphinx/sphinxbase}
+
+\item Dentro do diretório \texttt{sphinxbase}, execute o \emph{script} \texttt{autogen.sh} para gerar o arquivo \texttt{configure}:
+\shellcmd{./autogen.sh}
+
+\item Execute o \emph{script} \texttt{configure} que foi criado no último passo:
+\shellcmd{./configure}
+
+Se a plataforma utilizada não possui aritmética de ponto flutuante, deve-se rodar ao invés disso:
+\shellcmd{./configure ---enable-fixed ---without-lapack}
+
+Note que qualquer dependência ausente no sistema (por exemplo, o pacote \emph{swig}) será notificada ao usuário neste passo. Se a execução ocorrer sem problemas, um \texttt{Makefile} será gerado.
+
+\item Construa a biblioteca através do \texttt{Makefile}:
+\shellcmd{make}
+
+\item Instale a biblioteca \emph{Sphinxbase} no sistema:
+\shellcmd{sudo make install}
+
+\emph{Observação:} Para desinstalar a biblioteca \emph{Sphinxbase} do sistema, basta digitar:
+\shellcmd{sudo make uninstall}
+\end{enumerate}
+
+Os passos necessários para baixar e instalar a biblioteca \emph{Pocketsphinx} são semelhantes:
+
+\begin{enumerate}
+\item Clone o repositório do \emph{Pocketsphinx}, o que resultará no diretório \texttt{pocketsphinx}:
+\shellcmd{git clone https://github.com/cmusphinx/pocketsphinx}
+
+\item Certifique-se que os diretórios \texttt{sphinxbase} e \texttt{pocketsphinx} estejam no mesmo diretório.
+
+\item Dentro do diretório \texttt{pocketsphinx}, execute o \emph{script} \texttt{autogen.sh} para gerar o arquivo \texttt{configure}:
+\shellcmd{./autogen.sh}
+
+\item Execute o \emph{script} \texttt{configure} que foi criado no último passo:
+\shellcmd{./configure}
+
+Note que qualquer dependência ausente no sistema será notificada ao usuário neste passo. Se a execução ocorrer sem problemas, um \texttt{Makefile} será gerado.
+
+\item Construa a biblioteca através do \texttt{Makefile}:
+\shellcmd{make}
+
+\item Instale a biblioteca \emph{Pocketsphinx} no sistema:
+\shellcmd{sudo make install}
+
+\emph{Observação:} Para desinstalar a biblioteca \emph{Pocketsphinx} do sistema, basta digitar:
+\shellcmd{sudo make uninstall}
+\end{enumerate}
