@@ -23,7 +23,7 @@ all:
 	@mv $(TEMPTEX) $(AUXDIR) 2> /dev/null ||:
 
 clean:
-	rm -rf $(AUXDIR)
+	rm -rf $(AUXDIR) $(TEMPTEX)
 
 view:
 	@[ -f $(MONO) ] || (echo "Must generate '$(MONO)' first!" && exit 1)
