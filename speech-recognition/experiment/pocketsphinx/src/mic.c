@@ -113,19 +113,19 @@ static ps_decoder_t *init_decoder(cmd_ln_t *config) {
  */
 
 static void msleep(int32 ms) {
-    // Windows
-    #if (defined(_WIN32) && !defined(GNUWINCE)) || defined(_WIN32_WCE)
-        Sleep(ms);
+// Windows
+#if (defined(_WIN32) && !defined(GNUWINCE)) || defined(_WIN32_WCE)
+    Sleep(ms);
 
-    // Unix
-    #else
-        struct timeval tmo;
+// Unix
+#else
+    struct timeval tmo;
 
-        tmo.tv_sec = 0;
-        tmo.tv_usec = ms * 1000;
+    tmo.tv_sec = 0;
+    tmo.tv_usec = ms * 1000;
 
-        select(0, NULL, NULL, NULL, &tmo);
-    #endif
+    select(0, NULL, NULL, NULL, &tmo);
+#endif
 }
 
 /*--------------------------------------------------------------------*
