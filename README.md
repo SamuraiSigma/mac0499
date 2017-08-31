@@ -28,7 +28,11 @@ present the new functionality in a simple game.
 
 This project consists in the following directories:
 
-- [**godot**](godot/): Godot submodule. The new module will be developed here.
+- [**game**](game/): Contains a simple game, made in *Godot* to demonstrate the new
+speech recognition module.
+
+- [**godot**](godot/): *Godot* submodule, this is a fork of *Godot 2.1.3*. The new
+module, *Speech Recognizer*, was developed here.
 
 - [**monograph**](monograph/): A monograph registering steps done in the project (in
 *Portuguese*).
