@@ -2,6 +2,8 @@
 # Runs a Godot game directory by using the custom Godot build that has the Speech
 # Recognizer module.
 
+set -e
+
 GODOTDIR=../godot
 GODOTBIN=godot*
 
