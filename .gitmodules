@@ -17,3 +17,6 @@
 [submodule "game/color-clutter"]
 	path = game/color-clutter
 	url = git@bitbucket.org:SamuraiSigma/color-clutter.git
+[submodule "godot/docs"]
+	path = godot/docs
+	url = git@bitbucket.org:SamuraiSigma/godot-docs.git
