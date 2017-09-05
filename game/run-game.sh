@@ -4,8 +4,9 @@
 
 set -e
 
-GODOTDIR=../godot
-GODOTBIN=godot*
+GODOTDIR=../godot/engine  # Godot engine directory
+BINDIR=bin                # Binary directory
+BIN=godot*                # Binary name
 
 #----------------------------------------------------------------------
 # Shows how to use the script.
@@ -15,10 +16,12 @@ function usage {
     echo -e "\t./`basename $0` <game_directory>\n"
 
     echo -e "\e[1mDESCRIPTION\e[0m"
-    echo -e "\tRuns the specified game with a custom Godot version that has the Speech Recognizer module.\n"
+    echo -e "\tRuns the specified game with a custom Godot version that has the" \
+            "Speech Recognizer module.\n"
 
     echo -e "\e[1mCOMMAND LINE ARGUMENTS\e[0m"
-    echo -e "\t\e[1m<game_directory>\e[0m\tGame directory containing an engine.cfg file."
+    echo -e "\t\e[1m<game_directory>\e[0m\tGame directory containing an engine.cfg" \
+            "file."
 }
 
 # ---------------------------------------------------------------------
@@ -29,5 +32,5 @@ if (($# < 1)); then
 fi
 
 gamedir=$1
-export LD_LIBRARY_PATH=`pwd`/$GODOTDIR/bin
-./$GODOTDIR/bin/$GODOTBIN -path $gamedir
+export LD_LIBRARY_PATH=`pwd`/$GODOTDIR/$BINDIR
+./$GODOTDIR/$BINDIR/$BIN -path $gamedir

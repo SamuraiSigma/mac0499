@@ -11,7 +11,7 @@
 	url = https://github.com/kaldi-asr/kaldi
 	ignore = untracked
 [submodule "godot"]
-	path = godot
+	path = godot/engine
 	url = git@bitbucket.org:SamuraiSigma/godot.git
 	branch = speech-recognition
 [submodule "game/color-clutter"]

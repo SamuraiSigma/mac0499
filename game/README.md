@@ -5,7 +5,7 @@ Text* module for [Godot][godot].
 
 ## Run
 
-To run a game, use the [run_game.sh](run_game.sh) script with its directory as an
+To run a game, use the [run-game.sh](run-game.sh) script with its directory as an
 argument:
 
     ./run_game.sh <game_directory>

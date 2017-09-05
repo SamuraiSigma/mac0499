@@ -31,8 +31,8 @@ This project consists in the following directories:
 - [**game**](game/): Contains any simple games, made in *Godot*, to demonstrate the
 new STT module.
 
-- [**godot**](godot/): A submodule which is a fork of *Godot*. The new module,
-*Speech to Text*, was developed here, in *Godot 2.1.3*.
+- [**godot**](godot/): All *Godot*-related files are stored here. This is also where
+the new module, *Speech to Text*, was developed.
 
 - [**monograph**](monograph/): A monograph, written in *LaTeX*, registering steps
 done in the project (in *Portuguese*).
