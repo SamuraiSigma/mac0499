@@ -9,7 +9,7 @@ Project (MAC0499)** at [IME-USP][ime-usp].
 [GitHub][godotGitHub]. The software allows the creation of new modules to extend its
 functionalities without modifying its essence.
 
-This project's goal is to develop a *speech recognition* module for Godot and then
+This project's goal is to develop a STT (Speech to Text) module for *Godot* and then
 present the new functionality in a simple game.
 
 ## Schedule
@@ -24,15 +24,15 @@ present the new functionality in a simple game.
 | Poster                                          |       |     |       |      |        |           |    X    |          |
 | Final touches                                   |       |     |       |      |        |           |         |     X    |
 
-## Repository Organization
+## Repository organization
 
 This project consists in the following directories:
 
-- [**game**](game/): Contains a simple game, made in *Godot* to demonstrate the new
-speech recognition module.
+- [**game**](game/): Contains any simple games, made in *Godot*, to demonstrate the
+new STT module.
 
-- [**godot**](godot/): *Godot* submodule, this is a fork of *Godot 2.1.3*. The new
-module, *Speech Recognizer*, was developed here.
+- [**godot**](godot/): A submodule which is a fork of *Godot*. The new module,
+*Speech to Text*, was developed here, in *Godot 2.1.3*.
 
 - [**monograph**](monograph/): A monograph registering steps done in the project (in
 *Portuguese*).

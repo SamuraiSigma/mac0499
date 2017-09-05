@@ -1,4 +1,4 @@
-# Pocketsphinx Experiments
+# *Pocketsphinx* experiments
 
 This directory contains code and test files to experiment with the *Pocketsphinx*
 library (part of the [CMUSphinx][cmusphinx] project).
@@ -44,7 +44,7 @@ to compile all source files:
 
 A **bin** directory will be created with all binary files.
 
-## Execution
+## Run
 
 Unless you have installed *Pocketsphinx* on your system, if you try running the
 binaries directly, you will probably get something similar to the example below:
