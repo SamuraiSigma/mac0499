@@ -1,6 +1,6 @@
 # Development of a speech recognition module for the *Godot* game engine
 
-This repository contains all data, code and texts for my **Supervised Gruaduate
+This repository contains all data, code and texts for my **Supervised Graduate
 Project (MAC0499)** at [IME-USP][ime-usp].
 
 ## Summary
@@ -9,7 +9,7 @@ Project (MAC0499)** at [IME-USP][ime-usp].
 [GitHub][godotGitHub]. The software allows the creation of new modules to extend its
 functionalities without modifying its essence.
 
-This project's goal is to develop a STT (Speech to Text) module for *Godot* and then
+The main goal is to develop a STT (Speech to Text) module for *Godot* and then
 present the new functionality in a simple game.
 
 ## Schedule
@@ -34,12 +34,19 @@ new STT module.
 - [**godot**](godot/): A submodule which is a fork of *Godot*. The new module,
 *Speech to Text*, was developed here, in *Godot 2.1.3*.
 
-- [**monograph**](monograph/): A monograph registering steps done in the project (in
-*Portuguese*).
+- [**monograph**](monograph/): A monograph, written in *LaTeX*, registering steps
+done in the project (in *Portuguese*).
 
 - [**speech-recognition**](speech-recognition/): Contains submodules for speech
 recognition libraries, as well as instructions and code on how to build them. Any
 experiments done separately for each library are also located here.
+
+## Submodules
+
+There are a few *git* submodules in this project. To initialize and update all of
+them, use the following command:
+
+    $ git submodule init && git submodule update
 
 [ime-usp]: https://www.ime.usp.br/en "IME-USP site"
 [godot]: https://godotengine.org "Godot site"

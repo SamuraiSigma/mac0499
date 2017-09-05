@@ -15,7 +15,7 @@ This monograph consists in the following directories:
 
 ## PDF creation
 
-Assuming the user is using a Unix system and has `latexmk` installed, a PDF of the
+Assuming the user is on a Unix system and has `latexmk` installed, a PDF of the
 monograph can be generated with:
 
     $ make
