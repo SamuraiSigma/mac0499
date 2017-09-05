@@ -1,7 +1,7 @@
 #!/bin/bash
 # Clones and builds sphinxbase and pocketsphinx from source.
 
-set -e  # Terminate script on first error
+set -e
 
 # Sphinx directories
 BASEDIR=sphinxbase
@@ -12,7 +12,7 @@ POCKETDIR=pocketsphinx
 
 function usage {
     echo -e "\e[1mUSAGE\e[0m"
-    echo -e "\t./`basename $0` [\e[4mOPTIONS\e[0m]"
+    echo -e "\t./`basename $0` [\e[4mOPTIONS\e[0m]\n"
 
     echo -e "\e[1mDESCRIPTION\e[0m"
     echo -e "\tClones and builds sphinxbase and pocketsphinx from source.\n"
@@ -22,7 +22,7 @@ function usage {
 
     echo -e "\t\e[1m-b\e[0m\tBuild sphinxbase only; overwritten by \e[1m-p\e[0m.\n"
     echo -e "\t\e[1m-p\e[0m\tBuild pocketsphinx only; overwritten by \e[1m-b\e[0m.\n"
-    echo -e "\t\e[1m-h, --help\n\t\e[0m\tShows how to use the script, leaving it" \
+    echo -e "\t\e[1m-h, --help\e[0m\n\t\tShows how to use the script, leaving it" \
             "afterwards."
 }
 

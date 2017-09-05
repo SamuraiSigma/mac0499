@@ -8,6 +8,6 @@ Text* module for [Godot][godot].
 To run a game, use the [run-game.sh](run-game.sh) script with its directory as an
 argument:
 
-    ./run_game.sh <game_directory>
+    ./run-game.sh <game_directory>
 
 [godot]: https://godotengine.org "Godot site"
