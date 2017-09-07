@@ -49,8 +49,10 @@ for arg in "$@"; do
     esac
 done
 
-echo -e "\033[1;36m>> Cloning Godot engine submodule\033[0m"
-git submodule init $GODOTDIR && git submodule update $GODOTDIR
+if (($compile)); then
+    echo -e "\033[1;36m>> Cloning Godot engine submodule\033[0m"
+    git submodule init $GODOTDIR && git submodule update $GODOTDIR
+fi
 
 cd $GODOTDIR
 
