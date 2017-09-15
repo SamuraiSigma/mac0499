@@ -6,7 +6,7 @@ set -e
 
 GODOTDIR=../godot/engine  # Godot engine directory
 BINDIR=bin                # Binary directory
-BIN=godot*                # Binary name
+BIN=godot*tools*          # Binary name
 
 #----------------------------------------------------------------------
 # Shows how to use the script.
