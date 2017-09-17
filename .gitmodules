@@ -12,12 +12,12 @@
 	ignore = untracked
 [submodule "godot/engine"]
 	path = godot/engine
-	url = git@bitbucket.org:SamuraiSigma/godot.git
-	branch = speech-recognition
+	url = https://github.com/SamuraiSigma/godot.git
+	branch = speech-to-text
 [submodule "game/color-clutter"]
 	path = game/color-clutter
-	url = git@bitbucket.org:SamuraiSigma/color-clutter.git
+	url = https://github.com/SamuraiSigma/color-clutter.git
 [submodule "godot/docs"]
 	path = godot/docs
-	url = git@bitbucket.org:SamuraiSigma/godot-docs.git
-	branch = speech-recognition
+	url = https://github.com/SamuraiSigma/godot-docs.git
+	branch = speech-to-text
