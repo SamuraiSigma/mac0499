@@ -1,6 +1,6 @@
 # Development of a speech recognition module for the *Godot* game engine
 
-This repository contains all data, code and texts for my **Supervised Graduate
+This repository contains all data, code and texts for my **Supervised Undergraduate
 Project (MAC0499)** at [IME-USP][ime-usp].
 
 ## Summary
