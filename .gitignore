@@ -1,6 +1,6 @@
 # Generated files
 godot-stt/
-godot-stt.tar.gz
+*.tar.gz
 
 # LaTeX-related files and folders
 aux/
