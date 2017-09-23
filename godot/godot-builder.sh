@@ -14,7 +14,7 @@ function usage {
     echo -e "\t./`basename $0` [\e[4mOPTIONS\e[0m]\n"
 
     echo -e "\e[1mDESCRIPTION\e[0m"
-    echo -e "\tBuilds Godot in development mode with the Speech to Text module as" \
+    echo -e "\tBuilds the Godot engine editor with the Speech to Text module as" \
             "a shared library.\n"
 
     echo -e "\e[1mOPTIONS\e[0m"
@@ -23,14 +23,16 @@ function usage {
     echo -e "\t\e[1m-r\e[0m\tRuns Godot after building it.\n"
     echo -e "\t\e[1m-R\e[0m\tOnly runs the previously created Godot binary" \
             "(nothing new is built).\n"
+    echo -e "\t\e[1m-u\e[0m\tBuilds export templates for Unix (64 bits).\n"
     echo -e "\t\e[1m-h, --help\e[0m\n\t\tShows how to use the script, leaving it" \
             "afterwards."
 }
 
 # ---------------------------------------------------------------------
 
-compile=1  # If true (1), Godot engine will be compiled
+compile=0  # If true (1), Godot engine will be compiled
 run=0      # If true (1), Godot engine will be executed
+unix=0     # If true (1), Unix export templates will be built
 
 for arg in "$@"; do
     case $arg in
@@ -39,7 +41,10 @@ for arg in "$@"; do
         run=1;;
     -R)
         compile=0
+        linux=0
         run=1;;
+    -u)
+        unix=1;;
     -h|--help)
         usage
         exit 0;;
@@ -50,9 +55,9 @@ for arg in "$@"; do
     esac
 done
 
-if (($compile)); then
+if (($compile || $unix)); then
     echo -e "\033[1;36m>> Cloning submodules\033[0m"
-    git submodule init $GODOTDIR $MODDIR && git submodule update $GODOTDIR $MODDIR
+    git submodule update --init $GODOTDIR $MODDIR
     cp -rf $MODDIR/speech_to_text $GODOTDIR/modules
 fi
 
@@ -62,6 +67,12 @@ if (($compile)); then
     echo -e "\033[1;36m>> Building Godot engine\033[0m"
     scons p=x11 speech_to_text_shared=yes bin/libspeech_to_text.x11.tools.64.so
     scons p=x11 speech_to_text_shared=yes
+fi
+
+if (($unix)); then
+    echo -e "\033[1;36m>> Building export templates for Unix\033[0m"
+    scons tools=no p=x11 target=release bits=64
+    scons tools=no p=x11 target=release_debug bits=64
 fi
 
 if (($run)); then
