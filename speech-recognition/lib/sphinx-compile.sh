@@ -51,7 +51,7 @@ done
 
 if $base; then
     echo -e "\033[1;36m>> Cloning sphinxbase repository\033[0m"
-    git submodule init $BASEDIR && git submodule update $BASEDIR
+    git submodule update --init $BASEDIR
 
     echo -e "\033[1;36m>> Building sphinxbase\033[0m"
     cd $BASEDIR

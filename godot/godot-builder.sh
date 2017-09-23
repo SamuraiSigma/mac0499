@@ -30,7 +30,7 @@ function usage {
 
 # ---------------------------------------------------------------------
 
-compile=0  # If true (1), Godot engine will be compiled
+compile=1  # If true (1), Godot engine will be compiled
 run=0      # If true (1), Godot engine will be executed
 unix=0     # If true (1), Unix export templates will be built
 

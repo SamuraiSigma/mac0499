@@ -46,7 +46,7 @@ experiments done separately for each library are also located here.
 There are a few *git* submodules in this project. To initialize and update all of
 them, use the following command:
 
-    $ git submodule init && git submodule update
+    $ git submodule update --init
 
 [ime-usp]: https://www.ime.usp.br/en "IME-USP site"
 [godot]: https://godotengine.org "Godot site"
