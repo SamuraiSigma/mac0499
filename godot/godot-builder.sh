@@ -3,7 +3,8 @@
 
 set -e
 
-GODOTDIR=engine  # Godot engine directory
+GODOTDIR=engine        # Godot engine directory
+MODDIR=speech-to-text  # Speech to text directory
 
 #----------------------------------------------------------------------
 # Shows how to use the script.
@@ -50,8 +51,9 @@ for arg in "$@"; do
 done
 
 if (($compile)); then
-    echo -e "\033[1;36m>> Cloning Godot engine submodule\033[0m"
-    git submodule init $GODOTDIR && git submodule update $GODOTDIR
+    echo -e "\033[1;36m>> Cloning submodules\033[0m"
+    git submodule init $GODOTDIR $MODDIR && git submodule update $GODOTDIR $MODDIR
+    cp -rf $MODDIR/speech_to_text $GODOTDIR/modules
 fi
 
 cd $GODOTDIR
