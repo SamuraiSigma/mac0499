@@ -14,6 +14,7 @@
 	path = godot/engine
 	url = https://github.com/godotengine/godot.git
 	branch = 2.1.4-stable
+	ignore = untracked
 [submodule "godot/docs"]
 	path = godot/docs
 	url = https://github.com/SamuraiSigma/godot-docs.git
