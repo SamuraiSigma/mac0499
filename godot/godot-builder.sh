@@ -11,18 +11,20 @@ MODDIR=speech-to-text  # Speech to text directory
 
 function usage {
     echo -e "\e[1mUSAGE\e[0m"
-    echo -e "\t./`basename $0` [\e[4mOPTIONS\e[0m]\n"
+    echo -e "\t./`basename $0` <\e[4mOPTIONS\e[0m>\n"
 
     echo -e "\e[1mDESCRIPTION\e[0m"
-    echo -e "\tBuilds the Godot engine editor with the Speech to Text module as" \
-            "a shared library.\n"
+    echo -e "\tAuxiliary script for building Godot engine executables with" \
+            "Speech to Text module integration.\n" \
+            "\tActions taken depend on the options used.\n"
 
     echo -e "\e[1mOPTIONS\e[0m"
     echo -e "\tSeparate each option with a space.\n"
 
-    echo -e "\t\e[1m-r\e[0m\tRuns Godot after building it.\n"
-    echo -e "\t\e[1m-R\e[0m\tOnly runs the previously created Godot binary" \
-            "(nothing new is built).\n"
+    echo -e "\t\e[1m-B\e[0m\tBuilds the Godot editor.\n"
+    echo -e "\t\e[1m-R\e[0m\tRuns the previously created Godot editor binary.\n"
+    echo -e "\t\e[1m-c <NUM_CORES>\e[0m\n\t\tSpecifies number of cores to use for" \
+            "any kind of build (default: 1).\n"
     echo -e "\t\e[1m-u\e[0m\tBuilds export templates for Unix (64 bits).\n"
     echo -e "\t\e[1m-h, --help\e[0m\n\t\tShows how to use the script, leaving it" \
             "afterwards."
@@ -30,29 +32,46 @@ function usage {
 
 # ---------------------------------------------------------------------
 
-compile=1  # If true (1), Godot engine will be compiled
-run=0      # If true (1), Godot engine will be executed
-unix=0     # If true (1), Unix export templates will be built
+# Number of cores to use for building
+cores=1
 
-for arg in "$@"; do
-    case $arg in
-    -r)
-        compile=1
-        run=1;;
+# Flags
+compile=0  # Compile Godot editor
+run=0      # Run Godot edito
+unix=0     # Build Unix template
+
+if (($# < 1)); then
+    usage
+    exit 1
+fi
+
+# Check command line arguments
+while (($#)); do
+    case $1 in
+    -B)
+        compile=1;;
     -R)
-        compile=0
-        linux=0
         run=1;;
+    -c)
+        shift
+        cores=$1
+        max_cores=$(nproc --all)
+        if (($cores < 1 || $cores > $max_cores)); then
+            echo "Error: Invalid number of cores $cores"
+            exit 2
+        fi
+        echo "Using $cores cores for builds";;
     -u)
         unix=1;;
     -h|--help)
         usage
         exit 0;;
     *)
-        echo "Unknown argument '$arg'"
+        echo "Unknown argument '$1'"
         usage
-        exit 1;;
+        exit 3;;
     esac
+    shift
 done
 
 if (($compile || $unix)); then
@@ -65,14 +84,14 @@ cd $GODOTDIR
 
 if (($compile)); then
     echo -e "\033[1;36m>> Building Godot engine\033[0m"
-    scons p=x11 speech_to_text_shared=yes bin/libspeech_to_text.x11.tools.64.so
-    scons p=x11 speech_to_text_shared=yes
+    scons -j$cores p=x11 speech_to_text_shared=yes bin/libspeech_to_text.x11.tools.64.so
+    scons -j$cores p=x11 speech_to_text_shared=yes
 fi
 
 if (($unix)); then
     echo -e "\033[1;36m>> Building export templates for Unix\033[0m"
-    scons tools=no p=x11 target=release bits=64
-    scons tools=no p=x11 target=release_debug bits=64
+    scons -j$cores tools=no p=x11 target=release bits=64
+    scons -j$cores tools=no p=x11 target=release_debug bits=64
 fi
 
 if (($run)); then
