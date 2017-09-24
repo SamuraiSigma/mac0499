@@ -9,14 +9,17 @@ done here.
 The *Speech to Text* module was developed in the [speech-to-text][sttModule]
 repository, available in this directory as a submodule.
 
-To easily build and/or run the engine, use the [godot-builder.sh](godot-builder.sh)
-script available in this directory:
+To easily build executables related to the Godot engine, such as templates and the
+editor, the [godot-builder.sh](godot-builder.sh) script is provided. For instructions
+on how to use it, run in a terminal:
 
-    $ ./godot-builder.sh -h  # Displays usage of the script
+    $ ./godot-builder.sh -h
 
-This script can be used to copy the module to the `engine/` directory, which is a
-submodule for the Godot engine [repository][godotGitHub], as well as easily build
-the game engine and run it.
+Many commands in this script to copy the *Speech to Text* module to the `engine/`
+directory, which is a submodule for the Godot engine [repository][godotGitHub]. Of
+course, to build for a determined platform, check if your system has the necessary
+[requirements][compileReq]. This includes cross-compiling requirements, such as
+building for Windows on a Unix platform.
 
 ## *Godot* docs
 
@@ -26,4 +29,5 @@ documentation repository. Updated with information on the *Speech to Text* modul
 [godot]: https://godotengine.org "Godot site"
 [sttModule]: https://github.com/SamuraiSigma/speech-to-text "Speech to text module on GitHub"
 [godotGitHub]: https://github.com/godotengine/godot "Godot repository on GitHub"
+[compileReq]: http://docs.godotengine.org/en/stable/development/compiling/index.html "Requirements for compiling"
 [godotDocsGitHub]: https://github.com/godotengine/godot-docs "Godot docs on GitHub"

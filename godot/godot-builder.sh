@@ -26,6 +26,7 @@ function usage {
     echo -e "\t\e[1m-c <NUM_CORES>\e[0m\n\t\tSpecifies number of cores to use for" \
             "any kind of build (default: 1).\n"
     echo -e "\t\e[1m-u\e[0m\tBuilds export templates for Unix (64 bits).\n"
+    echo -e "\t\e[1m-w\e[0m\tBuilds export templates for Windows (64 bits).\n"
     echo -e "\t\e[1m-h, --help\e[0m\n\t\tShows how to use the script, leaving it" \
             "afterwards."
 }
@@ -39,6 +40,7 @@ cores=1
 compile=0  # Compile Godot editor
 run=0      # Run Godot edito
 unix=0     # Build Unix template
+windows=0  # Build Windows template
 
 if (($# < 1)); then
     usage
@@ -63,6 +65,8 @@ while (($#)); do
         echo "Using $cores cores for builds";;
     -u)
         unix=1;;
+    -w)
+        windows=1;;
     -h|--help)
         usage
         exit 0;;
@@ -74,7 +78,7 @@ while (($#)); do
     shift
 done
 
-if (($compile || $unix)); then
+if (($compile || $unix || $windows)); then
     echo -e "\033[1;36m>> Cloning submodules\033[0m"
     git submodule update --init $GODOTDIR $MODDIR
     cp -rf $MODDIR/speech_to_text $GODOTDIR/modules
@@ -92,6 +96,12 @@ if (($unix)); then
     echo -e "\033[1;36m>> Building export templates for Unix\033[0m"
     scons -j$cores tools=no p=x11 target=release bits=64
     scons -j$cores tools=no p=x11 target=release_debug bits=64
+fi
+
+if (($windows)); then
+    echo -e "\033[1;36m>> Building export templates for Windows\033[0m"
+    scons -j$cores tools=no p=windows target=release bits=64
+    scons -j$cores tools=no p=windows target=release_debug bits=64
 fi
 
 if (($run)); then
