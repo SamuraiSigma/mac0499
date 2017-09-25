@@ -14,3 +14,8 @@ argument:
     ./run-game.sh <game_directory>
 
 [godot]: https://godotengine.org "Godot site"
+
+## Binaries
+
+Directory names which end with *-binaries* are submodules containing binaries for
+supported platforms.
