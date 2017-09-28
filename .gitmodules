@@ -25,7 +25,3 @@
 [submodule "game/color-clutter"]
 	path = game/color-clutter
 	url = https://github.com/SamuraiSigma/color-clutter.git
-[submodule "game/color-clutter-binaries"]
-	path = game/color-clutter-binaries
-	url = https://github.com/SamuraiSigma/color-clutter-binaries
-	branch = master
