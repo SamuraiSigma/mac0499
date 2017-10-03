@@ -3,6 +3,10 @@
 This directory contains simple games used to test/demonstrate the new *Speech to
 Text* module for [Godot][godot].
 
+## Games
+
+- [Color Clutter][colorClutter]
+
 ## Run
 
 First, check that the custom *Godot* engine with the *Speech to Text* module has
@@ -14,8 +18,4 @@ argument:
     ./run-game.sh <game_directory>
 
 [godot]: https://godotengine.org "Godot site"
-
-## Binaries
-
-Directory names which end with *-binaries* are submodules containing binaries for
-supported platforms.
+[colorClutter]: https://github.com/SamuraiSigma/color-clutter
