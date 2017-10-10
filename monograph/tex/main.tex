@@ -11,6 +11,7 @@
 \usepackage{tocbibind}   % Add bibliography/index/content to ToC
 \usepackage{courier}     % Adobe Courier instead of Computer Modern Typewriter
 \usepackage{type1cm}     % Scalable fonts
+\usepackage{setspace}    % Spacing between lines
 \usepackage{titletoc}
 \usepackage[fixlanguage]{babelbib}
 \usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
@@ -35,6 +36,12 @@
 }
 
 \fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
+
+% Paragraph indent size
+% \setlength{\parindent}{2cm}
+
+% Spacing between paragraphs
+% \setlength{\parskip}{0.25cm}
 
 % ---------------------------------------------------------------------
 % Nice headers
@@ -124,12 +131,12 @@ framexrightmargin=10pt
 
 % Header for all pages in chapters
 \fancyhead[RE,LO]{\thesection}
-\singlespacing
+\onehalfspacing
 
 % Add chapters here
-\input{tex/introduction}
+% \input{tex/introduction}
 \input{tex/structure-of-speech}
-\input{tex/speech-libs}
+% \input{tex/speech-libs}
 
 % ---------------------------------------------------------------------
 % Appendix
@@ -144,11 +151,11 @@ framexrightmargin=10pt
 % ---------------------------------------------------------------------
 % Bibliography
 
-\backmatter \singlespacing
+\backmatter \onehalfspacing
 \bibliographystyle{bib/plainnat-ime}  % Textual bibliographic quote
 
 % Add bibliography files here
-\bibliography{bib/reference}
+% \bibliography{bib/reference}
 
 % ---------------------------------------------------------------------
 % Index
