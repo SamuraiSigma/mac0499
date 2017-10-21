@@ -1,28 +1,65 @@
 \chapter{Biblioteca para Reconhecimento de Voz}
 \label{cap:speech-libs}
 
+Neste capítulo, veremos o primeiro item necessário para atingirmos o objetivo final: uma biblioteca que fará o reconhecimento de voz dentro do módulo.
+
+Uma implementação do zero fugiria do tema deste trabalho, pois seria necessário aprender sobre reconhecimento de padrões voltado a sons e outros tópicos relacionados a Inteligência Artificial. A outra opção existente, e a que seguiremos, é procurar por uma biblioteca existente e aprender a manejá-la.
+
+Analisaremos quais as características necessárias e desejáveis na biblioteca ideal, e estudaremos a que melhor se adequa ao nosso objetivo dentre as opções existentes.
+
 % ---------------------------------------------------------------------
 
 \section{Considerações iniciais}
 
-Se o objetivo do projeto é criar um módulo de reconhecimento de voz, primeiramente é necessário chegar a uma biblioteca que implemente tal funcionalidade. Uma implementação do zero fugiria do tema deste trabalho, pois seria necessário aprender sobre reconhecimento de padrões voltado a sons, assunto relacionado a Inteligência Artificial.
+Recordemos os principais componentes para reconhecimento de voz, apresentados na seção \ref{sttComponents}. No contexto do módulo de reconhecimento de voz para \textit{Godot}, as seguintes associações surgem naturalmente:
 
-A outra opção existente, e a que seguiremos, é procurar por uma biblioteca existente e aprender a manejá-la. Idealmente, gostaríamos que a biblioteca possuísse as seguintes características:
+\begin{itemize}
+\item O \textbf{usuário} representa tipicamente o \textbf{jogador}, que interage parcialmente ou totalmente com o jogo por meio de comandos de voz.
+
+\item O \textbf{dispositivo de STT} corresponde ao \textbf{módulo de reconhecimento de voz}, objetivo principal deste trabalho. Esta componente é usada pelo jogo para converter a fala do jogador em texto.
+
+\item O \textbf{software de aplicação} é o \textbf{jogo} em si, feito em \textit{Godot}, que recebe indiretamente os comandos do usuário e realiza ações apropriadas.
+\end{itemize}
+
+% ---------------------------------------------------------------------
+
+\section{A biblioteca ideal}
+
+Realçamos novamente que o módulo de reconhecimento de voz será usado diretamente em jogos. Tal contexto automaticamente nos leva a pensar em diversas características que a biblioteca ideal deve possuir.
+
+% ---------------------------------------------------------------------
+
+\subsection{Características obrigatórias}
+
+Em ordem decrescente de importância, temos:
 
 \begin{enumerate}
-\item \emph{Ter código aberto e licença permissiva:} Provavelmente o único aspecto essencial, uma vez que integraremos a biblioteca em uma \emph{game engine}. A importância é ainda maior se levarmos em conta que jogos com fins comerciais podem ser produzidos em \emph{Godot}.
+\item \textbf{Ter código aberto e licença permissiva:} Justifica-se pela integração da biblioteca em uma \textit{game engine} de código aberto. A importância é ainda maior se levarmos em conta que jogos com fins comerciais podem ser produzidos em \textit{Godot}.
 
-% TODO: Fix chapter 3 reference later
-\item \emph{Ser implementada em C/C++:} Toda a base do \emph{Godot} é construída em C++. A criação de módulos utiliza essa mesma linguagem, como será visto no capítulo 3.
+\item \textbf{Ser eficiente (rápida):} Já foi mencionado que o módulo de reconhecimento de voz será usado em uma \textit{game engine}. Um jogo é um \textit{software} onde tipicamente a eficiência é de extrema importância, pois costuma envolver a renderização de cenas várias vezes por segundo. Devido a isso, surge a necessidade da biblioteca ser \emph{rápida} para não afetar negativamente a experiência do jogador.
 
-\item \emph{Reconhecer inglês:} Escolheremos inglês como uma linguagem obrigatória a se ter na biblioteca pelo caráter universal dessa linguagem.
+\item \textbf{Reconhecer inglês:} O inglês possui presença constante em cenários de computação. Portanto, é a única língua que a biblioteca deve obrigatoriamente oferecer suporte.
 
-\item \emph{Ser multiplataforma:} Ao menos, oferecer suporte para sistemas Windows, MacOS e Linux.
-
-\item \emph{Implementar eficientemente reconhecimento de voz:} A biblioteca será usada em jogos, onde eficiência (velocidade) é uma questão central.
-
-\item \emph{Não ser pesada:} Embora tenha menos importância que os aspectos acima, não é desejável ter uma biblioteca que ocupe muito espaço.
+\item \textbf{Não ser pesada:} Não é desejável ter uma biblioteca que ocupe muito espaço em disco (o que poderia aumentar o tamanho do jogo que a utiliza) e memória (aspecto relacionado diretamente à eficiência).
 \end{enumerate}
+
+% ---------------------------------------------------------------------
+
+\subsection{Características desejáveis}
+
+Em ordem decrescente de importância, temos:
+
+\begin{enumerate}
+\item \textbf{Ser multiplataforma:} \textit{Godot} possibilita exportar jogos para diferentes plataformas, dentre elas Windows, MacOS, Unix, Android e iOS \citep{godotDeployPlatforms}. Uma biblioteca que possa ser compatível com o maior número possível destes sistemas operacionais tornaria o módulo de reconhecimento de voz mais flexível para a produção de jogos em diferentes ambientes.
+
+\item \textbf{Reconhecer diferentes línguas:} Apesar da obrigatoriedade do inglês, a possibilidade de usar diferentes línguas aumentaria a versatilidade do módulo. Tal característica é acentuada ao notarmos que muitos jogos, hoje em dia, oferecem a possibilidade de alterar a língua.
+
+\item \textbf{Ser implementada em C/C++:} Conforme veremos na seção \ref{cap:godot}, \textit{Godot} possui toda a sua base escrita em C++, linguagem também usada para a criação de módulos. A implementação da biblioteca na mesma linguagem ajudaria a simplificar problemas de compatibilidade. Eventualmente, C também é uma opção viável por ser aceita pela linguagem sucessora.
+\end{enumerate}
+
+% ---------------------------------------------------------------------
+
+\section{Bibliotecas viáveis}
 
 Após uma pesquisa, que pode ser resumida pelo artigo em \citep{speechRecog:16}, cinco bibliotecas de reconhecimento de voz em geral se destacam por seu uso:
 
