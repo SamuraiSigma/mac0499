@@ -72,6 +72,7 @@ A evolução na tecnologia de reconhecimento de voz foi tamanha que, atualmente,
 % ---------------------------------------------------------------------
 
 \section{Componentes de um sistema genérico}
+\label{sttComponents}
 
 A figura \ref{generic-stt} apresenta os três componentes de um sistema genérico envolvendo STT \citep{sttComponentsParameters}:
 
@@ -92,11 +93,9 @@ A figura \ref{generic-stt} apresenta os três componentes de um sistema genéric
 
 % ---------------------------------------------------------------------
 
-\section{Principais parâmetros}
+\section{Principais termos}
 
-De acordo com \citep{sttComponentsParameters}, há diversos tipos de parâmetros que caracterizam as capacidades de um sistema de reconhecimento de voz, influenciando sua forma de funcionamento, eficiência e acurácia. A influência destes fatores varia de acordo com o tipo de aplicação que se deseja construir.
-
-Os principais parâmetros são apresentados a seguir.
+De acordo com \citep{sttComponentsParameters} e \citep{sttBasics}, apresentamos, a seguir, os termos mais recorrentes em sistemas de reconhecimento de voz. Também entramos em detalhes nos tipos de parâmetros que caracterizam as capacidades de um sistema de reconhecimento de voz, influenciando sua forma de funcionamento, eficiência e acurácia. A influência destes fatores varia de acordo com o tipo de aplicação que se deseja construir.
 
 % ---------------------------------------------------------------------
 
@@ -124,7 +123,15 @@ O vocabulário representa as palavras reconhecidas pelo sistema. Seu tamanho pod
 
 % ---------------------------------------------------------------------
 
-\subsection{Ambientais}
+\subsection{\textit{Utterance}}
+
+O termo \textit{utterance} não possui uma tradução exata no contexto de reconhecimento de voz, embora possa ser interpretado como \textit{``pronunciamento, elocução''}. Refere-se à vocalização (fala) de uma ou mais palavras, prounciadas de forma contínua e terminando com uma pausa clara, que possuem um significado único ao computador.
+
+Ao voltarmos para o sistema genérico de reconhecimento de voz apresentado na seção \ref{sttComponents}, notaremos que \textit{utterances} costumam representar a saída produzida pelo dispositivo de STT.
+
+% ---------------------------------------------------------------------
+
+\subsection{Parâmetros ambientais}
 
 Parâmetros ambientais referem-se a fatores externos ao sistema que podem interferir no reconhecimento de voz. Destacam-se:
 
