@@ -63,33 +63,38 @@
 \normalsize
 
 % ---------------------------------------------------------------------
-% C++ code
+% Code listing
 % Ref: http://en.wikibooks.org/wiki/LaTeX/Packages/Listings
 
+% Define code style
 \lstset{
-language=C++,                   % Language of the code
-basicstyle=\footnotesize,       % Code font size
-numbers=left,                   % Where to put line numbers
-numberstyle=\footnotesize,      % Line number font size
-stepnumber=1,                   % Step between two line numbers
-numbersep=5pt,                  % How far line numbers are from the code
-showspaces=false,               % Show spaces adding particular underscores
-showstringspaces=false,         % Underline spaces within strings
-showtabs=false,                 % Show tabs within strings
-frame=single,                   % Adds a frame around the code
-framerule=0.6pt,
-tabsize=2,                      % Sets default tabsize to 2 spaces
-captionpos=b,                   % Sets caption position to bottom
-breaklines=true,                % Sets automatic line breaking
-breakatwhitespace=false,        % Automatic breaks should only happen at whitespace?
-escapeinside={\%*}{*)},         % For adding a comment within the code
-backgroundcolor=\color[rgb]{1.0,1.0,1.0},
-rulecolor=\color[rgb]{0.8,0.8,0.8},
-extendedchars=true,
-xleftmargin=10pt,
-xrightmargin=10pt,
-framexleftmargin=10pt,
-framexrightmargin=10pt
+  inputencoding=utf8,
+  extendedchars=true,
+  commentstyle=\color{green},
+  keywordstyle=\color{magenta},
+  numberstyle=\small\color{gray},  % Line number font size
+  stringstyle=\color{purple},
+  basicstyle=\footnotesize,        % Code font size
+  xleftmargin=2\parindent,
+  aboveskip=2\medskipamount,       % Upper margin
+  breakatwhitespace=false,         % Automatic breaks at whitespace
+  breaklines=true,                 % Sets automatic line breaking
+  captionpos=b,                    % Caption position (b = bottom)
+  keepspaces=true,
+  numbers=none,                    % Where to put line numbers
+  stepnumber=1,                    % Step between two line numbers
+  numbersep=5pt,                   % How far line numbers are from the code
+  showspaces=false,                % Show spaces adding particular underscores
+  showstringspaces=false,          % Underline spaces within strings
+  showtabs=false,                  % Show tabs within strings
+  tabsize=2,                       % Size of tab
+  frame=single,                    % Frame type around code
+  framerule=0.6pt,                 % Frame size
+  backgroundcolor=\color[rgb]{1.0,1.0,0.9},
+  rulecolor=\color[rgb]{0.8,0.8,0.8},
+  escapeinside={\%*}{*)},          % For adding a comment within the code
+  % Add literates for all accents in Portuguese
+  literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1 {à}{{\`a}}1 {À}{{\`A}}1 {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1 {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1 {ã}{{\~a}}1 {õ}{{\~o}}1 {Ã}{{\~A}}1 {Õ}{{\~O}}1 {ç}{{\c c}}1 {Ç}{{\c C}}1
 }
 
 % =====================================================================
