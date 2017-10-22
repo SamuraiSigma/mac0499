@@ -9,6 +9,9 @@ This monograph consists in the following directories:
 
 - [**bib**](bib/): Contains *BibTeX* files.
 
+- [**listing**](listing/): Contains listings (code, scripts, algorithms, etc.) used
+  throughout the document.
+
 - [**image**](image/): Contains images used throughout the document.
 
 - [**tex**](tex/): Contains the core *LaTeX* files.

@@ -1,0 +1,16 @@
+INFO: continuous.c(275): Ready....
+INFO: continuous.c(261): Listening...
+[..]
+INFO: ngram_search_fwdtree.c(1550):     3081 words recognized (15/fr)
+INFO: ngram_search_fwdtree.c(1552):   703838 senones evaluated (3400/fr)
+INFO: ngram_search_fwdtree.c(1556):  2241048 channels searched (10826/fr)
+[..]
+INFO: ngram_search_fwdflat.c(302): Utterance vocabulary contains 154 words
+INFO: ngram_search_fwdflat.c(948):     2575 words recognized (12/fr)
+INFO: ngram_search_fwdflat.c(950):   148022 senones evaluated (715/fr)
+INFO: ngram_search_fwdflat.c(952):   209298 channels searched (1011/fr)
+[..]
+INFO: ngram_search.c(1381): Lattice has 317 nodes, 942 links
+INFO: ps_lattice.c(1380): Bestpath score: -4833
+[..]
+one two three
