@@ -11,6 +11,7 @@ aux/
 *.ilg
 *.ind
 *.lof
+*.lol
 *.log
 *.lot
 *.out

@@ -122,11 +122,19 @@
 \input{tex/thanks}
 \input{tex/abstract}
 
+% Add list of listings to ToC
+\renewcommand{\lstlistoflistings}{
+\begingroup
+\tocfile{\lstlistlistingname}{lol}
+\endgroup
+}
+
 {
 \hypersetup{linkcolor=black}
 \tableofcontents
 \listoffigures
 \listoftables
+\lstlistoflistings
 }
 
 % ---------------------------------------------------------------------

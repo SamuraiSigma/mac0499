@@ -81,11 +81,15 @@ Um artigo de 2014 comparou \emph{Kaldi}, \emph{CMUSphinx} e \emph{HTK} em relaç
 
 \section{\emph{Pocketsphinx}}
 
-Nesta seção, analisaremos mais a fundo a biblioteca \textit{Pocketsphinx}, incluindo passos para compilação a partir do código fonte e instruções para usá-la de forma básica.
+Nesta seção, analisaremos mais a fundo a biblioteca \textit{Pocketsphinx}, incluindo instruções para usá-la de forma básica e passos para compilação a partir do código fonte.
 
 Supõe-se que o usuário esteja usando um sistema operacional \textit{Unix}, e que possua acesso a privilégios administrativos para a realização de alguns passos.
 
-Todas as instruções e comandos apresentados foram realizados em um sistema \texttt{Ubuntu 16.04 LTS, 64-bit}.
+Todas as instruções e comandos apresentados foram realizados no sistema \texttt{Ubuntu 16.04 LTS, 64-bit} do autor.
+
+% ---------------------------------------------------------------------
+
+\subsection{Funcionamento}
 
 % ---------------------------------------------------------------------
 
@@ -172,9 +176,9 @@ $ make
 \end{lstlisting}
 \end{enumerate}
 
-\item Para verificar se a compilação ocorreu corretamente, recomenda-se fazer um teste de reconhecimento de voz contínuo, onde as palavras proferidas pelo usuário no microfone são impressas na tela. Execute no terminal:
+\item Para verificar se a compilação ocorreu corretamente, recomenda-se fazer um teste de reconhecimento de voz contínuo, onde as palavras proferidas pelo usuário no microfone são impressas na tela. No diretório onde encontram-se as pastas \texttt{sphinxbase} e \texttt{pocketsphinx}, execute o conteúdo da listagem \ref{sphinxTest}:
 
-\begin{lstlisting}[language=Bash]
+\begin{lstlisting}[language=Bash, caption={Teste de reconhecimento de voz contínuo usando Pocketsphinx}, label={sphinxTest}]
 # Diretório contendo arquivos para reconhecimento de voz
 # (modelo, dicionário, etc.)
 MODELDIR=pocketsphinx/model
@@ -185,7 +189,7 @@ MODELDIR=pocketsphinx/model
 # Parâmetro para usar microfone
 -inmic yes \
 
-# Parâmetros especificando arquivos do modelo
+# Parâmetros especificando arquivos do modelo acústico
 -mdef $MODELDIR/en-us/en-us/mdef \
 -tmat $MODELDIR/en-us/en-us/transition_matrices \
 -mean $MODELDIR/en-us/en-us/means \
