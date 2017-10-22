@@ -1,4 +1,4 @@
-\chapter{Biblioteca para Reconhecimento de Voz}
+\chapter{Bibliotecas para Reconhecimento de Voz}
 \label{cap:speech-libs}
 
 Neste capítulo, veremos o primeiro item necessário para atingirmos o objetivo final: uma biblioteca que fará o reconhecimento de voz dentro do módulo.
@@ -83,7 +83,7 @@ Um artigo de 2014 comparou \emph{Kaldi}, \emph{CMUSphinx} e \emph{HTK} em relaç
 
 Nesta seção, analisaremos mais a fundo a biblioteca \textit{Pocketsphinx}, incluindo instruções para usá-la de forma básica e passos para compilação a partir do código fonte.
 
-Supõe-se que o usuário esteja usando um sistema operacional \textit{Unix}, e que possua acesso a privilégios administrativos para a realização de alguns passos.
+Supõe-se que o usuário esteja usando um sistema operacional \textit{Unix}, e que possua acesso a privilégios administrativos para a realização de alguns passos. Recomenda-se que o leitor possua um microfone à disposição no computador, podendo ser embutido ou externo, para melhor aproveitamento.
 
 Todas as instruções e comandos apresentados foram realizados no sistema \texttt{Ubuntu 16.04 LTS, 64-bit} do autor.
 
@@ -94,6 +94,7 @@ Todas as instruções e comandos apresentados foram realizados no sistema \textt
 % ---------------------------------------------------------------------
 
 \subsection{Compilação}
+\label{sphinxCompile}
 
 Apresentamos as instruções, em \textit{Bash}, para baixar o código fonte do \textit{Pocketsphinx} e compilá-lo. Os passos foram baseados nas instruções em \citep{pocketsphinxInstall}.
 
@@ -175,33 +176,53 @@ Note que qualquer dependência ausente no sistema será notificada ao usuário n
 $ make
 \end{lstlisting}
 \end{enumerate}
+\end{enumerate}
 
-\item Para verificar se a compilação ocorreu corretamente, recomenda-se fazer um teste de reconhecimento de voz contínuo, onde as palavras proferidas pelo usuário no microfone são impressas na tela. No diretório onde encontram-se as pastas \texttt{sphinxbase} e \texttt{pocketsphinx}, execute o conteúdo da listagem \ref{sphinxTest}:
+% ---------------------------------------------------------------------
 
-\begin{lstlisting}[language=Bash, caption={Teste de reconhecimento de voz contínuo usando Pocketsphinx}, label={sphinxTest}]
-# Diretório contendo arquivos para reconhecimento de voz
-# (modelo, dicionário, etc.)
+\subsection{Verificação}
+
+Para verificar se a compilação feita na seção \ref{sphinxCompile} ocorreu corretamente, recomenda-se fazer um teste de reconhecimento de voz contínuo com o binário \texttt{pocketsphinx\_continuous}, criado na compilação do \textit{Pocketsphinx}. Nesta verificação, o usuário fala uma palavra ou uma frase curta, em inglês, em seu microfone. Quando um silêncio é detectado, o programa analisa o \textit{utterance} obtido e imprime na tela o texto que calculou ser a melhor interpretação.
+
+No diretório onde encontram-se as pastas \texttt{sphinxbase} e \texttt{pocketsphinx}, execute o conteúdo da listagem \ref{sphinxTest}:
+
+\begin{lstlisting}[
+  language=Bash,
+  basicstyle=\scriptsize,
+  caption={Comandos para teste de reconhecimento de voz contínuo usando \textit{Pocketsphinx}},
+  label={sphinxTest}]
+# Diretório contendo arquivos para reconhecimento de voz (modelos, etc.)
 MODELDIR=pocketsphinx/model
 
-# Executável para testar reconhecimento de voz contínuo
 ./pocketsphinx/src/programs/pocketsphinx_continuous \
-
-# Parâmetro para usar microfone
--inmic yes \
-
-# Parâmetros especificando arquivos do modelo acústico
--mdef $MODELDIR/en-us/en-us/mdef \
--tmat $MODELDIR/en-us/en-us/transition_matrices \
--mean $MODELDIR/en-us/en-us/means \
--var $MODELDIR/en-us/en-us/variances \
--sendump $MODELDIR/en-us/en-us/sendump \
--featparams $MODELDIR/en-us/en-us/feat.params \
-
-# Parâmetro especificando arquivo do dicionário
--dict $MODELDIR/en-us/cmudict-en-us.dict \
-
-# Parâmetro especificando arquivo do modelo da língua
--lm $MODELDIR/en-us/en-us.lm.bin
+-inmic yes \                                 # Acionar uso do microfone
+-hmm   $MODELDIR/en-us/en-us/mdef \          # Diretório do modelo acústico
+-dict  $MODELDIR/en-us/cmudict-en-us.dict \  # Arquivo do dicionário
+-lm    $MODELDIR/en-us/en-us.lm.bin          # Arquivo do modelo da língua
 \end{lstlisting}
 
-\end{enumerate}
+O programa imediatamente irá imprimir uma lista de seus parâmetros e seus respectivos valores. Depois, avisará ao usuário que está pronto para receber a entrada de voz por meio de uma linha terminada em \texttt{Ready....}
+
+A listagem \ref{sphinx123} representa uma saída resumida ao se falar \texttt{``one two three''} no microfone. Os caracteres \texttt{[..]} representam uma ou mais linhas omitidas.
+
+\begin{lstlisting}[
+  basicstyle=\scriptsize,
+  caption={Saída do \texttt{pocketsphinx\_continuous} ao se falar \texttt{``one two three''}},
+  label={sphinx123}]
+INFO: continuous.c(275): Ready....
+INFO: continuous.c(261): Listening...
+[..]
+INFO: ngram_search_fwdtree.c(1550):     3081 words recognized (15/fr)
+INFO: ngram_search_fwdtree.c(1552):   703838 senones evaluated (3400/fr)
+INFO: ngram_search_fwdtree.c(1556):  2241048 channels searched (10826/fr)
+[..]
+INFO: ngram_search_fwdflat.c(302): Utterance vocabulary contains 154 words
+INFO: ngram_search_fwdflat.c(948):     2575 words recognized (12/fr)
+INFO: ngram_search_fwdflat.c(950):   148022 senones evaluated (715/fr)
+INFO: ngram_search_fwdflat.c(952):   209298 channels searched (1011/fr)
+[..]
+INFO: ngram_search.c(1381): Lattice has 317 nodes, 942 links
+INFO: ps_lattice.c(1380): Bestpath score: -4833
+[..]
+one two three
+\end{lstlisting}
