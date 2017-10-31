@@ -11,6 +11,68 @@ Todas as instruções e comandos apresentados foram originalmente realizados no 
 
 \section{Funcionamento}
 
+O funcionamento das bibliotecas do projeto \textit{CMUSphinx}, incluindo-se a \textit{Pocketsphinx}, pode ser resumido por três grandes passos:
+
+\begin{itemize}
+\item A configuração inicial de arquivos a serem usados pela biblioteca, como o dicionário.
+\item A captura de áudio de voz, separando-a em \textit{utterances}.
+\item A busca, para cada \textit{utterance}, da melhor combinação de palavras do dicionário que se assemelhe a ela.
+\end{itemize}
+
+Definimos, abaixo, alguns conceitos numa ordem que nos proporcione um melhor entendimento das etapas descritas.
+
+% ---------------------------------------------------------------------
+
+\subsection{Fonema}
+
+Um \textbf{fonema} é a menor unidade de som em uma língua.
+
+O leitor poderia pensar que uma palavra é uma sequência de fonemas, mas tal definição esconde diversas complexidades: há sons que surgem na transição entre palavras e variantes linguísticas na pronúncia do falante, por exemplo. Devido a isso, surgem termos como \textit{difonemas} e \textit{trifonemas}, que tratam de fonemas consecutivos para levar em conta o contexto em que o som é captado.
+
+% ---------------------------------------------------------------------
+
+\subsection{Vetor de características}
+
+Em aprendizado de máquina, uma \textbf{característica} é uma quantidade que descreve algum exemplo.
+
+No contexto de reconhecimento de voz, CMUSphinx divide as \textit{utterances} em quadros (\textit{frames}) de aproximadamente 10 ms de comprimento. Através de uma função complexa, extraem-se 39 números -- características -- para representar a \textit{utterance}; juntos, eles formam o \textbf{vetor de características}.
+
+% ---------------------------------------------------------------------
+
+\subsection{Modelo}
+
+Um \textbf{modelo} é uma simplificação, onde reduz-se o que se quer modelar às suas características mais importantes. Neste caso, falamos de um modelo de reconhecimento de voz: como tratar as transições entre os quadros em que se divide o áudio capturado?
+
+A solução encontrada pelo projeto CMUSphinx foi utilizar o Modelo Oculto de Markov (\textit{Hidden Markov Model}, ou HMM, conforme visto na seção \ref{cap:hmm}) para tratar a fala gravada como uma sequência de estados que transitam entre si com certa probabilidade.
+
+Buscam-se os estados do HMM que levam à maior probabilidade no vetor de características. Para isso, três modelos, alimentados à biblioteca na forma de arquivos externos, são usados:
+
+\begin{itemize}
+\item \textbf{Modelo acústico}: Conjunto de arquivos que contém propriedades acústicas para detectores de fonemas. Define os vetores de características mais prováveis para cada unidade de som, além de determinar a criação de uma sequência de fonemas para um dado contexto. Este modelo costuma vir na forma de vários arquivos. Possui alta dependência com a língua na qual se realiza o reconhecimento de voz.
+
+\item \textbf{Dicionário fonético}: Arquivo texto responsável por mapear palavras em fonemas, que devem existir segundo o modelo acústico. Um mapeamento perfeito é praticamente impossível; devido a variantes linguísticas e outros fatores, não há como adicionar todas as diferentes formas de se pronunciar uma palavra.
+
+Um exemplo de uma linha de um dicionário em inglês seria:
+
+\begin{center}
+\texttt{yellow Y EH L OW}
+\end{center}
+
+\item \textbf{Modelo de linguagem}: Arquivo que formaliza uma sintaxe para a linguagem a ser reconhecida. Sua principal finalidade é diminuir o espaço de busca nas palavras, descartando-se palavras improváveis no áudio capturado e melhorando a acurácia.
+\end{itemize}
+
+% ---------------------------------------------------------------------
+
+\subsection{Palavras-chave}
+
+Dentre várias formas diferentes de busca, \textit{CMUSphinx} também oferece suporte para reconhecimento de voz por palavras-chave. Ao invés de usar um modelo de linguagem, fornece-se à biblioteca um arquivo de palavras ou frases a qual se quer detectar, juntamente com um limiar de detecção. Qualquer som capturado que não se encaixar no arquivo ou cujo limiar calculado for baixo demais será descartado.
+
+Um exemplo de linha no arquivo de palavras-chave está a seguir: cada palavra deve vir seguida de seu limiar. Destaca-se que este valor deve vir isolado entre caracteres \texttt{``/''}.
+
+\begin{center}
+\texttt{yellow /1e-6/}
+\end{center}
+
 % ---------------------------------------------------------------------
 
 \section{Compilação}
@@ -126,6 +188,14 @@ A listagem \ref{sphinx123} representa uma saída resumida ao se falar \texttt{``
 
 \lstinputlisting[
   basicstyle=\scriptsize,
+  numbers=left,
   caption={Saída do \texttt{pocketsphinx\_continuous} ao se falar \texttt{``one two three''}},
   label={sphinx123}]
   {listing/sphinx-continuous-123.txt}
+
+Uma interpretação detalhada de toda a saída exige um estudo maior em reconhecimento de voz e na biblioteca \textit{Pocketsphinx} em si. No entanto, algumas linhas mostradas na listagem \ref{sphinx123} apresentam resultados compreensíveis:
+
+\begin{itemize}
+\item As linhas 4 a 6 apresentam resultados anteriores
+\item O número de \textit{senones}, que são detectores curtos de sons para trifonemas
+\end{itemize}

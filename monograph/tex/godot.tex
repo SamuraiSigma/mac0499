@@ -1,0 +1,72 @@
+\chapter{Godot}
+\label{cap:godot}
+
+Voltaremos nossa atenção à \textit{game engine} \textit{Godot} neste capítulo. Em particular, estamos interessados no estudo dos elementos principais que compõe sua arquitetura, a organização do seu código fonte e instruções para compilação.
+
+Para referência, todas as informações relacionadas a \textit{Godot} são referentes à versão \textbf{2.1.4}, que é a mais recente e estável no momento de escrita deste trabalho.
+
+Todas as instruções e comandos apresentados foram originalmente realizados no sistema \texttt{Ubuntu 16.04 LTS, 64-bit} do autor.
+
+% ---------------------------------------------------------------------
+
+\section{História}
+
+O desenvolvimento de \textit{Godot} começou em 2007, através de Juan Linietsky e Ariel Manzur. O nome foi escolhido em homenagem à peça \emph{Waiting for Godot}, de Samuel Beckett, para representar uma biblioteca que cada vez mais ganha novas funcionalidades, mas nunca chegará a um produto definitivo \citep{godotHistory}.
+
+\textit{Godot} é notavelmente conhecido por possuir código aberto, que foi liberado ao público em fevereiro de 2014. Desde então, ganha constantes atualizações para se equiparar a \textit{game engines} competidoras mais sofisticadas, como \textit{Unity} e \textit{Unreal Engine}. Atualmente, encontra-se na versão 2.1.4, com uma versão 3 em beta.
+
+% ---------------------------------------------------------------------
+
+\section{Linguagens}
+
+\textit{Godot} possui seu código fonte escrito primordialmente em \textbf{C++}. Apesar de não possuir toda a versatilidade de uma linguagem de \textit{script} como \textit{Python} e \textit{Ruby}, um código escrito em \textit{C++} possui uma execução bem rápida, fator crítico para um software que produzirá jogos. Comparado ao antecessor, \textit{C}, a linguagem oferece ferramentas mais poderosas, como Orientação a Objetos e bibliotecas para tipos abstratos de dados (pilhas, filas, etc.).
+
+Um usuário da \textit{game engine}, no entanto, raramente interage diretamente com \textit{C++}, utilizando-se ao invés disso uma linguagem de \textit{script} nativa ao \textit{Godot} chamada \textbf{GDScript}. Por ter uma sintaxe extremamente simples, parecida com \textit{Python}, e ter sido projetada para usufruir da arquitetura da \textit{game engine}, o usuário pode programar classes, estruturas e partes de seu jogo com maior facilidade, utilizando as ferramentas oferecidas pelo software sem precisar se preocupar com detalhes maiores de implementação. Em outras palavras, \textit{GDScript} age como uma ``linguagem intermediária'' entre o usuário e as interfaces em \textit{C++} que \textit{Godot} disponibiliza.
+
+% ---------------------------------------------------------------------
+
+\section{Arquitetura}
+
+% ---------------------------------------------------------------------
+
+\subsection{\textit{Node}}
+
+Um \textbf{\textit{node}} (nó) é um dos elementos mais básicos para a criação de jogos em \textit{Godot}. Todo \textit{node} possui um nome e propriedades, que podem ser alteradas/sobrescritas.
+
+\textit{Nodes} oferecem a opção de extendê-los, criando um novo tipo de nó com funções adicionais; esta funcionalidade é idêntica à ideia de herança entre classes em Programação Orientada a Objetos.
+
+A propriedade mais importante que oferecem é a adição a outros \textit{nodes}, tornando-se filho deles. Com isso, cria-se uma hierarquia de árvore, deixando claro a dependência de funcionalidades.
+
+Como exemplos, apresentamos a seguir alguns tipos de nós, citando em alguns casos a relação com o código \textit{C++} da \textit{game engine}.
+
+\begin{itemize}
+\item \textbf{\textit{BaseButton}}: Oferece funcionalidades básicas a todos os nós do tipo \textit{button} (botões). Internamente (em \textit{C++}), é implementado como uma classe abstrata.
+
+\item \textbf{\textit{Button}}: É um botão padrão, que pode ser clicado pelo usuário. Estende o nó \textit{BaseButton} (na implementação em \textit{C++}, é uma classe que herda de \textit{BaseButton}).
+
+\item \textbf{\textit{Label}}: Apresenta um texto formatado.
+\end{itemize}
+
+Suponha que desejamos criar um botão clicável, onde está escrito \textit{``Começar Jogo''}. Ao pensarmos que este botão deverá \emph{conter} um texto, a hierarquia de \textit{nodes} fica intuitiva: iremos criar um nó \textit{Button} que possui um filho \textit{Label}. Além disso, desejamos alterar a propriedade de texto deste último para o valor \textit{``Começar Jogo''}.
+
+Teremos uma visão mais prática de nós na seção \ref{cap:color-clutter}, onde criaremos um jogo em \textit{Godot}.
+
+% ---------------------------------------------------------------------
+
+\subsection{\textit{Scene}}
+
+Uma \textbf{\textit{scene}} (cena) é um grupo de \textit{nodes} organizados em uma hierarquia de árvore. Toda cena possui apenas um nó raiz.
+
+Em \textit{Godot}, executar um jogo é equivalente a executar uma ou mais cenas, que podem ser salvas ou carregadas do disco no decorrer do programa. Ressalta-se que, para o jogo começar, uma \textit{scene} deve ser previamente configurada como a inicial, isto é, a primeira a ser executada quando o jogo é iniciado.
+
+A maior vantagem de um \textit{scene}, portanto, está em sua modularização. Ao invés de se criar um jogo grande com uma quantidade enorme de nós em hierarquia, podem-se fazer várias cenas, com uma \emph{instanciando} outra durante a execução. Tal instância é adicionada na árvore da \textit{scene} que fez a chamada. Quando a cena não é mais necessária, ela pode ser salva no disco, se necessário, e retirada da hierarquia.
+
+% TODO: Colocar alguma imagem de instanciamento
+
+% ---------------------------------------------------------------------
+
+\subsection{\textit{Resource}}
+
+% ---------------------------------------------------------------------
+
+\section{Compilação}
