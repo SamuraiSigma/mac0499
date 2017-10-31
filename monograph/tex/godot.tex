@@ -85,14 +85,89 @@ Exemplos de \textit{resources} incluem:
 
 % ---------------------------------------------------------------------
 
+\section{\textit{SCons}}
+
+\textit{Godot} pode ser compilado para diversas plataformas; entre elas, citamos Windows, MacOS, Unix, Android, iOS e HTML5. A necessidade de atender a uma variedade tão grande de sistemas operacionais fez com que o projeto escolhesse \textbf{\textit{SCcons}} para simplificar sua compilação \citep{godotScons}. Esta é uma ferramenta de construção de código aberto, como \textit{automake} e \textit{cmake}, mas apresenta algumas vantagens interessantes \citep{scons}:
+
+\begin{itemize}
+\item Compilação multiplataforma. Por exemplo, é possível compilar um executável para Windows em um sistema Unix.
+
+\item Todos os arquivos de configuração são \textit{scripts} na linguagem \textit{Python}.
+
+\item Análise de dependências automática para linguagens como \textit{C}, \textit{C++} e \textit{Java}. Não é necessário, por exemplo, listar quais arquivos de código fonte são necessários para compilar o binário final, algo que ocorre em um sistema \textit{Make}.
+\end{itemize}
+
+% ---------------------------------------------------------------------
+
+\subsection{Instalação}
+
+\textit{SCons} pode ser instalado pela linha de comando. Em um ambiente Ubuntu, por exemplo, digitaria-se:
+
+\begin{lstlisting}[language=Bash]
+$ sudo apt-get install scons
+\end{lstlisting}
+
+Também é possível baixar um binário ou o código fonte pelo site \citep{sconsDownload}.
+
+% ---------------------------------------------------------------------
+
+\subsection{Uso em \textit{Godot}}
+
+Para usar o SCons com os \textit{scripts} de configuração em um diretório, basta invocá-lo:
+
+\begin{lstlisting}[language=Bash]
+$ scons
+\end{lstlisting}
+
+\textit{Godot} oferece alguns argumentos por linha de comando para maior controle sobre a compilação, que usaremos na seção \ref{godotCompile} e no capítulo \ref{cap:color-clutter}. Veja a tabela \ref{sconsParams} para maiores informações.
+
+\begin{table}[H]
+
+\centering
+\begin{tabular}{|c|C{.35\textwidth}|L{.4\textwidth}|}
+\hline
+\textbf{Parâmetro} & \textbf{Significado} & \thead{\textbf{Valores}} \\ \hline
+
+\texttt{p, platform} & Plataforma alvo da compilação &
+\makecell[l]{
+  Inclui: \\
+  \begin{tabular}{@{}ll@{}}
+    \texttt{x11} (Unix) & \texttt{javascript} (Web) \\
+    \texttt{windows} & \texttt{android} \\
+    \texttt{osx} & \texttt{iphone} \\
+  \end{tabular}
+} \\ \hline
+
+\texttt{bits} & Nº de bits da plataforma alvo &
+\makecell[l]{
+  \texttt{32} \\
+  \texttt{64} \\
+  \texttt{default}
+} \\ \hline
+
+\texttt{tools} & Deve-se incluir o editor \textit{Godot} no binário? &
+\makecell[l]{
+  \texttt{yes} \\
+  \texttt{no}
+} \\ \hline
+
+\texttt{target} & Controla opções de otimização e \textit{debug} &
+\makecell[l]{
+  \texttt{debug} \\
+  \texttt{release\_debug} \\
+  \texttt{release}
+} \\ \hline
+
+\texttt{j} & Nº de processadores usados para compilação em paralelo &
+Um inteiro compatível com o nº de processadores na máquina \\ \hline
+\end{tabular}
+\caption{Argumentos por linha de comando do \textit{SCons} para \textit{Godot}}
+\label{sconsParams}
+\end{table}
+
+% ---------------------------------------------------------------------
+
 \section{Compilação}
+\label{godotCompile}
 
-O código fonte de \textit{Godot} está disponível no \textit{GitHub} \citep{godotRepo}. A criação de um módulo, conforme será visto no capítulo \ref{cap:stt-module}, exige a adição de código à \textit{game engine} e sua recompilação, o que justifica a importância dos passos nesta seção.
-
-% ---------------------------------------------------------------------
-
-\subsection{\textit{Scons}}
-
-% ---------------------------------------------------------------------
-
-\subsection{Instruções}
+O código fonte de \textit{Godot} está disponível no \textit{GitHub} \citep{godotRepo}. A criação de um módulo, conforme será visto no capítulo \ref{cap:stt-module}, exige a adição de código à \textit{game engine} e sua recompilação, o que justifica a importância dos passos a seguir.

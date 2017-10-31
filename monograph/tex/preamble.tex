@@ -37,6 +37,13 @@
 % Tables with automatic line breaks
 \usepackage{tabularx}
 
+% Formatting of table cells
+\usepackage{makecell}
+
+% Fix makecell \thead to use default font, with normal size
+\renewcommand\theadfont{\normalsize\scshape}
+\renewcommand\theadfont{\bfseries\normalfont}
+
 % Multiple columns
 \usepackage{multicol}
 
@@ -73,5 +80,7 @@
 % Support PDF bookmarks, links, etc.
 \usepackage[numbered]{bookmark}
 
-% Command to simulate shell input
-\newcommand{\shellcmd}[1]{{\color{gray}\\\indent\indent\texttt{\footnotesize\$ #1}}\\}
+% Left, centered and right table columns with length control
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
