@@ -19,9 +19,9 @@ O desenvolvimento de \textit{Godot} começou em 2007, através de Juan Linietsky
 
 \section{Linguagens}
 
-\textit{Godot} possui seu código fonte escrito primordialmente em \textbf{C++}. Apesar de não possuir toda a versatilidade de uma linguagem de \textit{script} como \textit{Python} e \textit{Ruby}, um código escrito em \textit{C++} possui uma execução bem rápida, fator crítico para um software que produzirá jogos. Comparado ao antecessor, \textit{C}, a linguagem oferece ferramentas mais poderosas, como Orientação a Objetos e bibliotecas para tipos abstratos de dados (pilhas, filas, etc.).
+\textit{Godot} possui seu código fonte escrito primordialmente em \textbf{\textit{C++}}. Apesar de não possuir toda a versatilidade de uma linguagem de \textit{script} como \textit{Python} e \textit{Ruby}, um código escrito em \textit{C++} possui uma execução bem rápida, fator crítico para um software que produzirá jogos. Comparado ao antecessor, \textit{C}, a linguagem oferece ferramentas mais poderosas, como Orientação a Objetos e bibliotecas para tipos abstratos de dados (pilhas, filas, etc.).
 
-Um usuário da \textit{game engine}, no entanto, raramente interage diretamente com \textit{C++}, utilizando-se ao invés disso uma linguagem de \textit{script} nativa ao \textit{Godot} chamada \textbf{GDScript}. Por ter uma sintaxe extremamente simples, parecida com \textit{Python}, e ter sido projetada para usufruir da arquitetura da \textit{game engine}, o usuário pode programar classes, estruturas e partes de seu jogo com maior facilidade, utilizando as ferramentas oferecidas pelo software sem precisar se preocupar com detalhes maiores de implementação. Em outras palavras, \textit{GDScript} age como uma ``linguagem intermediária'' entre o usuário e as interfaces em \textit{C++} que \textit{Godot} disponibiliza.
+Um usuário da \textit{game engine}, no entanto, raramente interage diretamente com \textit{C++}, utilizando-se ao invés disso uma linguagem de \textit{script} nativa ao \textit{Godot} chamada \mbox{\textbf{\textit{GDScript}}}. Por ter uma sintaxe extremamente simples, parecida com \textit{Python}, e ter sido projetada para usufruir da arquitetura da \textit{game engine}, o usuário pode programar classes, estruturas e partes de seu jogo com maior facilidade, utilizando as ferramentas oferecidas pelo software sem precisar se preocupar com detalhes maiores de implementação \citep{godotGDScript}. Em outras palavras, \mbox{\textit{GDScript}} age como uma ``linguagem intermediária'' entre o usuário e as interfaces em \textit{C++} que \textit{Godot} disponibiliza.
 
 % ---------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ Um usuário da \textit{game engine}, no entanto, raramente interage diretamente 
 
 \subsection{\textit{Node}}
 
-Um \textbf{\textit{node}} (nó) é um dos elementos mais básicos para a criação de jogos em \textit{Godot}. Todo \textit{node} possui um nome e propriedades, que podem ser alteradas/sobrescritas.
+Um \textbf{\textit{node}} (nó) é um dos elementos mais básicos para a criação de jogos em \textit{Godot}. Todo \textit{node} possui um nome, propriedades (que podem ser alteradas/sobrescritas) e um \emph{comportamento}: desenhar um modelo em 3D, mostrar uma interface gráfica, controlar o comportamento de um personagem, etc. \citep{godotNode}.
 
 \textit{Nodes} oferecem a opção de extendê-los, criando um novo tipo de nó com funções adicionais; esta funcionalidade é idêntica à ideia de herança entre classes em Programação Orientada a Objetos.
 
@@ -55,7 +55,7 @@ Teremos uma visão mais prática de nós na seção \ref{cap:color-clutter}, ond
 
 \subsection{\textit{Scene}}
 
-Uma \textbf{\textit{scene}} (cena) é um grupo de \textit{nodes} organizados em uma hierarquia de árvore. Toda cena possui apenas um nó raiz.
+Uma \textbf{\textit{scene}} (cena) é um grupo de \textit{nodes} organizados em uma hierarquia de árvore. Toda cena possui apenas um nó raiz \citep{godotScene}.
 
 Em \textit{Godot}, executar um jogo é equivalente a executar uma ou mais cenas, que podem ser salvas ou carregadas do disco no decorrer do programa. Ressalta-se que, para o jogo começar, uma \textit{scene} deve ser previamente configurada como a inicial, isto é, a primeira a ser executada quando o jogo é iniciado.
 
@@ -67,6 +67,32 @@ A maior vantagem de um \textit{scene}, portanto, está em sua modularização. A
 
 \subsection{\textit{Resource}}
 
+\textbf{\textit{Resources}} (recursos) são outro tipo de dados em \textit{Godot} com uma importância tão grande quanto \textit{nodes}. Todo recurso armazena algum dado, e portanto não realizam uma ação ou processamento por si só \citep{godotResource}.
+
+Uma característica importante de \textit{resources} é que são carregados apenas uma vez do disco. Se um recurso que já está na memória for novamente carregado, será retornado a mesma cópia de antes; em detalhes internos, \textit{Godot} guarda uma referência ao \textit{resource} original.
+
+A classe \textit{Resource} herda, no código C++, de \textit{Reference} (referência). Esta classe e seus filhos possuem uma propriedade especial: a \textit{game engine} se encarrega de automaticamente liberar sua memória alocada quando não são mais referenciadas por nenhuma outra estrutura, trazendo uma característica de \emph{coleta de lixo} ao sistema.
+
+Exemplos de \textit{resources} incluem:
+
+\begin{itemize}
+\item \textbf{\textit{Texture}}: Representa uma textura a ser aplicada em um objeto 2D ou 3D.
+
+\item \textbf{\textit{Font}}: Representa uma fonte a ser usada em um texto, interface gráfica, etc.
+
+\item \textbf{\textit{AudioStream}}: Usado para guardar um fluxo de áudio (uma música a ser tocada no jogo, por exemplo).
+\end{itemize}
+
 % ---------------------------------------------------------------------
 
 \section{Compilação}
+
+O código fonte de \textit{Godot} está disponível no \textit{GitHub} \citep{godotRepo}. A criação de um módulo, conforme será visto no capítulo \ref{cap:stt-module}, exige a adição de código à \textit{game engine} e sua recompilação, o que justifica a importância dos passos nesta seção.
+
+% ---------------------------------------------------------------------
+
+\subsection{\textit{Scons}}
+
+% ---------------------------------------------------------------------
+
+\subsection{Instruções}
