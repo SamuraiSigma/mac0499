@@ -27,6 +27,27 @@ Um usuário da \textit{game engine}, no entanto, raramente interage diretamente 
 
 \section{Arquitetura}
 
+A arquitetura de \textit{Godot} é bastante complexa, chegando a mais de 7 milhões de linhas de código. Uma análise criteriosa de todos os componentes fugiria do contexto deste trabalho. No entanto, é essencial entender as principais classes e conceitos da \textit{game engine} para podermos implementar, com sucesso, o módulo de reconhecimento de voz.
+
+A título de curiosidade, uma árvore de herança de classes é mostrada na figura \ref{godotClasses}. Os filhos das classes \textit{Control}, \textit{Node2D}, \textit{Reference} e \textit{Spatial} foram omitidos por serem muito numerosos.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{image/godot-classes.png}
+  \caption{Árvore de herança de classes em \textit{Godot} \citep{godotClasses}}
+  \label{godotClasses}
+\end{figure}
+
+As classes mais importantes e noções básicas para o uso de \textit{Godot} são apresentadas nas próximas subseções.
+
+% ---------------------------------------------------------------------
+
+\subsection{\textit{Object}}
+
+% ---------------------------------------------------------------------
+
+\subsection{\textit{Reference}}
+
 % ---------------------------------------------------------------------
 
 \subsection{\textit{Node}}
