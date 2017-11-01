@@ -19,7 +19,7 @@ TEXDIR = tex
 all:
 	@mkdir -p $(AUXDIR)
 	@cd $(AUXDIR) && mv * .. 2> /dev/null ||:
-	latexmk -interaction=nonstopmode -jobname=$(MONO:.pdf=) -pdf $(TEXDIR)/$(TARGET)
+	-latexmk -interaction=nonstopmode -jobname=$(MONO:.pdf=) -pdf $(TEXDIR)/$(TARGET)
 	@mv $(TEMPTEX) $(AUXDIR) 2> /dev/null ||:
 
 clean:
