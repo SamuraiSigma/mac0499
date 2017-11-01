@@ -122,8 +122,8 @@ $ scons
 \textit{Godot} oferece alguns argumentos por linha de comando para maior controle sobre a compilação, que usaremos na seção \ref{godotCompile} e no capítulo \ref{cap:color-clutter}. Veja a tabela \ref{sconsParams} para maiores informações.
 
 \begin{table}[H]
-
 \centering
+
 \begin{tabular}{|c|C{.35\textwidth}|L{.4\textwidth}|}
 \hline
 \textbf{Parâmetro} & \textbf{Significado} & \thead{\textbf{Valores}} \\ \hline
@@ -161,8 +161,42 @@ $ scons
 \texttt{j} & Nº de processadores usados para compilação em paralelo &
 Um inteiro compatível com o nº de processadores na máquina \\ \hline
 \end{tabular}
+
 \caption{Argumentos por linha de comando do \textit{SCons} para \textit{Godot}}
 \label{sconsParams}
+\end{table}
+
+Algumas explicações devem ser dadas sobre a tabela \ref{sconsParams}. A opção \texttt{default} do parâmetro \texttt{bits} possui grande dependência do sistema operacional em uso: se for Windows ou MacOS, é equivalente a \texttt{32}; se for Unix, assume a mesma quantidade de bits do sistema.
+
+O binário produzido pode ser usado para executar jogos na plataforma para a qual foi criado. A opção \texttt{tools} controla se ele deverá conter, ou não, o editor \textit{Godot}. Executáveis criado com o valor \texttt{no} são chamados de \emph{templates de exportação}, pois são usados para exportar jogos para um determinado sistema operacional.
+
+Por fim, a opção \texttt{target} apresenta três valores possíveis para controlar o uso símbolos de depuração em \textit{C++}, otimização e verificação de erros em tempo de execução (\textit{runtime}). Sintetizamos as características de cada valor na tabela \ref{sconsTarget}.
+
+\begin{table}[H]
+\centering
+
+\begin{tabular}{|l|c|c|c|}
+\hline
+\thead{\textbf{Valor}} & \textbf{Símbolos de depuração} & \textbf{Otimização} & \textbf{Verificação em \textit{runtime}} \\ \hline
+
+\texttt{debug}              &
+  {\color{green}\checkmark} &
+  {\color{red} x}           &
+  {\color{green}\checkmark} \\ \hline
+
+\texttt{debug\_release}     &
+  {\color{red} x}           &
+  {\color{red} x}           &
+  {\color{green}\checkmark} \\ \hline
+
+\texttt{release}            &
+  {\color{red} x}           &
+  {\color{green}\checkmark} &
+  {\color{red} x}           \\ \hline
+\end{tabular}
+
+\caption{Valores possíveis do parâmetro \texttt{target} e seu significado}
+\label{sconsTarget}
 \end{table}
 
 % ---------------------------------------------------------------------
@@ -171,3 +205,63 @@ Um inteiro compatível com o nº de processadores na máquina \\ \hline
 \label{godotCompile}
 
 O código fonte de \textit{Godot} está disponível no \textit{GitHub} \citep{godotRepo}. A criação de um módulo, conforme será visto no capítulo \ref{cap:stt-module}, exige a adição de código à \textit{game engine} e sua recompilação, o que justifica a importância dos passos a seguir.
+
+Antes de começar, verifique se seu sistema \textit{Unix} possui as seguintes dependências:
+
+\begin{itemize}
+\item \textit{GCC} (versão 6 ou menor) ou \textit{Clang};
+\item \textit{Python} 2.7+ (excluindo-se versões de \textit{Python} 3);
+\item \textit{SCons};
+\item \texttt{pkg-config};
+\item Bibliotecas de desenvolvimento \textit{X11}, \textit{Xcursor}, \textit{Xinerama} e \textit{XRandR};
+\item Bibliotecas de desenvolvimento \textit{MesaGL};
+\item Bibliotecas de desenvolvimento \textit{ALSA};
+\item Bibliotecas de desenvolvimento \textit{PulseAudio};
+\item \textit{Freetype};
+\item \textit{OpenSSL};
+\item \texttt{libudev-dev}.
+\end{itemize}
+
+A página de documentação de \textit{Godot} em \citep{godotReq} oferece comandos de terminal para baixar as dependências facilmente nas distribuições \textit{Unix} mais populares. Em \textit{Ubuntu}, por exemplo, faríamos:
+
+\begin{lstlisting}[language=Bash]
+$ sudo apt-get install build-essential scons pkg-config libx11-dev \
+  libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu-dev \
+  libasound2-dev libpulse-dev libfreetype6-dev libssl-dev libudev-dev \
+  libxrandr-dev
+\end{lstlisting}
+
+Feito isso, siga os passos a seguir para compilar \textit{Godot} na versão 2.1.4.
+
+\begin{enumerate}
+\item Clone o repositório da \textit{game engine}.
+
+\begin{lstlisting}[language=Bash]
+$ git clone https://github.com/godotengine/godot
+\end{lstlisting}
+
+\item Dentro do diretório \texttt{godot/} criado pelo passo anterior, mude para a \textit{tag} corresponde à versão 2.1.4.
+
+\begin{lstlisting}[language=Bash]
+$ git checkout 2.1.4-stable
+\end{lstlisting}
+
+\item Compile \textit{Godot} através da ferramenta \textit{SCons}; deve levar em torno de 15 minutos.
+
+\begin{lstlisting}[language=Bash]
+$ scons p=x11
+\end{lstlisting}
+\end{enumerate}
+
+% ---------------------------------------------------------------------
+
+\subsection{Verificação}
+
+Se a compilação foi feita com sucesso, um diretório \texttt{bin/} será gerado dentro de \texttt{godot/}. Execute o binário nele contido para abrir o editor \textit{Godot}.
+
+\begin{lstlisting}[language=Bash]
+$ ./bin/godot.x11.tools.32  # Em sistema Unix, 32 bits
+$ ./bin/godot.x11.tools.64  # Em sistema Unix, 64 bits
+\end{lstlisting}
+
+O uso do editor em si será visto no capítulo \ref{cap:color-clutter}, quando criarmos um jogo para demonstrar o módulo de reconhecimento de voz.
