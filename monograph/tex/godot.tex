@@ -21,7 +21,9 @@ O desenvolvimento de \textit{Godot} começou em 2007, através de Juan Linietsky
 
 \textit{Godot} possui seu código fonte escrito primordialmente em \textbf{\textit{C++}}. Apesar de não possuir toda a versatilidade de uma linguagem de \textit{script} como \textit{Python} e \textit{Ruby}, um código escrito em \textit{C++} possui uma execução bem rápida, fator crítico para um software que produzirá jogos. Comparado ao antecessor, \textit{C}, a linguagem oferece ferramentas mais poderosas, como Orientação a Objetos e bibliotecas para tipos abstratos de dados (pilhas, filas, etc.).
 
-Um usuário da \textit{game engine}, no entanto, raramente interage diretamente com \textit{C++}, utilizando-se ao invés disso uma linguagem de \textit{script} nativa ao \textit{Godot} chamada \mbox{\textbf{\textit{GDScript}}}. Por ter uma sintaxe extremamente simples, parecida com \textit{Python}, e ter sido projetada para usufruir da arquitetura da \textit{game engine}, o usuário pode programar classes, estruturas e partes de seu jogo com maior facilidade, utilizando as ferramentas oferecidas pelo software sem precisar se preocupar com detalhes maiores de implementação \citep{godotGDScript}. Em outras palavras, \mbox{\textit{GDScript}} age como uma ``linguagem intermediária'' entre o usuário e as interfaces em \textit{C++} que \textit{Godot} disponibiliza.
+Um usuário da \textit{game engine}, no entanto, raramente interage diretamente com \textit{C++}. Ao invés disso, usa-se uma interface gráfica, na forma de um editor, com várias facilidades para a criação de jogos. Para programação, \textit{Godot} disponibiliza uma linguagem de \textit{script} nativa chamada \mbox{\textbf{\textit{GDScript}}}.
+
+\textit{GDScript} possui uma sintaxe extremamente simples, parecida com \textit{Python}, e foi projetada para usufruir da arquitetura da \textit{game engine}. O usuário pode programar classes, estruturas e partes de seu jogo com maior facilidade, utilizando as ferramentas oferecidas pelo software sem precisar se preocupar com detalhes internos de implementação \citep{godotGDScript}. Em outras palavras, \mbox{\textit{GDScript}} age como uma ``linguagem intermediária'' entre o usuário e as interfaces em \textit{C++} que \textit{Godot} disponibiliza.
 
 % ---------------------------------------------------------------------
 
@@ -38,27 +40,33 @@ A título de curiosidade, uma árvore de herança de classes é mostrada na figu
   \label{godotClasses}
 \end{figure}
 
-As classes mais importantes e noções básicas para o uso de \textit{Godot} são apresentadas nas próximas subseções.
+Nas próximas subseções, abordaremos as classes mais importantes, juntamente com as utilidades que trazem para o funcionamento de \textit{Godot}.
 
 % ---------------------------------------------------------------------
 
 \subsection{\textit{Object}}
 
+\textbf{\textit{Object}} (objeto) é a classe base para todos os tipos que não estão já embutidos na \textit{game engine} (como os diferentes tipos de variáveis), conforme fica evidente na figura \ref{godotClasses} apresentada anteriormente.
+
+Algumas de suas características incluem a necessidade de liberar sua memória após o uso e a possibilidade de receber \emph{notificações}, isto é, uma chamada assíncrona, transportando alguma variável, a um de seus métodos.
+
 % ---------------------------------------------------------------------
 
 \subsection{\textit{Reference}}
+
+\textbf{\textit{Reference}} (referência) é uma classe que herda de \textit{Object}. Assim como sua classe pai, ela é mais evidente dentro do código \textit{C++}, pois não aparece diretamente no contexto do editor \textit{Godot}.
+
+Sua principal propriedade está em uma forma de gerenciamento automático de memória, como encontrado na \textit{coleta de lixo} em várias linguagens. Todo \textit{reference} carrega um atributo para contar quantas referências externas possui. Quando não há mais nenhuma, sua memória é automaticamente liberada.
 
 % ---------------------------------------------------------------------
 
 \subsection{\textit{Node}}
 
-Um \textbf{\textit{node}} (nó) é um dos elementos mais básicos para a criação de jogos em \textit{Godot}. Todo \textit{node} possui um nome, propriedades (que podem ser alteradas/sobrescritas) e um \emph{comportamento}: desenhar um modelo em 3D, mostrar uma interface gráfica, controlar o comportamento de um personagem, etc. \citep{godotNode}.
+Um \textbf{\textit{node}} (nó) é um dos elementos mais básicos para a criação de jogos em \textit{Godot}. Todo \textit{node} herda de \textit{Reference}, e possui um nome, propriedades (que podem ser alteradas/sobrescritas) e um \emph{comportamento}: desenhar um modelo em 3D, mostrar uma interface gráfica, controlar o comportamento de um personagem, etc. \citep{godotNode}. Podem-se criar classes que estendem um tipo de \textit{Node}, atribuindo funcionalidades adicionais a elas.
 
-\textit{Nodes} oferecem a opção de extendê-los, criando um novo tipo de nó com funções adicionais; esta funcionalidade é idêntica à ideia de herança entre classes em Programação Orientada a Objetos.
+Em termos práticos, a propriedade mais importante que oferecem é a adição a outros \textit{nodes}, tornando-se filho deles. Com isso, cria-se uma hierarquia de árvore, deixando claro a dependência de funcionalidades.
 
-A propriedade mais importante que oferecem é a adição a outros \textit{nodes}, tornando-se filho deles. Com isso, cria-se uma hierarquia de árvore, deixando claro a dependência de funcionalidades.
-
-Como exemplos, apresentamos a seguir alguns tipos de nós, citando em alguns casos a relação com o código \textit{C++} da \textit{game engine}.
+A seguir, exemplificamos alguns tipos de nós existentes no editor \textit{Godot}.
 
 \begin{itemize}
 \item \textbf{\textit{BaseButton}}: Oferece funcionalidades básicas a todos os nós do tipo \textit{button} (botões). Internamente (em \textit{C++}), é implementado como uma classe abstrata.
@@ -92,7 +100,7 @@ A maior vantagem de um \textit{scene}, portanto, está em sua modularização. A
 
 Uma característica importante de \textit{resources} é que são carregados apenas uma vez do disco. Se um recurso que já está na memória for novamente carregado, será retornado a mesma cópia de antes; em detalhes internos, \textit{Godot} guarda uma referência ao \textit{resource} original.
 
-A classe \textit{Resource} herda, no código C++, de \textit{Reference} (referência). Esta classe e seus filhos possuem uma propriedade especial: a \textit{game engine} se encarrega de automaticamente liberar sua memória alocada quando não são mais referenciadas por nenhuma outra estrutura, trazendo uma característica de \emph{coleta de lixo} ao sistema.
+A classe \textit{Resource} herda de \textit{Reference}s, adquirindo sua característica de liberação automática de memória quando não há nenhuma referência à instância.
 
 Exemplos de \textit{resources} incluem:
 
