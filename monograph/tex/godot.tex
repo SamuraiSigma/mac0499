@@ -13,7 +13,7 @@ Todas as instruções e comandos apresentados foram originalmente realizados no 
 
 O desenvolvimento de \textit{Godot} começou em 2007, através de Juan Linietsky e Ariel Manzur. O nome foi escolhido em homenagem à peça \emph{Waiting for Godot}, de Samuel Beckett, para representar uma biblioteca que cada vez mais ganha novas funcionalidades, mas nunca chegará a um produto definitivo \citep{godotHistory}.
 
-\textit{Godot} é notavelmente conhecido por possuir código aberto, que foi liberado ao público em fevereiro de 2014. Desde então, ganha constantes atualizações para se equiparar a \textit{game engines} competidoras mais sofisticadas, como \textit{Unity} e \textit{Unreal Engine}. Atualmente, encontra-se na versão 2.1.4, com uma versão 3 em beta.
+\textit{Godot} é notavelmente conhecido por possuir código aberto, que foi liberado ao público em fevereiro de 2014. Desde então, ganha constantes atualizações para se equiparar a \textit{game engines} competidoras mais sofisticadas, como \textit{Unity} e \textit{Unreal Engine}. Atualmente, encontra-se na versão 2.1.4, com uma versão 3 em beta, e possui suporte para a produção de jogos em diversas plataformas, entre elas Unix, Windows, MacOS, Android, iOS e web.
 
 % ---------------------------------------------------------------------
 
@@ -109,7 +109,7 @@ A figura \ref{sceneInstance} exemplifica um instanciamento genérico de uma cena
 
 Uma característica importante de \textit{resources} é que são carregados apenas uma vez do disco. Se um recurso que já está na memória for novamente carregado, será retornado a mesma cópia de antes; em detalhes internos, \textit{Godot} guarda uma referência ao \textit{resource} original.
 
-A classe \textit{Resource} herda de \textit{Reference}s, adquirindo sua característica de liberação automática de memória quando não há nenhuma referência à instância.
+A classe \textit{Resource} herda de \textit{Reference}, adquirindo sua característica de liberação automática de memória quando não há nenhuma referência à instância.
 
 Exemplos de \textit{resources} incluem:
 
@@ -129,6 +129,22 @@ Exemplificamos, na figura \ref{nodeResource}, alguns \textit{nodes} que tipicame
   \caption{Alguns \textit{resources} e \textit{nodes} que tipicamente os usam \citep{godotResource}}
   \label{nodeResource}
 \end{figure}
+
+% ---------------------------------------------------------------------
+
+\subsection{Sistema de arquivos}
+
+Devido ao suporte a diferentes sistemas operacionais, \textit{Godot} viu uma necessidade de criar um padrão interno para gerenciar arquivos em seus projetos (isto é, jogos). Duas convenções foram tomadas:
+
+\begin{itemize}
+\item O diretório raiz do projeto é referido como \textbf{\texttt{res://}}. O usuário é encorajado fortemente a utilizar este prefixo ao invés do utilizado em sua plataforma.
+
+\item Caminhos que usem \texttt{res://} devem usar o caractere \texttt{/} para separar diretórios, independentemente do sistema operacional do usuário. Por exemplo: \texttt{res://fontes/arial.fnt}.
+\end{itemize}
+
+Por fim, muitos jogos possuem a necessidade de criar, ler, escrever e atualizar arquivos durante sua execução; uma situação comum é guardar o progresso do jogador. Em geral, não é aconselhável criair tais arquivos dentro do diretório do projeto; tal ação é impossível, aliás, se o jogo estiver no formato de um binário fechado.
+
+A solução apresentada por \textit{Godot} foi definir um outro prefixo, \textbf{\texttt{user://}}, que refere-se a algum diretório preestabelecido e externo ao projeto. Em sistemas \textit{Unix}, o caminho tipicamente corresponde a \texttt{\textasciitilde/.godot/app\_userdata}.
 
 % ---------------------------------------------------------------------
 
