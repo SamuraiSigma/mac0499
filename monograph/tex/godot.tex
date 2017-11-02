@@ -74,6 +74,8 @@ A seguir, exemplificamos alguns tipos de nós existentes no editor \textit{Godot
 \item \textbf{\textit{Button}}: É um botão padrão, que pode ser clicado pelo usuário. Estende o nó \textit{BaseButton} (na implementação em \textit{C++}, é uma classe que herda de \textit{BaseButton}).
 
 \item \textbf{\textit{Label}}: Apresenta um texto formatado.
+
+\item \textbf{\textit{Sprite}}: É um \textit{bitmap} bidimensional, tipicamente usado para representar personagens em um jogo 2D.
 \end{itemize}
 
 Suponha que desejamos criar um botão clicável, onde está escrito \textit{``Começar Jogo''}. Ao pensarmos que este botão deverá \emph{conter} um texto, a hierarquia de \textit{nodes} fica intuitiva: iremos criar um nó \textit{Button} que possui um filho \textit{Label}. Além disso, desejamos alterar a propriedade de texto deste último para o valor \textit{``Começar Jogo''}.
@@ -90,7 +92,14 @@ Em \textit{Godot}, executar um jogo é equivalente a executar uma ou mais cenas,
 
 A maior vantagem de um \textit{scene}, portanto, está em sua modularização. Ao invés de se criar um jogo grande com uma quantidade enorme de nós em hierarquia, podem-se fazer várias cenas, com uma \emph{instanciando} outra durante a execução. Tal instância é adicionada na árvore da \textit{scene} que fez a chamada. Quando a cena não é mais necessária, ela pode ser salva no disco, se necessário, e retirada da hierarquia.
 
-% TODO: Colocar alguma imagem de instanciamento
+A figura \ref{sceneInstance} exemplifica um instanciamento genérico de uma cena.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.5\textwidth]{image/scene.pdf}
+  \caption{Exemplo de instanciamento de uma \textit{scene} \citep{godotScene}}
+  \label{sceneInstance}
+\end{figure}
 
 % ---------------------------------------------------------------------
 
@@ -111,6 +120,15 @@ Exemplos de \textit{resources} incluem:
 
 \item \textbf{\textit{AudioStream}}: Usado para guardar um fluxo de áudio (uma música a ser tocada no jogo, por exemplo).
 \end{itemize}
+
+Exemplificamos, na figura \ref{nodeResource}, alguns \textit{nodes} que tipicamente poderiam usar os \textit{resources} citados.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.5\textwidth]{image/resource.pdf}
+  \caption{Alguns \textit{resources} e \textit{nodes} que tipicamente os usam \citep{godotResource}}
+  \label{nodeResource}
+\end{figure}
 
 % ---------------------------------------------------------------------
 
