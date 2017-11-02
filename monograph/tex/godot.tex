@@ -134,7 +134,7 @@ Exemplificamos, na figura \ref{nodeResource}, alguns \textit{nodes} que tipicame
 
 \subsection{Sistema de arquivos}
 
-Devido ao suporte a diferentes sistemas operacionais, \textit{Godot} viu uma necessidade de criar um padrão interno para gerenciar arquivos em seus projetos (isto é, jogos). Duas convenções foram tomadas:
+Devido ao suporte a diferentes sistemas operacionais, \textit{Godot} viu uma necessidade de criar um padrão interno para gerenciar arquivos em seus projetos (isto é, jogos). Duas convenções foram tomadas \citep{godotFileSystem}:
 
 \begin{itemize}
 \item O diretório raiz do projeto é referido como \textbf{\texttt{res://}}. O usuário é encorajado fortemente a utilizar este prefixo ao invés do utilizado em sua plataforma.
@@ -144,7 +144,7 @@ Devido ao suporte a diferentes sistemas operacionais, \textit{Godot} viu uma nec
 
 Por fim, muitos jogos possuem a necessidade de criar, ler, escrever e atualizar arquivos durante sua execução; uma situação comum é guardar o progresso do jogador. Em geral, não é aconselhável criair tais arquivos dentro do diretório do projeto; tal ação é impossível, aliás, se o jogo estiver no formato de um binário fechado.
 
-A solução apresentada por \textit{Godot} foi definir um outro prefixo, \textbf{\texttt{user://}}, que refere-se a algum diretório preestabelecido e externo ao projeto. Em sistemas \textit{Unix}, o caminho tipicamente corresponde a \texttt{\textasciitilde/.godot/app\_userdata}.
+A solução apresentada por \textit{Godot} foi definir um outro prefixo, \textbf{\texttt{user://}}, que refere-se a algum diretório preestabelecido e externo ao projeto \citep{godotFileSystem}. Em sistemas \textit{Unix}, o caminho tipicamente corresponde a \texttt{\textasciitilde/.godot/app\_userdata}.
 
 % ---------------------------------------------------------------------
 
@@ -231,7 +231,7 @@ Um inteiro compatível com o nº de processadores na máquina \\ \hline
 
 Algumas explicações devem ser dadas sobre a tabela \ref{sconsParams}. A opção \texttt{default} do parâmetro \texttt{bits} possui grande dependência do sistema operacional em uso: se for Windows ou MacOS, é equivalente a \texttt{32}; se for Unix, assume a mesma quantidade de bits do sistema.
 
-O binário produzido pode ser usado para executar jogos na plataforma para a qual foi criado. A opção \texttt{tools} controla se ele deverá conter, ou não, o editor \textit{Godot}. Executáveis criado com o valor \texttt{no} são chamados de \emph{templates de exportação}, pois são usados para exportar jogos para um determinado sistema operacional.
+O binário produzido pode ser usado para executar jogos na plataforma para a qual foi criado. A opção \texttt{tools} controla se ele deverá conter, ou não, o editor \textit{Godot}. Executáveis criados com o valor \texttt{no} são chamados de \emph{templates de exportação}, pois são usados para exportar jogos para um determinado sistema operacional.
 
 Por fim, a opção \texttt{target} apresenta três valores possíveis para controlar o uso símbolos de depuração em \textit{C++}, otimização e verificação de erros em tempo de execução (\textit{runtime}). Sintetizamos as características de cada valor na tabela \ref{sconsTarget}.
 
