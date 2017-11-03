@@ -47,9 +47,9 @@ Nas próximas subseções, abordaremos as classes mais importantes, juntamente c
 
 \subsection{\textit{Object}}
 
-\textbf{\textit{Object}} (objeto) é a classe base para todos os tipos que não estão já embutidos na \textit{game engine} (como os diferentes tipos de variáveis), conforme fica evidente na figura \ref{godotClasses} apresentada anteriormente.
+\textbf{\textit{Object}} (objeto) é a classe base para todos os tipos que não estão embutidos na \textit{game engine} (como os diferentes tipos de variáveis), conforme fica evidente na figura \ref{godotClasses} apresentada anteriormente.
 
-Algumas de suas características incluem a necessidade de liberar sua memória após o uso e a possibilidade de receber \emph{notificações}, isto é, uma chamada assíncrona, transportando alguma variável, a um de seus métodos.
+Algumas de suas características incluem a necessidade de liberar sua memória após o uso e a possibilidade de receber \emph{notificações}, isto é, uma chamada assíncrona a um de seus métodos.
 
 % ---------------------------------------------------------------------
 
@@ -152,7 +152,7 @@ A solução apresentada por \textit{Godot} foi definir um outro prefixo, \textbf
 
 \section{\textit{SCons}}
 
-\textit{Godot} pode ser compilado para diversas plataformas; entre elas, citamos Windows, MacOS, Unix, Android, iOS e HTML5. A necessidade de atender a uma variedade tão grande de sistemas operacionais fez com que o projeto escolhesse \textbf{\textit{SCcons}} para simplificar sua compilação \citep{godotScons}. Esta é uma ferramenta de construção de código aberto, como \textit{automake} e \textit{cmake}, mas apresenta algumas vantagens interessantes \citep{scons}:
+\textit{Godot} pode ser compilado para diversas plataformas; entre elas, citamos Windows, MacOS, Unix, Android, iOS e HTML5. A necessidade de atender a uma variedade tão grande de sistemas operacionais fez com que o projeto escolhesse \textbf{\textit{SCons}} para simplificar sua compilação \citep{godotScons}. Esta é uma ferramenta de construção de código aberto, como \textit{automake} e \textit{cmake}, mas apresenta algumas vantagens interessantes \citep{scons}:
 
 \begin{itemize}
 \item Compilação multiplataforma. Por exemplo, é possível compilar um executável para Windows em um sistema Unix.
@@ -184,7 +184,7 @@ Para usar o SCons com os \textit{scripts} de configuração em um diretório, ba
 $ scons
 \end{lstlisting}
 
-\textit{Godot} oferece alguns argumentos por linha de comando para maior controle sobre a compilação, que usaremos na seção \ref{godotCompile} e no capítulo \ref{cap:color-clutter}. Veja a tabela \ref{sconsParams} para maiores informações.
+\textit{Godot} oferece alguns argumentos por linha de comando para maior controle sobre a compilação, os quais usaremos na seção \ref{godotCompile} e no capítulo \ref{cap:color-clutter}. Veja a tabela \ref{sconsParams} para maiores informações.
 
 \begin{table}[H]
 \centering
@@ -233,7 +233,7 @@ Um inteiro compatível com o nº de processadores na máquina \\ \hline
 
 Algumas explicações devem ser dadas sobre a tabela \ref{sconsParams}. A opção \texttt{default} do parâmetro \texttt{bits} possui grande dependência do sistema operacional em uso: se for Windows ou MacOS, é equivalente a \texttt{32}; se for Unix, assume a mesma quantidade de bits do sistema.
 
-O binário produzido pode ser usado para executar jogos na plataforma para a qual foi criado. A opção \texttt{tools} controla se ele deverá conter, ou não, o editor \textit{Godot}. Executáveis criados com o valor \texttt{no} são chamados de \emph{templates de exportação}, pois são usados para exportar jogos para um determinado sistema operacional.
+O binário produzido pode ser usado para executar jogos na plataforma para a qual foi criado. A opção \texttt{tools} controla se ele deverá conter ou não o editor \textit{Godot}. Executáveis gerados com o valor \texttt{no} são chamados de \emph{templates de exportação}, pois são usados para exportar jogos para um determinado sistema operacional.
 
 Por fim, a opção \texttt{target} apresenta três valores possíveis para controlar o uso símbolos de depuração em \textit{C++}, otimização e verificação de erros em tempo de execução (\textit{runtime}). Sintetizamos as características de cada valor na tabela \ref{sconsTarget}.
 
@@ -271,7 +271,7 @@ Por fim, a opção \texttt{target} apresenta três valores possíveis para contr
 
 O código fonte de \textit{Godot} está disponível no \textit{GitHub} \citep{godotRepo}. A criação de um módulo, conforme será visto no capítulo \ref{cap:stt-module}, exige a adição de código à \textit{game engine} e sua recompilação, o que justifica a importância dos passos a seguir.
 
-Antes de começar, verifique se seu sistema \textit{Unix} possui as seguintes dependências:
+Antes de começar, verifique se o seu sistema \textit{Unix} possui as seguintes dependências:
 
 \begin{itemize}
 \item \textit{GCC} (versão 6 ou menor) ou \textit{Clang};
