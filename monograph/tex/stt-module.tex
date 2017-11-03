@@ -1,66 +1,95 @@
 \chapter{Módulo \textit{Speech to Text} para \textit{Godot}}
 \label{cap:stt-module}
 
-Após adquirirmos conhecimento sobre a biblioteca \textit{Pocketsphinx} e \textit{Godot}, enfim chegou o momento de construirmos o módulo de reconhecimento de voz.
-
-Este capítulo documenta as instruções necessárias para adicionar novas funcionalidades a \textit{Godot}, bem como as decisões de projeto tomadas na criação do módulo, a qual chamaremos de \textit{Speech to Text}.
-
-Pressupomos que o leitor esteja familiarizado com as instruções para compilação de \textit{Godot}, vistas na seção \ref{godotCompile}.
-
-% ---------------------------------------------------------------------
-
-\section{Módulos em \textit{Godot}}
+Após adquirirmos conhecimento sobre a biblioteca \textit{Pocketsphinx} e a \textit{game engine} \textit{Godot}, chegou o momento de construirmos o módulo de reconhecimento de voz.
 
 Conforme descrito na seção \ref{godotLanguages}, a linguagem \textit{GDScript} é extremamente prática para programar estruturas em um jogo feito em \textit{Godot}. No entanto, às vezes deseja-se otimizar alguma parte crítica através de \textit{C++} ou adicionar uma nova funcionalidade inexistente em \textit{Godot}. Os módulos servem justamente para este objetivo, pois não fazem parte do código essencial da \textit{game engine}.
 
-Todos os módulos ativos são encontrados como subdiretórios dentro da pasta \texttt{modules/} no código fonte. A seguir, forneceremos as instruções necessárias para a criação de um módulo genérico.
+Este capítulo documenta os passos e decisões de projeto tomados na criação do módulo, a qual chamaremos de \textit{Speech to Text}. Pressupomos que o leitor esteja familiarizado com as instruções para compilação de \textit{Godot}, vistas na seção \ref{godotCompile}.
 
 % ---------------------------------------------------------------------
 
-\subsection{Instruções para criação}
+\section{Primeiros passos}
 
-Como exemplo, mostraremos como criar o módulo \textit{sumator} no decorrer das instruções.
+Antes de começarmos a implementar o módulo em si, precisaremos tomar algumas medidas simples de preparação.
 
-\begin{enumerate}
-\item Crie um diretório, dentro da pasta \texttt{modules/} no código fonte, com o nome do módulo. Neste caso, seria o diretório \texttt{sumator/}.
+\subsection{Criação do diretório do módulo}
 
-\begin{lstlisting}
+Todos os módulos ativos são encontrados como subdiretórios dentro da pasta \texttt{modules/} no código fonte. Começaremos, portanto, com a criação do diretório \texttt{speech\_to\_text}:
+
+\begin{lstlisting}[language=Bash]
 $ cd modules
-$ mkdir sumator
+$ mkdir speech_to_text
+$ cd speech_to_text
 \end{lstlisting}
 
-\item Dentro do diretório criado para o módulo, escreva o código \textit{C++} para quaisquer interfaces (arquivos \texttt{.h}) a serem usadas. Como nosso exemplo \textit{Sumator} é bastante simples, criaremos apenas um arquivo: \texttt{sumator.h}. Seu conteúdo é apresentado na listagem \ref{sumator-h}.
+% ---------------------------------------------------------------------
+
+\subsection{Adição do pacote \textit{Sphinxbase}}
+
+Usaremos a biblioteca \textit{Pocketsphinx} para realizar o reconhecimento de voz no módulo. Um dos requisitos necessários para seu funcionamento, conforme visto na seção \ref{sphinxCompile}, é o pacote \textit{Sphinxbase}. A seguir, apresentamos instruções para inserir os arquivos essenciais deste pacote no diretório do módulo.
+
+\begin{enumerate}
+\item Baixe o pacote \textit{Sphinxbase} em sua versão atual mais estável, a \textbf{5-prealpha}.
+
+\begin{lstlisting}
+$ SPHINXURL="https://sourceforge.net/projects/cmusphinx/files"
+$ wget $SPHINXURL/sphinxbase/5prealpha/sphinxbase-5prealpha.tar.gz
+\end{lstlisting}
+
+\item Extraia e renomeie o pacote baixado.
+
+\begin{lstlisting}
+$ tar -xvf sphinxbase-5prealpha
+$ mv sphinxbase-5prealpha sphinxbase
+\end{lstlisting}
+
+\item Remova arquivos supérfluos, como \texttt{Makefiles}, arquivos de teste e \textit{scripts} de compilação. Estes serviriam para aumentar, desnecessariamente, o tamanho do módulo. Em outras palavras, somente as interfaces e implementações nos pacotes serão mantidas. Veja a listagem \ref{sphinxbaseEssential} para maiores detalhes.
 
 \lstinputlisting[
-language=C++,
-numbers=left,
-caption={Arquivo de interface \texttt{sumator.h} para o módulo \textit{Sumator}},
-label={sumator-h}]
-{listing/sumator.h}
-
-Na linha 6 da listagem \ref{sumator-h}, fizemos a classe \textit{Sumator} herdar de \textit{Node} (visto na seção \ref{godotNode}) para que o módulo possa ser usado de forma direta no editor \textit{Godot}.
-
-Toda classe que herda de alguma classe essencial da \textit{game engine} exige uma chamada a \texttt{OBJ\_TYPE()} (linha 7), que recebe como argumentos o nome da classe e de quem ela herda.
-
-Por fim, vamos nos atentar a \texttt{\_bind\_methods()}, definido na linha 11: este método define quais métodos da classe poderão ser usados em \textit{GDScript}. Seu nome é uma convenção, definido por \textit{Godot} para facilmente localizar o método em uma classe.
-
-\item Escreva o código \textit{C++} para quaisquer implementações (arquivos \textit{.cpp}) necessárias. O exemplo do \textit{Sumator} exige um arquivo \texttt{sumator.cpp} para implementar os métodos definidos no passo anterior. Apresentamos seu conteúdo na listagem \ref{sumator-cpp}.
-
-\lstinputlisting[
-language=C++,
-numbers=left,
-caption={Arquivo de implementação \texttt{sumator.cpp} para o módulo \textit{Sumator}},
-label={sumator-cpp}]
-{listing/sumator.cpp}
-
-A implementação de \texttt{\_bind\_methods()} tipicamente envolve chamadas ao \textit{singleton} \textit{ObjectTypeDB}, que contém um banco de dados para todas as classes e funcionalidades utilizáveis em \textit{GDScript}.
-
-Nas linhas 16 a 18 da listagem \ref{sumator-cpp}, usamos \texttt{bind\_method()} para amarrar nomes (1º argumento) à referência de métodos (2º argumento), permitindo seu uso em \textit{GDScript}.
+  language=Bash,
+  caption={Remoção de arquivos supérfluos no pacote \textit{Sphinxbase}},
+  label={sphinxbaseEssential}]
+  {listing/sphinxbase-essential.sh}
 \end{enumerate}
 
 % ---------------------------------------------------------------------
 
-\section{Organização de \textit{Speech to Text}}
+\subsection{Adição do pacote \textit{Pocketsphinx}}
+
+Precisamos, também, do pacote \textit{Pocketsphinx} para a biblioteca homônima funcionar. A seguir, apresentamos instruções para inserir os arquivos essenciais deste pacote no diretório do módulo.
+
+\begin{enumerate}
+\item Baixe o pacote \textit{Pocketsphinx} em sua versão atual mais estável, a \textbf{5-prealpha}.
+
+\begin{lstlisting}
+$ SPHINXURL="https://sourceforge.net/projects/cmusphinx/files"
+$ wget $SPHINXURL/pocketsphinx/5prealpha/pocketsphinx-5prealpha.tar.gz
+\end{lstlisting}
+
+\item Extraia e renomeie o pacote baixado.
+
+\begin{lstlisting}
+$ tar -xvf pocketsphinx-5prealpha
+$ mv pocketsphinx-5prealpha pocketsphinx
+\end{lstlisting}
+
+\item Remova arquivos supérfluos, isto é, que não sejam interfaces ou implementações. Veja a listagem \ref{pocketsphinxEssential} para maiores detalhes.
+
+\lstinputlisting[
+  language=Bash,
+  caption={Remoção de arquivos supérfluos no pacote \textit{Pocketsphinx}},
+  label={pocketsphinxEssential}]
+  {listing/pocketsphinx-essential.sh}
+\end{enumerate}
+
+% ---------------------------------------------------------------------
+
+\section{Planejamento}
+
+% ---------------------------------------------------------------------
+
+\section{Implementação}
 
 % ---------------------------------------------------------------------
 
