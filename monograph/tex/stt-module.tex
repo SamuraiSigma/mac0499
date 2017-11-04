@@ -123,9 +123,47 @@ Por fim, um requisito desejável, mas a princípio não estritamente necessário
 
 \subsection{Requisitos funcionais}
 
+A princípio, desejamos que o reconhecimento de voz seja executado em paralelo com o restante do jogo. Isto é, gostaríamos que a execução não parasse totalmente até obter um comando por voz do usuário. Queremos, também, uma forma de verificar se o reconhecimento está ativo e de iniciá-lo/desligá-lo a qualquer momento.
+
+As palavras reconhecidas pelo módulo \textit{Speech to Text} não precisariam ser interpretadas imediatamente pelo jogo. Uma ideia mais flexível é guardá-las em um \textit{buffer} e deixar o próprio jogo lê-las em seu ritmo.
+
+% TODO: Update reference on Pocketsphinx keywords section below
+
+Como o vocabulário deve ser tipicamente pequeno, o reconhecimento por \emph{palavras-chaves} do \textit{Pocketsphinx} é bem mais viável do que por modelo de língua.
+
+A configurabilidade desejada nos requisitos não funcionais nos leva a precisar de uma interface para ajustar parâmetros e arquivos do reconhecimento de voz. Em particular, um usuário estaria interessado em configurar o modelo acústico, o dicionário e as palavras-chave.
+
 % ---------------------------------------------------------------------
 
 \section{Implementação}
+
+% ---------------------------------------------------------------------
+
+\subsection{Classe \textit{STTConfig}}
+
+% ---------------------------------------------------------------------
+
+\subsection{Classe \textit{STTRunner}}
+
+% ---------------------------------------------------------------------
+
+\subsection{Classe \textit{STTQueue}}
+
+% ---------------------------------------------------------------------
+
+\subsection{Classe \textit{STTError}}
+
+% ---------------------------------------------------------------------
+
+\subsection{Classe \textit{FileDirUtil}}
+
+% ---------------------------------------------------------------------
+
+\subsection{Registro de tipos}
+
+% ---------------------------------------------------------------------
+
+\subsection{\textit{Scripts} de configuração e compilação}
 
 % ---------------------------------------------------------------------
 
