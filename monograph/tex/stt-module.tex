@@ -5,7 +5,7 @@ Após adquirirmos conhecimento sobre a biblioteca \textit{Pocketsphinx} e a \tex
 
 Conforme descrito na seção \ref{godotLanguages}, a linguagem \textit{GDScript} é extremamente prática para programar estruturas em um jogo feito em \textit{Godot}. No entanto, às vezes deseja-se otimizar alguma parte crítica através de \textit{C++} ou adicionar uma nova funcionalidade inexistente em \textit{Godot}. Os módulos servem justamente para este objetivo, pois não fazem parte do código essencial da \textit{game engine}.
 
-Este capítulo documenta os passos e decisões de projeto tomados na criação do módulo, a qual chamaremos de \textit{Speech to Text}. Pressupomos que o leitor esteja familiarizado com as instruções para compilação de \textit{Godot}, vistas na seção \ref{godotCompile}.
+Este capítulo documenta os passos e decisões de projeto tomados na criação do módulo, a qual chamaremos de \textit{Speech to Text}. Pressupomos que o leitor esteja familiarizado com as instruções para compilação de \textit{Godot}, vistas na seção \ref{godotCompile}, e com a biblioteca \textit{Pocketsphinx} (capítulo \ref{cap:pocketsphinx}), que será usada para a realização do reconhecimento de voz.
 
 % ---------------------------------------------------------------------
 
@@ -86,6 +86,42 @@ $ mv pocketsphinx-5prealpha pocketsphinx
 % ---------------------------------------------------------------------
 
 \section{Planejamento}
+
+Quais os requisitos funcionais e não funcionais que queremos atender? O que um típico usuário do módulo \textit{Speech to Text} desejaria para poder usar em seu jogo? Todo projeto deve começar com algum planejamento mínimo de onde se quer chegar para obter algum sucesso.
+
+% ---------------------------------------------------------------------
+
+\subsection{Requisitos não funcionais}
+
+% TODO: Fix references
+
+Reconhecimento de voz em jogos geralmente é usado em um contexto de tempo real. Isto é, para uma dada fala do usuário, não desejamos que o jogo demore muito para dar alguma forma de resposta com o risco de comprometer seu aspecto lúdico. A preocupação é reduzida ao lembrarmos que \textit{Pocketsphinx} apresentou resultados rápidos nos testes realizados na seção \ref{???}.
+
+Portanto, em termos dos principais parâmetros de reconhecimento de voz definidos na seção \ref{sttMainTerms}, projetaremos o módulo com a questão de \textbf{eficiência} em mente:
+
+\begin{itemize}
+\item \textbf{Fluência}: Idealmente, a forma de comunicação poderia chegar até \emph{palavras conectadas}. Uma \textit{fala contínua} demandaria um processamento muito pesado e comprometedor para o jogo.
+
+\item \textbf{Dependência do usuário}: Um sistema \emph{independente} é mais flexível por atender a uma maior quantidade de pessoas sem a necessidade de um longo treinamento antes de começaram a jogar.
+
+\item \textbf{Vocabulário}: Deve ser tipicamente \emph{pequeno} (não mais do que 40 palavras). Um vocabulário muito grande aumentaria a velocidade de reconhecimento, que por sua vez afetaria a experiência do jogador.
+
+\item \textbf{Parâmetros ambientais}: Não é esperado que interfiram tanto no jogo. A relação sinal/ruído deve ser baixa, pois um ambiente muito barulhento comprometeria a jogabilidade. Por fim, desejamos que o usuário possa falar em um tom de voz normal, sem precisar ``forçar'' a pronúncia das palavras ou aumentar sem tom para o reconhecimento ser possível. Tais características são automaticamente tratadas pelo modelo acústico usado no \textit{Pocketsphinx}.
+\end{itemize}
+
+Desejamos que o módulo seja \textbf{confiável} em relação à acurácia do reconhecimento de voz. Conforme vimos na seção \ref{???}, isto dependerá dos modelos usados na configuração do \textit{Pocketsphinx}.
+
+\textbf{Configurabilidade} também é uma característica desejada: o usuário do módulo deverá ter controle sobre a língua do reconhecimento e o vocabulário reconhecido, por exemplo. \textit{Pocketsphinx} permite isso facilmente com a alteração de seus arquivos de configuração, incluindo o modelo acústico e as palavras-chave.
+
+O módulo deverá ser de \textbf{propósito geral} em relação ao tipo de jogo em que é empregado (ação, terror, plataforma, etc.); portanto, não é possível prever características do típico usuário do jogo. Este requisito, em geral, não é tão preocupante quando levamos em conta o uso de um modelo acústico geral com a biblioteca \textit{Pocketsphinx}.
+
+É importante que o módulo seja \textbf{tolerante a erros}, isto é, que comunique ao restante do sistema quando um problema ocorre dentro de si.
+
+Por fim, um requisito desejável, mas a princípio não estritamente necessário, é a  \textbf{portabilidade}. Apesar das classes internas de \textit{Godot} e a biblioteca \textit{Pocketsphinx} terem sido projetados para funcionarem em diversos sistemas operacionais, colocaremos plataformas \textit{Unix} como a meta principal. Suporte a outras plataformas poderá ser feito depois, dependendo da complexidade da implementação.
+
+% ---------------------------------------------------------------------
+
+\subsection{Requisitos funcionais}
 
 % ---------------------------------------------------------------------
 
