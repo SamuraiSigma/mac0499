@@ -7,6 +7,10 @@ Conforme descrito na seção \ref{godotLanguages}, a linguagem \mbox{\textit{GDS
 
 Este capítulo documenta os passos e decisões de projeto tomados na criação do módulo, a qual chamaremos de \textit{Speech to Text}. Pressupomos que o leitor esteja familiarizado com as instruções para compilação de \textit{Godot}, vistas na seção \ref{godotCompile}, e com a biblioteca \textit{Pocketsphinx} (capítulo \ref{cap:pocketsphinx}), que será usada para a realização do reconhecimento de voz.
 
+As instruções para criação do módulo foram baseadas no tutorial existente na documentação de \textit{Godot} \citep{godotModuleCreation}.
+
+Todas as instruções e comandos apresentados foram originalmente realizados no sistema \texttt{Ubuntu 16.04 LTS, 64-bit} do autor.
+
 % ---------------------------------------------------------------------
 
 \section{Primeiros passos}
@@ -168,6 +172,34 @@ A seguir, detalharemos cada classe presente na figura \ref{sttModuleClassDiagram
 
 \subsection{Classe \textit{STTConfig}}
 
+Como o nome sugere, \textit{STTConfig} é uma classe de configuração para a realização do reconhecimento de voz. Por possuir a característica de servir mais como um armazenamento de informação, decidimos fazer a classe herdar de \textit{Resource} (visto na seção \ref{godotResource}).
+
+\textit{STTConfig} possui duas funcionalidades principais:
+
+\subsubsection{Definir arquivos de configuração}
+
+Nomes de arquivos de configuração são tratados pelos \textit{getters} e \textit{setters} de \texttt{hmm\_dirname}, \texttt{dict\_filename} e \texttt{kws\_filename}, que correspondem, respectivamente, ao diretório do modelo acústico, o arquivo de dicionário e o arquivo de palavras-chaves.
+
+Verifica-se se os nomes passados como argumentos para os \textit{setters} correspondem a arquivos/diretórios existentes. No entanto, infelizmente não há como checar facilmente, em tempo de execução, se o arquivo/diretório possui erros de sintaxe. O diretório do modelo acústico, por exemplo, contém arquivos binários que, a princípio, parecem impossíveis de serem verificados. Optamos, portanto, pela filosofia de ``atirar primeiro, perguntar depois'' ao avisar posteriormente que houve problemas no uso dos arquivos.
+
+Por fim, resta um problema para tratarmos, resultante da distinção entre os sistemas de arquivo de \textit{Godot} (visto na seção \ref{godotFileSystem}) e \textit{Pocketsphinx}. Suponha que o desenvolvedor de um jogo tenha guardado seu arquivo de dicionário, o \texttt{dicionario.dict}, na raiz do projeto. Como referenciar este arquivo? \textit{Godot} utilizaria o caminho \texttt{res://dicionario.dict}, mas \textit{Pocketsphinx} não entende este prefixo, necessitando do caminho absoluto usado no sistema.
+
+Uma solução simples seria converter o caminho com \texttt{res://} para o caminho absoluto do sistema operacional; o método \texttt{???} da classe \textit{???} de \textit{Godot} faz justamente isso. No entanto, se o jogo estiver no formato de um binário fechado, é impossível referenciar qualquer arquivo dentro dele por meio da plataforma hospedeira.
+
+A solução final implementada envolve usar o outro prefixo definido pela \textit{game engine}, o \textbf{\texttt{user://}}. Copiam-se todos os arquivos e diretórios de configuração para este caminho e usa-se o método \texttt{get\_data\_dir()} da classe \textit{OS} para buscar seu equivalente na plataforma hospedeira. Por precaução, adotou-se a prática de sobrescrever arquivos e diretórios copiados previamente.
+
+\subsubsection{Inicializar variáveis do \textit{Pocketsphinx}}
+
+A inicialização de varíaveis usadas por \textit{Pocketsphinx} é feita através de \texttt{init()}. Os nomes do diretório do modelo acústico, do arquivo de dicionário e do arquivo de palavras-chave precisam ter sido definidos previamente com os apropriados \textit{setters}, ou o método retornará um número de erro.
+
+Deparamo-nos com outro problema de compatibilidade: os nomes dos arquivos são fornecidos com o tipo \texttt{String} adotado por \textit{Godot}. No entanto, \textit{Pocketsphinx} não conhece este tipo, utilizando o \texttt{char *} comumente encontrado em \textit{C} para receber estes mesmos nomes. Felizmente, \texttt{String} possui um método \texttt{c\_str()} para realizar a conversão.
+
+% TODO: Fix reference below
+
+O método \texttt{init()} irá inicializar as variáveis de configuração \texttt{cmd\_ln\_t}, de gravação de voz \texttt{ad\_rec\_t} e o decodificador \texttt{ps\_decoder\_t} (todos vistos na seção \ref{???}). Caso algum problema ocorra, retorna-se um número de erro, pertencente à classe \mbox{\textit{STTError}}, relativo ao problema ocorrido.
+
+A cópia de arquivos para o caminho \textit{user://}, mencionada anteriormente, também ocorre neste método.
+
 % ---------------------------------------------------------------------
 
 \subsection{Classe \textit{STTRunner}}
@@ -188,7 +220,9 @@ A seguir, detalharemos cada classe presente na figura \ref{sttModuleClassDiagram
 
 \section{Divulgação}
 
-Todo o código fonte do módulo \textit{Speech to Text} encontra-se no GitHub do autor \citep{sttModuleGitHub}. O repositório também disponibiliza binários dos editores \textit{Godot} e \textit{templates de exportação} já contendo o módulo \citep{sttModuleDownload}.
+Todo o código fonte do módulo \textit{Speech to Text} encontra-se em um repositório no GitHub do autor \citep{sttModuleGitHub}. Também foram disponibilizados binários dos editores \textit{Godot} e \textit{templates de exportação}, ambos compilados previamente com o módulo \citep{sttModuleDownload}.
+
+% TODO: Recomendar baixar e compilar Godot com o módulo
 
 \textit{Speech to Text} foi divulgado em dois fóruns de \textit{Godot}, onde obteve algumas poucas aprovações:
 
