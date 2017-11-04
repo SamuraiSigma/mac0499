@@ -3,7 +3,7 @@
 
 Após adquirirmos conhecimento sobre a biblioteca \textit{Pocketsphinx} e a \textit{game engine} \textit{Godot}, chegou o momento de construirmos o módulo de reconhecimento de voz.
 
-Conforme descrito na seção \ref{godotLanguages}, a linguagem \textit{GDScript} é extremamente prática para programar estruturas em um jogo feito em \textit{Godot}. No entanto, às vezes deseja-se otimizar alguma parte crítica através de \textit{C++} ou adicionar uma nova funcionalidade inexistente em \textit{Godot}. Os módulos servem justamente para este objetivo, pois não fazem parte do código essencial da \textit{game engine}.
+Conforme descrito na seção \ref{godotLanguages}, a linguagem \mbox{\textit{GDScript}} é extremamente prática para programar estruturas em um jogo feito em \textit{Godot}. No entanto, às vezes deseja-se otimizar alguma parte crítica através de \textit{C++} ou adicionar uma nova funcionalidade inexistente em \textit{Godot}. Os módulos servem justamente para este objetivo, pois não fazem parte do código essencial da \textit{game engine}.
 
 Este capítulo documenta os passos e decisões de projeto tomados na criação do módulo, a qual chamaremos de \textit{Speech to Text}. Pressupomos que o leitor esteja familiarizado com as instruções para compilação de \textit{Godot}, vistas na seção \ref{godotCompile}, e com a biblioteca \textit{Pocketsphinx} (capítulo \ref{cap:pocketsphinx}), que será usada para a realização do reconhecimento de voz.
 
@@ -137,6 +137,33 @@ A configurabilidade desejada nos requisitos não funcionais nos leva a precisar 
 
 \section{Implementação}
 
+Apresentamos, na figura \ref{sttModuleClassDiagram}, um diagrama de classes do módulo \textit{Speech to Text}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{image/stt-module.pdf}
+  \caption{Diagrama de classes do módulo \textit{Speech to text}}
+  \label{sttModuleClassDiagram}
+\end{figure}
+
+Omitimos alguns métodos privados e os construtores/destrutores para simplificar o diagrama. \textit{Godot}, inclusive, não permite que construtores e destrutores possuam argumentos como uma forma de padronizar o instanciamento e liberação de objetos.
+
+Os tipos \texttt{String} e \texttt{Vector} usados não são os da STL (\textit{Standard Template Library}) de \textit{C++}, mas sim implementações próprias de \textit{Godot} para essas estruturas.
+
+Quase todas as classes implementadas, exceto \textit{FileDirUtil}, possuem um método \texttt{\_bind\_methods()}. Este método, padronizado em classes da \textit{game engine}, é usado para ligar nomes a constantes ou referências de métodos, permitindo seu uso em \mbox{\textit{GDScript}}; todas as ligações são guardadas numa grande classe \textit{singleton} denominada \textit{ObjectTypeDB}. A listagem \ref{configBindMethods} exemplifica a adição de uma linha no método \texttt{\_bind\_methods()} de \textit{STTConfig} para ser possível usar o método \texttt{init()} desta mesma classe em \mbox{\textit{GDScript}}.
+
+\begin{lstlisting}[
+  language=C++,
+  label=configBindMethods,
+  caption={Adicionando o método \texttt{init()} de \textit{STTConfig} para uso em \mbox{\textit{GDScript}}}
+]
+void STTConfig::_bind_methods() {
+    ObjectTypeDB::bind_method("init", &STTConfig::init);
+}
+\end{lstlisting}
+
+A seguir, detalharemos cada classe presente na figura \ref{sttModuleClassDiagram}.
+
 % ---------------------------------------------------------------------
 
 \subsection{Classe \textit{STTConfig}}
@@ -156,14 +183,6 @@ A configurabilidade desejada nos requisitos não funcionais nos leva a precisar 
 % ---------------------------------------------------------------------
 
 \subsection{Classe \textit{FileDirUtil}}
-
-% ---------------------------------------------------------------------
-
-\subsection{Registro de tipos}
-
-% ---------------------------------------------------------------------
-
-\subsection{\textit{Scripts} de configuração e compilação}
 
 % ---------------------------------------------------------------------
 

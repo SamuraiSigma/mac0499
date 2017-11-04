@@ -24,7 +24,7 @@ O desenvolvimento de \textit{Godot} começou em 2007, através de Juan Linietsky
 
 Um usuário da \textit{game engine}, no entanto, raramente interage diretamente com \textit{C++}. Ao invés disso, usa-se uma interface gráfica, na forma de um editor, com várias facilidades para a criação de jogos. Para programação, \textit{Godot} disponibiliza uma linguagem de \textit{script} nativa chamada \mbox{\textbf{\textit{GDScript}}}.
 
-\textit{GDScript} possui uma sintaxe extremamente simples, parecida com \textit{Python}, e foi projetada para usufruir da arquitetura da \textit{game engine}. O usuário pode programar classes, estruturas e partes de seu jogo com maior facilidade, utilizando as ferramentas oferecidas pelo software sem precisar se preocupar com detalhes internos de implementação \citep{godotGDScript}. Em outras palavras, \mbox{\textit{GDScript}} age como uma ``linguagem intermediária'' entre o usuário e as interfaces em \textit{C++} que \textit{Godot} disponibiliza.
+\mbox{\textit{GDScript}} possui uma sintaxe extremamente simples, parecida com \textit{Python}, e foi projetada para usufruir da arquitetura da \textit{game engine}. O usuário pode programar classes, estruturas e partes de seu jogo com maior facilidade, utilizando as ferramentas oferecidas pelo software sem precisar se preocupar com detalhes internos de implementação \citep{godotGDScript}. Em outras palavras, \mbox{\textit{GDScript}} age como uma ``linguagem intermediária'' entre o usuário e as interfaces em \textit{C++} que \textit{Godot} disponibiliza.
 
 % ---------------------------------------------------------------------
 
@@ -135,6 +135,7 @@ Exemplificamos, na figura \ref{nodeResource}, alguns \textit{nodes} que tipicame
 % ---------------------------------------------------------------------
 
 \subsection{Sistema de arquivos}
+\label{godotFileSystem}
 
 Devido ao suporte a diferentes sistemas operacionais, \textit{Godot} viu uma necessidade de criar um padrão interno para gerenciar arquivos em seus projetos (isto é, jogos). Duas convenções foram tomadas \citep{godotFileSystem}:
 
