@@ -142,20 +142,25 @@ A configurabilidade desejada nos requisitos não funcionais nos leva a precisar 
 
 \section{Implementação}
 
-Apresentamos, na figura \ref{sttModuleClassDiagram}, um diagrama de classes do módulo \textit{Speech to Text}.
+Apresentamos, na figura \ref{sttModuleClassDiagram}, um diagrama de classes simplificado do módulo \textit{Speech to Text}. Os atributos e métodos de cada classe serão indicados nas próximas subseções.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{image/stt-module.pdf}
-  \caption{Diagrama de classes do módulo \textit{Speech to text}}
+  \includegraphics[width=\textwidth]{image/stt-module-simple.pdf}
+  \caption{Diagrama de classes \textit{simplificado} do módulo \textit{Speech to text}}
   \label{sttModuleClassDiagram}
 \end{figure}
 
-Omitimos alguns métodos privados e os construtores/destrutores para simplificar o diagrama. \textit{Godot}, inclusive, não permite que construtores e destrutores possuam argumentos como uma forma de padronizar o instanciamento e liberação de objetos.
+Antes de nos aprofundarmos na arquitetura do módulo, algumas observações gerais devem ser feitas:
 
-Os tipos \texttt{String} e \texttt{Vector} usados não são os da STL (\textit{Standard Template Library}) de \textit{C++}, mas sim implementações próprias de \textit{Godot} para essas estruturas.
+\begin{itemize}
+\item \textit{Godot} não permite que construtores e destrutores possuam argumentos como uma forma de padronizar o instanciamento e liberação de objetos. A restrição aos construtores, no entanto, pode ser contornada através de \textit{setters} para atributos desejados.
 
-Quase todas as classes implementadas, exceto \textit{FileDirUtil}, possuem um método \texttt{\_bind\_methods()}. Este método, padronizado em classes da \textit{game engine}, é usado para ligar nomes a constantes ou referências de métodos, permitindo seu uso em \mbox{\textit{GDScript}}; todas as ligações são guardadas numa grande classe \textit{singleton} denominada \textit{ObjectTypeDB}. A listagem \ref{configBindMethods} exemplifica a adição de uma linha no método \texttt{\_bind\_methods()} de \textit{STTConfig} para ser possível usar o método \texttt{init()} desta mesma classe em \mbox{\textit{GDScript}}.
+\item A \textit{game engine} oferece implementações próprias de alguns tipos e estruturas de dados. Destacamos \texttt{String} para cadeias de caracteres e \texttt{Vector} como um vetor de uso geral, podendo representar uma fila, pilha, etc.
+
+\item O uso de duas classes \textit{singleton} no módulo parece exagero. A justificativa é que \textit{Godot} proíbe a exportação de classes que não podem ser instanciadas (em outras palavras, classes que só possuem métodos estáticos) para uso em \mbox{\textit{GDScript}}. Recomenda-se, portanto, esta outra abordagem para contornar tal limitação \citep{godotStaticClasses}.
+
+\item Quase todas as classes implementadas, exceto \textit{FileDirUtil}, possuem um método especial chamado \texttt{\_bind\_methods()}. Esta função, de nome predefinido por \textit{Godot}, é usada para ligar nomes a constantes ou referências de métodos, permitindo seu uso em \mbox{\textit{GDScript}}. Todas as ligações são guardadas numa grande classe \textit{singleton} denominada \textit{ObjectTypeDB}. A listagem \ref{configBindMethods} exemplifica a adição de uma linha no método \texttt{\_bind\_methods()} de \textit{STTConfig} para ser possível usar o método \texttt{init()} desta mesma classe em \mbox{\textit{GDScript}}.
 
 \begin{lstlisting}[
   language=C++,
@@ -166,8 +171,7 @@ void STTConfig::_bind_methods() {
     ObjectTypeDB::bind_method("init", &STTConfig::init);
 }
 \end{lstlisting}
-
-A seguir, detalharemos cada classe presente na figura \ref{sttModuleClassDiagram}.
+\end{itemize}
 
 % ---------------------------------------------------------------------
 
