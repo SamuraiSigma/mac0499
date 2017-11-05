@@ -218,6 +218,8 @@ A cópia de arquivos para o caminho \textit{user://}, mencionada anteriormente, 
 
 \subsection{Classe \textit{STTRunner}}
 
+\textit{STTRunner} é a classe responsável por realizar o reconhecimento de voz em si. Por claramente implementar uma \textbf{funcionalidade} a ser usada pelo usuário do editor \textit{Godot}, decidiu-se que uma herança de \textit{Node} (visto na seção \ref{godotNode}) seria bastante apropriada.
+
 A figura \ref{stt-runner} apresenta os atributos, métodos e relacionamentos da classe \textit{STTRunner}. O construtor e destrutor foram omitidos por simplicidade.
 
 \begin{figure}[H]
@@ -227,9 +229,21 @@ A figura \ref{stt-runner} apresenta os atributos, métodos e relacionamentos da 
   \label{stt-runner}
 \end{figure}
 
+Comentamos, nos requisitos funcionais (seção \ref{moduleFunctionalRequirements}), que o reconhecimento deveria ocorrer em paralelo com o restante do jogo. O uso de uma \textit{thread} serve bem para tal propósito; \textit{Godot}, inclusive, oferece uma implementação própria dessa estrutura em sua classe \textit{Thread}. Os dois métodos mais importantes que usaremos dela são:
+
+\begin{itemize}
+\item \texttt{Thread * create(função, argumento, configurações)}: Cria uma \textit{thread} para executar uma função \texttt{f(void *arg)}. O parâmetro \textit{função} corresponde ao nome de \texttt{f} e \textit{argumento}, a \texttt{arg}. Opcionalmente, podem ser passadas configurações adicionais como um terceiro parâmetro, mas não entraremos em detalhes por não terem sido necessárias. Retorna-se um ponteiro para a instância de \textit{Thread} criada.
+
+\item \texttt{void wait\_to\_finish(thread)}: Recebe um ponteiro para uma instância de \textit{Thread}. Espera a \textit{thread} terminar, finalizando-a com segurança.
+\end{itemize}
+
 % ---------------------------------------------------------------------
 
 \subsection{Classe \textit{STTQueue}}
+
+\textit{STTQueue} implementa um \textit{buffer} para guardar palavras geradas no reconhecimento de voz, conforme planejado nos requisitos funcionais (seção \ref{moduleFunctionalRequirements}). Fizemos que com herdasse da classe \textit{Reference} (visto na seção \ref{godotReference}) com o intuito de simplificar seu gerenciamento de memória.
+
+É usado por \textit{STTRunner} para guardar termos do reconhecimento de voz. Ao mesmo tempo, o usuário do módulo pode retirar estes termos do módulo e usá-los no jogo.
 
 A figura \ref{stt-queue} apresenta os atributos, métodos e relacionamentos da classe \textit{STTQueue}. O construtor e destrutor foram omitidos por simplicidade.
 
@@ -239,6 +253,33 @@ A figura \ref{stt-queue} apresenta os atributos, métodos e relacionamentos da c
   \caption{Atributos, métodos e relacionamentos da classe \textit{STTQueue}}
   \label{stt-queue}
 \end{figure}
+
+Conforme o nome sugere, o tipo abstrato de dados usado para o \textit{buffer} da \textit{STTQueue} é uma \textbf{fila}. \textit{Godot} implementa esta estrutura, com diversas funcionalidade a mais, em sua classe \textit{Vector}. Como muitas de seus métodos seriam desnecessários (não é necessário, por exemplo, que o usuário possa ordenar a fila de reconhecimento de voz), \textit{STTQueue} age como um intermédio do que pode e não pode ser feito em \textit{Vector}.
+
+Os principais métodos de \textit{STTQueue} estão resumidos na tabela \ref{stt-queue-main-methods}.
+
+\begin{table}[H]
+\centering
+
+\begin{tabular}{|c|l|}
+\hline
+\textbf{Método}  & \thead{\textbf{Descrição}}                          \\ \hline
+\texttt{get()}   & Retira e retorna a primeira \texttt{String} da fila \\ \hline
+\texttt{add()}   & Adiciona uma \texttt{String} no final da fila       \\ \hline
+\texttt{size()}  & Retorna o número de elementos atualmente na fila    \\ \hline
+\texttt{empty()} & Retorna \texttt{true} se a fila estiver vazia       \\ \hline
+\texttt{clear()} & Esvazia a fila, removendo todos os seus elementos   \\ \hline
+\end{tabular}
+
+\caption{Principais métodos de \textit{STTQueue}}
+\label{stt-queue-main-methods}
+\end{table}
+
+O leitor pode se perguntar se não ocorre condição de corrida no acesso à fila: há risco de se perder algum dado quando \textit{STTRunner} realiza um \texttt{add()} ao mesmo tempo em que o usuário utiliza \texttt{get()}, por exemplo? Felizmente, a implementação de \texttt{Vector} é \textit{thread-safe}, garantindo que esses problemas não ocorram.
+
+Uma decisão deveria ser tomada quanto a um caso particular de \texttt{get()}: o que fazer quando o método fosse chamado com uma fila vazia? Nesta situação, decidiu-se retornar uma \texttt{String} vazia (\texttt{``''}) e simultaneamente imprimir uma mensagem de \textit{warning} devido ao uso impróprio. Recomenda-se, portanto, verificar o tamanho da fila com \texttt{empty()} antes do uso de \texttt{get()}.
+
+Além dos métodos da tabela \ref{stt-queue-main-methods}, há mais dois que foram criados para definir um limite superior para o número de elementos na fila. Este valor pode ser lido e alterado por \texttt{get\_capacity()} e \texttt{set\_capacity()}, respectivamente. O usuário, teoricamente, não deveria permitir um acúmulo muito grande de palavras na fila, mas se tal caso ocorrer, ao menos o consumo de memória fica controlado.
 
 % ---------------------------------------------------------------------
 
