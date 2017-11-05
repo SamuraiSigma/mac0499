@@ -430,9 +430,49 @@ Em nosso caso, basta liberar o \textit{singleton} de \textit{STTError} alocado p
 
 \subsection{\texttt{SCsub}}
 
+Já vimos que \textit{SCons} é a ferramenta usada na compilação de \textit{Godot} (seção \ref{scons}), utilizando-se de \textit{scripts} escritos em \textit{Python} para definir seu comportamento. Com módulos não é diferente, necessitando-se de um \textit{script} de nome \texttt{SCsub}.
+
+A implementação deste script envolve listar quais os arquivos a serem compilados e quais \textit{flags} o compilador deve usar.
+
+Percebemos que uma compilação em \textit{Windows} era possível devido à facilidade da ferramenta; bastou adicionar um arquivo próprio de \textit{Pocketsphinx} (\texttt{ad\_win32.c}) que opera especificamente sobre este sistema operacional.
+
 % ---------------------------------------------------------------------
 
 \subsection{\texttt{config.py}}
+
+A última configuração necessária é dada pelo \textit{script} em \textit{Python} \texttt{config.py}. Ele possui duas funções com propósitos diferentes:
+
+\subsubsection{\texttt{can\_build(platform)}}
+
+Esta função recebe o nome da plataforma em que \textit{Godot} está sendo compilado. Retorna-se \texttt{True} se o módulo pode ser compilado nela ou \texttt{False} caso contrário.
+
+A listagem \ref{can-build} apresenta a implementação da função.
+
+\begin{lstlisting}[
+  language=Python,
+  numbers=left,
+  label=can-build,
+  caption={Função \texttt{can\_build()} em \texttt{config.py}}]
+import os
+
+def can_build(platform):
+   if platform == "x11":
+      has_pulse = os.system("pkg-config --exists libpulse-simple") == 0
+      has_alsa = os.system("pkg-config --exists alsa") == 0
+      return has_pulse or has_alsa
+   elif platform == "windows":
+      return True
+   else:
+      return False
+\end{lstlisting}
+
+Em nosso caso, \textit{Speech to Text} deve verificar se a plataforma \textit{Unix} (referida como \textit{x11}) possui sistema de som \textit{PulseAudio} \citep{pulseaudio} ou \textit{ALSA} \citep{alsa}, pois ambos são compatíveis tanto com \textit{Godot} quanto com \textit{Pocketsphinx}. Sistemas \textit{Windows} são, teoricamente, sempre compatíveis devido a um arquivo de \textit{Pocketsphinx} que trata seu sistema de som. Outros sistemas operacionais não foram testados, então preferiu-se retornar \texttt{False}.
+
+\subsubsection{\texttt{configure(env)}}
+
+Recebe um objeto caracterizando o ambiente de compilação, podendo realizar ajustes nele independentemente dos arquivos existentes no módulo.
+
+Nenhuma mudança foi necessária em \textit{Speech to Text}, o que levou a implementação desta função a ficar vazia.
 
 % ---------------------------------------------------------------------
 
