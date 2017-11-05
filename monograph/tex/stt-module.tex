@@ -108,9 +108,9 @@ Portanto, em termos dos principais parâmetros de reconhecimento de voz definido
 
 \item \textbf{Dependência do usuário}: Um sistema \emph{independente} é mais flexível por atender a uma maior quantidade de pessoas sem a necessidade de um longo treinamento antes de começaram a jogar.
 
-\item \textbf{Vocabulário}: Deve ser tipicamente \emph{pequeno} (não mais do que 40 palavras). Um vocabulário muito grande aumentaria a velocidade de reconhecimento, que por sua vez afetaria a experiência do jogador.
+\item \textbf{Vocabulário}: Deve ser tipicamente \emph{pequeno} (não mais do que 40 palavras). Um vocabulário muito grande aumentaria o tempo de reconhecimento de voz, o que por sua vez afetaria a experiência do jogador.
 
-\item \textbf{Parâmetros ambientais}: Não é esperado que interfiram tanto no jogo. A relação sinal/ruído deve ser baixa, pois um ambiente muito barulhento comprometeria a jogabilidade. Por fim, desejamos que o usuário possa falar em um tom de voz normal, sem precisar ``forçar'' a pronúncia das palavras ou aumentar sem tom para o reconhecimento ser possível. Tais características são automaticamente tratadas pelo modelo acústico usado no \textit{Pocketsphinx}.
+\item \textbf{Parâmetros ambientais}: Não é esperado que interfiram tanto no jogo. A relação sinal/ruído deve ser baixa, pois um ambiente muito barulhento comprometeria a jogabilidade. Por fim, desejamos que o usuário possa falar em um tom de voz normal, sem precisar ``forçar'' a pronúncia das palavras ou aumentar o volume de sua fala para o reconhecimento ser possível. Tais características são automaticamente tratadas pelo modelo acústico usado no \textit{Pocketsphinx}.
 \end{itemize}
 
 Desejamos que o módulo seja \textbf{confiável} em relação à acurácia do reconhecimento de voz. Conforme vimos na seção \ref{???}, isto dependerá dos modelos usados na configuração do \textit{Pocketsphinx}.
@@ -232,10 +232,10 @@ A figura \ref{stt-runner-diagram} apresenta os atributos, métodos e relacioname
 
 A classe usa um objeto \textit{STTConfig} para obter as variáveis \textit{Pocketsphinx} necessárias em sua tarefa, e um objeto \textit{STTQueue} para guardar termos (palavras ou pequenas frases) gerados no reconhecimento de voz. Ambos podem ser obtidos e definidos através dos \textit{getters} e \textit{setters} para \texttt{config} e \texttt{queue}.
 
-Comentamos, nos requisitos funcionais (seção \ref{moduleFunctionalRequirements}), que o reconhecimento deveria ocorrer em paralelo com o restante do jogo. O uso de uma \textit{thread} serve bem para tal propósito; \textit{Godot}, inclusive, oferece uma implementação própria dessa estrutura em sua classe \textit{Thread}. Os dois métodos mais importantes que usaremos dela são:
+Comentamos, nos requisitos funcionais (seção \ref{moduleFunctionalRequirements}), que o reconhecimento deveria ocorrer em paralelo com o restante do jogo. O uso de uma \textit{thread} serve bem para tal propósito; \textit{Godot}, inclusive, oferece uma implementação própria dessa estrutura em sua classe \textit{Thread}. Seus dois métodos de maior importância para nós são:
 
 \begin{itemize}
-\item \texttt{Thread * create(função, argumento, configurações)}: Cria uma \textit{thread} para executar uma função \texttt{f(void *arg)}. O parâmetro \textit{função} corresponde ao nome de \texttt{f} e \textit{argumento}, a \texttt{arg}. Opcionalmente, podem ser passadas configurações adicionais como um terceiro parâmetro, mas não entraremos em detalhes por não terem sido necessárias. Retorna-se um ponteiro para a instância de \textit{Thread} criada.
+\item \texttt{Thread * create(função, argumento, configurações)}: Cria uma \textit{thread} para executar uma função de assinatura \texttt{func(void *arg)}. O parâmetro \textbf{função} corresponde ao nome da função (neste caso, \texttt{func}) e \textbf{argumento}, a \texttt{arg}. Opcionalmente, podem ser passadas configurações adicionais como um terceiro parâmetro, mas não entraremos em detalhes por não terem sido necessárias. Retorna-se um ponteiro para a instância de \textit{Thread} criada.
 
 \item \texttt{void wait\_to\_finish(thread)}: Recebe um ponteiro para uma instância de \textit{Thread}. Espera a \textit{thread} terminar, finalizando-a com segurança.
 \end{itemize}
@@ -256,7 +256,7 @@ void STTRunner::_thread_recognize(void *runner) {
 
 Para controle sobre a \textit{thread}, o usuário do módulo pode verificar sua execução com \texttt{running()} e ordenar sua parada imediata com \texttt{stop()}. Definiu-se que apenas uma \textit{thread} pode existir por instância de \textit{STTRunner}, pois o controle de várias operações em paralelo não traria nenhum benefício ao módulo.
 
-Por fim, oferece-se controle sobre o tamanho do \textit{buffer} de gravação de voz através do \textit{getter} e \textit{setter} de \texttt{buffer\_size}. É importante ressaltar que o uso de um \textit{setter} demanda a parada imediata da \textit{thread} de reconhecimento para evitar possíveis problemas de acesso antes e depois da alteração (condição de corrida).
+Por fim, oferece-se controle sobre o tamanho do \textit{buffer} de gravação de voz através do \textit{getter} e \textit{setter} de \texttt{buffer\_size}. É importante ressaltar que o uso de um \textit{setter} demanda a parada imediata da \textit{thread} de reconhecimento para evitar possíveis problemas de acesso antes e depois da alteração (\textit{race condition}, ou condição de corrida).
 
 % ---------------------------------------------------------------------
 
@@ -335,7 +335,7 @@ A tabela \ref{stt-error-enum} contém os valores definidos no \texttt{enum Error
 \texttt{USER\_DIR\_COPY\_ERR} & Erro ao copiar arquivos de configuração para \texttt{user://} \\ \hline
 \texttt{MULTIBYTE\_STR\_ERR} & Erro ao converter o nome do arquivo para uma sequência de vários bytes \\ \hline
 \texttt{MEM\_ALLOC\_ERR} & Não há memória disponível para alocação \\ \hline
-\texttt{CONFIG\_CREATE\_ERR} & Erro criar a variável de configuração de \textit{Pocketsphinx} \\ \hline
+\texttt{CONFIG\_CREATE\_ERR} & Erro ao criar a variável de configuração de \textit{Pocketsphinx} \\ \hline
 \texttt{REC\_CREATE\_ERR} & Erro ao se conectar o aparelho de áudio (microfone) \\ \hline
 \texttt{DECODER\_CREATE\_ERR} & Erro ao criar a variável de decodificação de \textit{Sphinxbase} \\ \hline
 \texttt{REC\_START\_ERR} & Erro ao começar a gravar a voz do usuário \\ \hline
@@ -469,7 +469,15 @@ Em nosso caso, \textit{Speech to Text} deve verificar se a plataforma \textit{Un
 
 Recebe um objeto caracterizando o ambiente de compilação, podendo realizar ajustes nele independentemente dos arquivos existentes no módulo.
 
-Nenhuma mudança foi necessária em \textit{Speech to Text}, o que levou a implementação desta função a ficar vazia.
+Nenhuma mudança foi necessária em \textit{Speech to Text}, o que levou esta função a ficar sem conteúdo (listagem \ref{configure}).
+
+\begin{lstlisting}[
+  language=Python,
+  label=configure,
+  caption={Função \texttt{configure()} em \texttt{config.py}}]
+def configure(env):
+   pass
+\end{lstlisting}
 
 % ---------------------------------------------------------------------
 
