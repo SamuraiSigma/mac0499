@@ -3,21 +3,38 @@
 
 Dado que o módulo \textit{Speech to Text} está agora pronto, desenvolveremos um pequeno jogo com ele através do editor \textit{Godot} para demonstrar seu uso e analisar a qualidade do reconhecimento de voz na prática.
 
-Ao longo deste capítulo, relatamos os passos realizados na criação do jogo \textit{Color Clutter}. Para melhor aproveitamento, o leitor precisará do editor \textit{Godot}, na versão 2.1.4, com o módulo instalado. A seção \ref{modulePublishing} indica \textit{links} para baixar uma versão já pronta ou para instruções em como compilar \textit{Speech to Text} com a \textit{game engine}.
+Ao longo deste capítulo, relatamos os passos realizados na criação do jogo \textit{Color Clutter}. Para melhor aproveitamento, o leitor precisará do editor \textit{Godot}, na versão 2.1.4, com o módulo instalado. Mencionamos, na seção \ref{modulePublishing}, alguns \textit{links} para baixar uma versão já pronta e para obter instruções de como compilar \textit{Speech to Text} com a \textit{game engine}.
 
 % ---------------------------------------------------------------------
 
 \section{Planejamento}
 
-Além da escrita de código, jogos costumam usar diversos materiais, ou \emph{assets}, entre eles modelos gráficos, música, sons, fontes e texturas. A criação destes demanda bastante tempo e em geral exige uma equipe diversificada e qualificada. Portanto, gostaríamos de produzir um jogo que utilize poucos \textit{assets}; buscaremos quaisquer materiais necessários em páginas Web que os disponibilizem para uso grátis e sem licença.
+Além da escrita de código, jogos costumam usar diversos materiais, ou \emph{assets}, como modelos gráficos, música, sons, fontes e texturas. A criação destes demanda bastante tempo e em geral exige uma equipe diversificada e qualificada. Portanto, gostaríamos de produzir um jogo que utilize poucos \textit{assets}; buscaremos quaisquer materiais necessários em páginas Web que os disponibilizem para uso grátis e sem licença.
 
 Quanto à jogabilidade, desejamos colocar ênfase na funcionalidade de reconhecimento de voz; este é o objetivo em sua criação, afinal. O uso de alguns poucos comandos orais em um jogo curto é o ideal para deixar as regras simples, mas com interação razoável com o usuário.
+
+Por fim, definiremos que o jogo e reconhecimento de voz usarão \textbf{inglês}, pois sabemos que um modelo acústico e arquivo de dicionário para \textit{Pocketsphinx} existem e são de uso livre para esta língua.
 
 Com estas características em mente, planejamos o jogo \textbf{\emph{Color Clutter}}.
 
 % ---------------------------------------------------------------------
 
 \subsection{Descrição de \textit{Color Clutter}}
+
+Conforme o nome sugere, \textit{Color Clutter} é um jogo cuja temática envolve uma ``confusão'' entre cores.
+
+Uma típica tela do jogo consiste em um fundo totalmente preenchido com alguma cor \(X\). Em alguma posição da tela, uma outra cor \(Y\) aparece escrita em um tom \(Z\). O objetivo do usuário é falar a cor correta (\(X\), \(Y\) ou \(Z\)), de acordo com o que é solicitado em uma legenda apresentada na tela.
+
+Para acrescentar um aspecto competitivo e tornar \textit{Color Clutter} mais lúdico, o jogo será no formato de rodadas, onde marcaremos quantos acertos o usuário consegue em 1 minuto. Cada resposta correta altera aleatoriamente as cores e a posição da palavra na tela; não há penalidade para uma resposta errada, exceto a perda de tempo acarretada pela mesma.
+
+A figura \ref{color-clutter-screen} apresenta a tela do jogo durante uma rodada. O canto superior esquerdo informa qual cor deve ser pronunciada, enquanto o canto superior direito exibem o tempo restante e o \textit{score} (pontuação) atual do jogador. Na situação apresentada, o usuário precisaria falar a cor correspondente ao \textit{background} (fundo): \textbf{\textit{blue}}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\textwidth]{image/color-clutter-screen}
+  \caption{Tela do jogo \textit{Color Clutter} durante uma rodada}
+  \label{color-clutter-screen}
+\end{figure}
 
 % ---------------------------------------------------------------------
 
