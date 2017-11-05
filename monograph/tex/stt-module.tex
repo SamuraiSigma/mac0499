@@ -285,6 +285,8 @@ Além dos métodos da tabela \ref{stt-queue-main-methods}, há mais dois que for
 
 \subsection{Classe \textit{STTError}}
 
+\textit{STTError} define constantes numéricas para possíveis erros que podem ocorrer no módulo (mais especificamente, em \textit{STTConfig} e \textit{STTRunner}). A utilidade da classe, portanto, está em ajudar o usuário a entender melhor a causa de um erro que possa vir a ocorrer no módulo.
+
 A figura \ref{stt-error} apresenta os atributos, métodos e relacionamentos da classe \textit{STTError}. O construtor e destrutor foram omitidos por simplicidade.
 
 \begin{figure}[H]
@@ -293,6 +295,38 @@ A figura \ref{stt-error} apresenta os atributos, métodos e relacionamentos da c
   \caption{Atributos, métodos e relacionamentos da classe \textit{STTError}}
   \label{stt-error}
 \end{figure}
+
+Alguns métodos de \textit{STTConfig} e \textit{STTRunner} retornam um número definido pelo \texttt{enum Error}. Uma \texttt{String} contendo a interpretação deste valor pode ser obtida chamando-se o método \texttt{get\_error\_string} da classe.
+
+A tabela \ref{stt-error-enum} contém os valores definidos no \texttt{enum Error}, bem como suas respectivas interpretações.
+
+\begin{table}[H]
+\centering
+
+\begin{tabularx}{\linewidth}{|l|X|}
+\hline
+\thead{\textbf{Erro}} & \thead{\textbf{Interpretação}} \\ \hline
+\texttt{OK} & Nenhum erro ocorreu \\ \hline
+\texttt{UNDEF\_FILES\_ERR} & Um ou mais nomes de arquivos/diretórios de configuração não foram definidos \\ \hline
+\texttt{UNDEF\_CONFIG\_ERR} & Um objeto \texttt{STTConfig} não foi definido \\ \hline
+\texttt{UNDER\_QUEUE\_ERR} & Um objeto \texttt{STTQueue} não foi definido \\ \hline
+\texttt{USER\_DIR\_MAKE\_ERR} & Erro ao criar o diretório STT em \texttt{user://} \\ \hline
+\texttt{USER\_DIR\_COPY\_ERR} & Erro ao copiar arquivos de configuração para \texttt{user://} \\ \hline
+\texttt{MULTIBYTE\_STR\_ERR} & Erro ao converter o nome do arquivo para uma sequência de vários bytes \\ \hline
+\texttt{MEM\_ALLOC\_ERR} & Não há memória disponível para alocação \\ \hline
+\texttt{CONFIG\_CREATE\_ERR} & Erro criar a variável de configuração de \textit{Pocketsphinx} \\ \hline
+\texttt{REC\_CREATE\_ERR} & Erro ao se conectar o aparelho de áudio (microfone) \\ \hline
+\texttt{DECODER\_CREATE\_ERR} & Erro ao criar a variável de decodificação de \textit{Sphinxbase} \\ \hline
+\texttt{REC\_START\_ERR} & Erro ao começar a gravar a voz do usuário \\ \hline
+\texttt{REC\_STOP\_ERR} & Não foi possível parar a gravação da voz do usuário \\ \hline
+\texttt{UTT\_START\_ERR} & Erro ao iniciar a captura de \textit{utterance} durante o reconhecimento de voz \\ \hline
+\texttt{UTT\_RESTART\_ERR} & Erro ao reiniciar a captura de \textit{utterance} durante o reconhecimento de voz \\ \hline
+\texttt{AUDIO\_READ\_ERR} & Erro ao ler dados da gravação de áudio \\ \hline
+\end{tabularx}
+
+\caption{Valores de erro definidos em \texttt{enum Error} e suas interpretações}
+\label{stt-error-enum}
+\end{table}
 
 % ---------------------------------------------------------------------
 
