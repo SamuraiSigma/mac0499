@@ -372,9 +372,59 @@ Vimos que \textit{STTConfig} necessita copiar os arquivos de configuração para
 
 \section{Arquivos e \textit{scripts} de configuração}
 
+Com a implementação feita, faltam apenas alguns arquivos e \textit{scripts} que informam a existência das classes a \textit{Godot}, bem como a forma de compilar o código fonte do módulo.
+
 % ---------------------------------------------------------------------
 
-\subsection{\texttt{register\_types}}
+\subsection{Registro de tipos}
+
+\textit{Godot} exige dois arquivos adicionais, \texttt{register\_types.h} e \texttt{register\_types.cpp}, para controlar quais classes do módulo poderão ser usadas em \mbox{\textit{GDScript}}. Duas funções obrigatoriamente devem ser implementadas, com o nome do módulo no meio de seu nome:
+
+\subsubsection{\texttt{register\_speech\_to\_text\_types()}}
+
+Serve para registrar classes no banco de dados \textit{ObjectTypeDB}. A implementação desta função no módulo \textit{Speech to Text} é apresentada na listagem \ref{register-types}.
+
+\begin{lstlisting}[
+  language=C++,
+  numbers=left,
+  label=register-types,
+  caption={Implementação de \texttt{register\_speech\_to\_text\_types()}}]
+static STTError *stt_error = NULL;
+
+void register_speech_to_text_types() {
+    ObjectTypeDB::register_type<STTConfig>();
+    ObjectTypeDB::register_type<STTQueue>();
+    ObjectTypeDB::register_type<STTRunner>();
+    ObjectTypeDB::register_virtual_type<STTError>();
+
+    stt_error = memnew(STTError);
+    Globals::get_singleton()->add_singleton(
+        Globals::Singleton("STTError", STTError::get_singleton()));
+}
+\end{lstlisting}
+
+O método \texttt{register\_type} de \textit{ObjectTypeDB} faz o registro da classe. Há um caso especial em \textit{STTError}, que usa \texttt{register\_virtual\_type} para não ser instanciável. Por fim, como esta mesma classe é um \textit{singleton}, aproveitamos para criar sua única instância com \texttt{memnew()} (o equivalente de \texttt{new} para \textit{Godot}) e guardar umas referência junto a outros \textit{singletons} em \textit{Globals}.
+
+\subsubsection{\texttt{unregister\_speech\_to\_text\_types()}}
+
+Esta função é chamada após o jogo ser finalizado (fechado). Tipicamente é usada para desalocar memória e/ou realizar tarefas de término no módulo. A implementação desta função no módulo \textit{Speech to Text} é apresentada na listagem \ref{unregister-types}.
+
+\begin{lstlisting}[
+  language=C++,
+  numbers=left,
+  label=unregister-types,
+  caption={Implementação de \texttt{unregister\_speech\_to\_text\_types()}}]
+void unregister_speech_to_text_types() {
+    if (stt_error) memdelete(stt_error);
+
+    // Remove all STT data in user://
+    String user_dirname = "user://" + String(STT_USER_DIRNAME);
+    if (DirAccess::exists(user_dirname))
+        FileDirUtil::remove_dir_recursive(user_dirname);
+}
+\end{lstlisting}
+
+Em nosso caso, basta liberar o \textit{singleton} de \textit{STTError} alocado previamente; note que \texttt{memdelete} é o equivalente de \texttt{delete} em \textit{Godot}. Também removemos todos os arquivos de configuração copiados para \texttt{user://} pela classe \textit{STTConfig}.
 
 % ---------------------------------------------------------------------
 
