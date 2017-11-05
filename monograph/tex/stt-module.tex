@@ -176,16 +176,17 @@ void STTConfig::_bind_methods() {
 % ---------------------------------------------------------------------
 
 \subsection{Classe \textit{STTConfig}}
+\label{stt-config}
 
 Como o nome sugere, \textit{STTConfig} é uma classe de configuração para a realização do reconhecimento de voz. Por possuir a característica de servir mais como um armazenamento de informação, decidimos fazer a classe herdar de \textit{Resource} (visto na seção \ref{godotResource}).
 
-A figura \ref{stt-config} apresenta os atributos, métodos e relacionamentos da classe \textit{STTConfig}. O construtor e destrutor foram omitidos por simplicidade.
+A figura \ref{stt-config-diagram} apresenta os atributos, métodos e relacionamentos da classe \textit{STTConfig}. O construtor e destrutor foram omitidos por simplicidade. Todos os atributos e métodos estáticos, neste e em futuros diagramas, estarão \underline{sublinhados}.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.9\textwidth]{image/stt-config.pdf}
   \caption{Atributos, métodos e relacionamentos da classe \textit{STTConfig}}
-  \label{stt-config}
+  \label{stt-config-diagram}
 \end{figure}
 
 \textit{STTConfig} possui duas funcionalidades principais:
@@ -220,13 +221,13 @@ A cópia de arquivos para o caminho \textit{user://}, mencionada anteriormente, 
 
 \textit{STTRunner} é a classe responsável por realizar o reconhecimento de voz em si. Por claramente implementar uma \textbf{funcionalidade} a ser usada pelo usuário do editor \textit{Godot}, decidiu-se que uma herança de \textit{Node} (visto na seção \ref{godotNode}) seria bastante apropriada.
 
-A figura \ref{stt-runner} apresenta os atributos, métodos e relacionamentos da classe \textit{STTRunner}. O construtor e destrutor foram omitidos por simplicidade.
+A figura \ref{stt-runner-diagram} apresenta os atributos, métodos e relacionamentos da classe \textit{STTRunner}. O construtor e destrutor foram omitidos por simplicidade.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.9\textwidth]{image/stt-runner.pdf}
   \caption{Atributos, métodos e relacionamentos da classe \textit{STTRunner}}
-  \label{stt-runner}
+  \label{stt-runner-diagram}
 \end{figure}
 
 Comentamos, nos requisitos funcionais (seção \ref{moduleFunctionalRequirements}), que o reconhecimento deveria ocorrer em paralelo com o restante do jogo. O uso de uma \textit{thread} serve bem para tal propósito; \textit{Godot}, inclusive, oferece uma implementação própria dessa estrutura em sua classe \textit{Thread}. Os dois métodos mais importantes que usaremos dela são:
@@ -245,13 +246,13 @@ Comentamos, nos requisitos funcionais (seção \ref{moduleFunctionalRequirements
 
 É usado por \textit{STTRunner} para guardar termos do reconhecimento de voz. Ao mesmo tempo, o usuário do módulo pode retirar estes termos do módulo e usá-los no jogo.
 
-A figura \ref{stt-queue} apresenta os atributos, métodos e relacionamentos da classe \textit{STTQueue}. O construtor e destrutor foram omitidos por simplicidade.
+A figura \ref{stt-queue-diagram} apresenta os atributos, métodos e relacionamentos da classe \textit{STTQueue}. O construtor e destrutor foram omitidos por simplicidade.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.8\textwidth]{image/stt-queue.pdf}
   \caption{Atributos, métodos e relacionamentos da classe \textit{STTQueue}}
-  \label{stt-queue}
+  \label{stt-queue-diagram}
 \end{figure}
 
 Conforme o nome sugere, o tipo abstrato de dados usado para o \textit{buffer} da \textit{STTQueue} é uma \textbf{fila}. \textit{Godot} implementa esta estrutura, com diversas funcionalidade a mais, em sua classe \textit{Vector}. Como muitas de seus métodos seriam desnecessários (não é necessário, por exemplo, que o usuário possa ordenar a fila de reconhecimento de voz), \textit{STTQueue} age como um intermédio do que pode e não pode ser feito em \textit{Vector}.
@@ -287,16 +288,16 @@ Além dos métodos da tabela \ref{stt-queue-main-methods}, há mais dois que for
 
 \textit{STTError} define constantes numéricas para possíveis erros que podem ocorrer no módulo (mais especificamente, em \textit{STTConfig} e \textit{STTRunner}). A utilidade da classe, portanto, está em ajudar o usuário a entender melhor a causa de um erro que possa vir a ocorrer no módulo.
 
-A figura \ref{stt-error} apresenta os atributos, métodos e relacionamentos da classe \textit{STTError}. O construtor e destrutor foram omitidos por simplicidade.
+A figura \ref{stt-error-diagram} apresenta os atributos, métodos e relacionamentos da classe \textit{STTError}. O construtor e destrutor foram omitidos por simplicidade.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.9\textwidth]{image/stt-error.pdf}
   \caption{Atributos, métodos e relacionamentos da classe \textit{STTError}}
-  \label{stt-error}
+  \label{stt-error-diagram}
 \end{figure}
 
-Alguns métodos de \textit{STTConfig} e \textit{STTRunner} retornam um número definido pelo \texttt{enum Error}. Uma \texttt{String} contendo a interpretação deste valor pode ser obtida chamando-se o método \texttt{get\_error\_string} da classe.
+Alguns métodos de \textit{STTConfig} e \textit{STTRunner} retornam um número definido pelo \texttt{enum Error}. Uma \texttt{String} contendo a interpretação deste valor pode ser obtida chamando-se o método \texttt{get\_error\_string()} da classe.
 
 A tabela \ref{stt-error-enum} contém os valores definidos no \texttt{enum Error}, bem como suas respectivas interpretações.
 
@@ -332,22 +333,42 @@ A tabela \ref{stt-error-enum} contém os valores definidos no \texttt{enum Error
 
 \subsection{Classe \textit{FileDirUtil}}
 
-A figura \ref{file-dir-util} apresenta os atributos, métodos e relacionamentos da classe \textit{FileDirUtil}. O construtor e destrutor foram omitidos por simplicidade.
+\textit{FileDirUtil} é uma classe auxiliar, não possuindo relação alguma com reconhecimento de voz. Como o nome sugere, ela possui métodos para manipular arquivos e diretórios.
+
+A figura \ref{file-dir-util-diagram} apresenta os métodos e relacionamento da classe \textit{FileDirUtil}. O construtor e destrutor foram omitidos por simplicidade.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.75\textwidth]{image/file-dir-util.pdf}
   \caption{Atributos, métodos e relacionamentos da classe \textit{FileDirUtil}}
-  \label{file-dir-util}
+  \label{file-dir-util-diagram}
 \end{figure}
+
+As ferramentas oferecidas por \textit{Godot} para gerenciamento de arquivos e diretórios são bem simples, limitando-se ao seguinte: criação de arquivos/diretórios, escrita/leitura/cópia de arquivos, remoção de arquivos individuais e diretórios vazios.
+
+Vimos que \textit{STTConfig} (seção \ref{stt-config}) necessita copiar os arquivos de configuração para \texttt{user://}. \textit{FileDirUtil} meramente combina os métodos já implementados pela \textit{game engine} para realizar operações como cópia e remoção recursiva de diretórios.
+
+% ---------------------------------------------------------------------
+
+\section{Arquivos e \textit{scripts} de configuração}
+
+% ---------------------------------------------------------------------
+
+\subsection{\texttt{register\_types}}
+
+% ---------------------------------------------------------------------
+
+\subsection{\texttt{SCsub}}
+
+% ---------------------------------------------------------------------
+
+\subsection{\texttt{config.py}}
 
 % ---------------------------------------------------------------------
 
 \section{Divulgação}
 
-Todo o código fonte do módulo \textit{Speech to Text} encontra-se em um repositório no GitHub do autor \citep{sttModuleGitHub}. Também foram disponibilizados binários dos editores \textit{Godot} e \textit{templates de exportação}, ambos compilados previamente com o módulo \citep{sttModuleDownload}.
-
-% TODO: Recomendar baixar e compilar Godot com o módulo
+Todo o código fonte do módulo \textit{Speech to Text} encontra-se em um repositório no GitHub do autor \citep{sttModuleGitHub}, juntamente com instruções para compilação e uso. Também foram disponibilizados binários dos editores \textit{Godot} e \textit{templates de exportação}, ambos compilados previamente com o módulo \citep{sttModuleDownload}.
 
 \textit{Speech to Text} foi divulgado em dois fóruns de \textit{Godot}, onde obteve algumas poucas aprovações:
 
