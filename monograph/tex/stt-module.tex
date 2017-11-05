@@ -230,6 +230,8 @@ A figura \ref{stt-runner-diagram} apresenta os atributos, métodos e relacioname
   \label{stt-runner-diagram}
 \end{figure}
 
+A classe usa um objeto \textit{STTConfig} para obter as variáveis \textit{Pocketsphinx} necessárias em sua tarefa, e um objeto \textit{STTQueue} para guardar termos (palavras ou pequenas frases) gerados no reconhecimento de voz. Ambos podem ser obtidos e definidos através dos \textit{getters} e \textit{setters} para \texttt{config} e \texttt{queue}.
+
 Comentamos, nos requisitos funcionais (seção \ref{moduleFunctionalRequirements}), que o reconhecimento deveria ocorrer em paralelo com o restante do jogo. O uso de uma \textit{thread} serve bem para tal propósito; \textit{Godot}, inclusive, oferece uma implementação própria dessa estrutura em sua classe \textit{Thread}. Os dois métodos mais importantes que usaremos dela são:
 
 \begin{itemize}
@@ -237,6 +239,24 @@ Comentamos, nos requisitos funcionais (seção \ref{moduleFunctionalRequirements
 
 \item \texttt{void wait\_to\_finish(thread)}: Recebe um ponteiro para uma instância de \textit{Thread}. Espera a \textit{thread} terminar, finalizando-a com segurança.
 \end{itemize}
+
+O método \texttt{start()} cria uma \textit{thread} para realizar o reconhecimento de voz desde que o objeto \textit{STTRunner} já possua instâncias de \textit{STTConfig} e \textit{STTQueue}. Chama-se \texttt{Thread::create()} com um método estático como parâmetro (\texttt{\_thread\_recognize()}, que não aparece na figura \ref{stt-runner-diagram} por agir apenas como um intermédio) e a própria instância como argumento (isto é, \texttt{this}).
+
+A listagem \ref{thread-recognize} mostra a implementação de \texttt{\_thread\_recognize()}, responsável por chamar o método privado \texttt{\_recognize()} da instância passada como argumento. É nesta última função que o laço de reconhecimento de voz ocorre, implementado de forma bastante similar ao que vimos na seção \ref{???}.
+
+\begin{lstlisting}[
+  language=C++,
+  label=thread-recognize,
+  caption={Método estático \texttt{\_thread\_recognize()} de \textit{STTRunner}}]
+void STTRunner::_thread_recognize(void *runner) {
+    STTRunner *self = (STTRunner *) runner;
+    self->_recognize();
+}
+\end{lstlisting}
+
+Para controle sobre a \textit{thread}, o usuário do módulo pode verificar sua execução com \texttt{running()} e ordenar sua parada imediata com \texttt{stop()}. Definiu-se que apenas uma \textit{thread} pode existir por instância de \textit{STTRunner}, pois o controle de várias operações em paralelo não traria nenhum benefício ao módulo.
+
+Por fim, oferece-se controle sobre o tamanho do \textit{buffer} de gravação de voz através do \textit{getter} e \textit{setter} de \texttt{buffer\_size}. É importante ressaltar que o uso de um \textit{setter} demanda a parada imediata da \textit{thread} de reconhecimento para evitar possíveis problemas de acesso antes e depois da alteração (condição de corrida).
 
 % ---------------------------------------------------------------------
 
@@ -286,7 +306,7 @@ Além dos métodos da tabela \ref{stt-queue-main-methods}, há mais dois que for
 
 \subsection{Classe \textit{STTError}}
 
-\textit{STTError} define constantes numéricas para possíveis erros que podem ocorrer no módulo (mais especificamente, em \textit{STTConfig} e \textit{STTRunner}). A utilidade da classe, portanto, está em ajudar o usuário a entender melhor a causa de um erro que possa vir a ocorrer no módulo.
+\textit{STTError} define constantes numéricas para possíveis erros que podem ocorrer no módulo (mais especificamente, em \textit{STTConfig} e \textit{STTRunner}). A utilidade da classe, portanto, está em ajudar o usuário a entender melhor a causa de um erro que possa vir a ocorrer no módulo. Por ser um \textit{singleton} mas ter seu uso necessário no editor \textit{Godot} (através de \mbox{\textit{GDScript}}), decidiu-se fazer a classse herdar de \textit{Object} (visto na seção \ref{godotObject}).
 
 A figura \ref{stt-error-diagram} apresenta os atributos, métodos e relacionamentos da classe \textit{STTError}. O construtor e destrutor foram omitidos por simplicidade.
 
@@ -346,7 +366,7 @@ A figura \ref{file-dir-util-diagram} apresenta os métodos e relacionamento da c
 
 As ferramentas oferecidas por \textit{Godot} para gerenciamento de arquivos e diretórios são bem simples, limitando-se ao seguinte: criação de arquivos/diretórios, escrita/leitura/cópia de arquivos, remoção de arquivos individuais e diretórios vazios.
 
-Vimos que \textit{STTConfig} (seção \ref{stt-config}) necessita copiar os arquivos de configuração para \texttt{user://}. \textit{FileDirUtil} meramente combina os métodos já implementados pela \textit{game engine} para realizar operações como cópia e remoção recursiva de diretórios.
+Vimos que \textit{STTConfig} necessita copiar os arquivos de configuração para \texttt{user://}. \textit{FileDirUtil} meramente combina os métodos já implementados pela \textit{game engine} para realizar operações como cópia e remoção recursiva de diretórios.
 
 % ---------------------------------------------------------------------
 
