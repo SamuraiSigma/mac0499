@@ -147,7 +147,7 @@ Apresentamos, na figura \ref{sttModuleClassDiagram}, um diagrama de classes simp
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{image/stt-module-simple.pdf}
-  \caption{Diagrama de classes \textit{simplificado} do módulo \textit{Speech to text}}
+  \caption{Diagrama de classes simplificado do módulo \textit{Speech to Text}}
   \label{sttModuleClassDiagram}
 \end{figure}
 
@@ -179,6 +179,15 @@ void STTConfig::_bind_methods() {
 
 Como o nome sugere, \textit{STTConfig} é uma classe de configuração para a realização do reconhecimento de voz. Por possuir a característica de servir mais como um armazenamento de informação, decidimos fazer a classe herdar de \textit{Resource} (visto na seção \ref{godotResource}).
 
+A figura \ref{stt-config} apresenta os atributos, métodos e relacionamentos da classe \textit{STTConfig}. O construtor e destrutor foram omitidos por simplicidade.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.9\textwidth]{image/stt-config.pdf}
+  \caption{Atributos, métodos e relacionamentos da classe \textit{STTConfig}}
+  \label{stt-config}
+\end{figure}
+
 \textit{STTConfig} possui duas funcionalidades principais:
 
 \subsubsection{Definir arquivos de configuração}
@@ -209,17 +218,53 @@ A cópia de arquivos para o caminho \textit{user://}, mencionada anteriormente, 
 
 \subsection{Classe \textit{STTRunner}}
 
+A figura \ref{stt-runner} apresenta os atributos, métodos e relacionamentos da classe \textit{STTRunner}. O construtor e destrutor foram omitidos por simplicidade.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.9\textwidth]{image/stt-runner.pdf}
+  \caption{Atributos, métodos e relacionamentos da classe \textit{STTRunner}}
+  \label{stt-runner}
+\end{figure}
+
 % ---------------------------------------------------------------------
 
 \subsection{Classe \textit{STTQueue}}
+
+A figura \ref{stt-queue} apresenta os atributos, métodos e relacionamentos da classe \textit{STTQueue}. O construtor e destrutor foram omitidos por simplicidade.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\textwidth]{image/stt-queue.pdf}
+  \caption{Atributos, métodos e relacionamentos da classe \textit{STTQueue}}
+  \label{stt-queue}
+\end{figure}
 
 % ---------------------------------------------------------------------
 
 \subsection{Classe \textit{STTError}}
 
+A figura \ref{stt-error} apresenta os atributos, métodos e relacionamentos da classe \textit{STTError}. O construtor e destrutor foram omitidos por simplicidade.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.9\textwidth]{image/stt-error.pdf}
+  \caption{Atributos, métodos e relacionamentos da classe \textit{STTError}}
+  \label{stt-error}
+\end{figure}
+
 % ---------------------------------------------------------------------
 
 \subsection{Classe \textit{FileDirUtil}}
+
+A figura \ref{file-dir-util} apresenta os atributos, métodos e relacionamentos da classe \textit{FileDirUtil}. O construtor e destrutor foram omitidos por simplicidade.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.75\textwidth]{image/file-dir-util.pdf}
+  \caption{Atributos, métodos e relacionamentos da classe \textit{FileDirUtil}}
+  \label{file-dir-util}
+\end{figure}
 
 % ---------------------------------------------------------------------
 
