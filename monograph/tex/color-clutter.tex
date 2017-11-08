@@ -183,6 +183,88 @@ A figura \ref{color-clutter-screen} apresenta a tela do jogo durante uma rodada.
 
 \section{Desenvolvimento}
 
+A simplicidade de \textit{Color Clutter} nos levou a implementá-lo com apenas uma \textit{scene}. A árvore de \textit{nodes} que o compõe é apresentada na figura \ref{color-clutter-nodes}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.3\textwidth]{image/color-clutter-nodes}
+  \caption{Árvore de \textit{nodes} utilizada em \textit{Color Clutter}}
+  \label{color-clutter-nodes}
+\end{figure}
+
+Explicamos, a seguir, o funcionamento geral do jogo e detalhamos alguns dos textit{nodes} utilizados.
+
+% ---------------------------------------------------------------------
+
+\subsection{Máquina de estados}
+
+Em termos de funcionamento geral, o jogo transita entre dois estados, \textit{Start} e \textit{Running}. O primeiro caso define o início do jogo, onde espera-se o usuário falar \textit{start} para começar uma partida. Ao reconhecer tal palavra, transita-se para o estado \textit{Running}, correspondente à partida em si, onde o usuário tem 1 minuto para acertar o máximo de cores possíveis. Terminado este tempo, exibe-se a pontuação do jogador e volta-se para o estado \textit{Start}.
+
+A qualquer momento, o usuário pode sair do jogo através do comando de voz \textit{exit}, imediatamente finalizando \textit{Color Clutter}.
+
+% ---------------------------------------------------------------------
+
+\subsection{\textit{Node} \texttt{Main}}
+
+\texttt{Main} é um \textit{Node2D}, que é um nó base para jogos em 2D; por isso seu uso como o \textit{node} raiz da cena.
+
+Conforme indicado na figura \ref{color-clutter-nodes}, este nó contém \texttt{STT}, que é do tipo \textit{STTRunner}. Para poder utilizá-lo, \texttt{Main} prepara dois objetos em \texttt{\_ready()}:
+
+\begin{itemize}
+\item Um objeto da classe \textit{STTConfig} (explicado na seção \ref{stt-config}). Definem-se os arquivos de configuração necessários: um modelo acústico em inglês, um dicionário de palavras em inglês e um arquivo de palavras-chave contendo os comandos usados no jogo. Por fim, utiliza-se o método \texttt{init()} para inicializar a instância, deixando-a pronta para uso no \textit{STTRunner}.
+
+\item Um objeto da classe \textit{STTQueue} (explicado na seção \ref{stt-queue}). Esta fila guardará as comandos de voz falados pelo usuário.
+\end{itemize}
+
+O laço geral do jogo (\textit{game loop}) está implementado na função \texttt{\_process(delta)}, que é apresentada em pseudocódigo a seguir:
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Function{}{} {\_process}(delta)
+\If {\textbf{not} stt\_queue.empty()}
+    \State {command $\leftarrow$ stt\_queue.get()}
+\EndIf
+\State
+\If {game\_state == START}
+    \If {command == "start"}
+        \State {start\_game()}
+    \EndIf
+\ElsIf {game\_state == RUNNING}
+    \If {command == right\_answer}
+        \State {update\_score()}
+        \State {update\_round()}
+    \EndIf
+\EndIf
+\State
+\If {command == "exit"}
+    \State {exit\_game()}
+\EndIf
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+A função \texttt{update\_score()} é responsável por atualizar a pontuação guardada no \textit{Label} \texttt{Score}, enquanto \texttt{update\_round()} altera os \textit{Labels} \texttt{Word} (a palavra-cor espalhada na tela) e \texttt{AnswerType} (que descreve se a próxima resposta é a palavra, sua cor ou o fundo).
+
+% ---------------------------------------------------------------------
+
+\subsection{\textit{Node} \texttt{Word}}
+
+\texttt{Word} é um nó do tipo \textit{Label}, correspondendo à palavra gerada aleatoriamente pela tela. Quando o usuário acerta a cor da rodada, sua posição é alterada para algum valor dentro dos limites da tela. Garante-se que a cor em que \texttt{Word} é escrita não seja igual à cor de fundo (uma palavra azul em um fundo azul, por exemplo, seria de difícil visualização).
+
+% ---------------------------------------------------------------------
+
+\subsection{\textit{Node} \texttt{Timer}}
+
+\texttt{Timer} é um nó de tipo homônimo. Como o nome indica, ela é usada como um relógio: após atribuir um valor de tempo e acioná-lo, o \textit{Timer} realizará realizar uma contagem regressiva, realizando automaticamente uma chamada de função (\textit{callback}) quando chegar a zero.
+
+No contexto de \textit{Color Clutter}, este \textit{node} automaticamente atualiza seu filho \texttt{TimeLeft}, que é um \textit{Label} usado para indicar, na tela, o  tempo restante de jogo. \texttt{Timer} chama uma função em \texttt{Main} quando a partida acaba, com o objetivo de alterar o estado do jogo para \textit{Start}.
+
+% ---------------------------------------------------------------------
+
+\subsection{\textit{Nodes} \texttt{GameStart} e \texttt{Chime}}
+
+\texttt{GameStart} e \texttt{Chime} são nós do tipo \textit{StreamPlayer}. Guardam um efeito sonoro tocado no início do jogo e quando o usuário acerta a cor, respectivamente.
+
 % ---------------------------------------------------------------------
 
 \section{Testes}
