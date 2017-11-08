@@ -211,9 +211,9 @@ A qualquer momento, o usuário pode sair do jogo através do comando de voz \tex
 Conforme indicado na figura \ref{color-clutter-nodes}, este nó contém \texttt{STT}, que é do tipo \textit{STTRunner}. Para poder utilizá-lo, \texttt{Main} prepara dois objetos em \texttt{\_ready()}:
 
 \begin{itemize}
-\item Um objeto da classe \textit{STTConfig} (explicado na seção \ref{stt-config}). Definem-se os arquivos de configuração necessários: um modelo acústico em inglês, um dicionário de palavras em inglês e um arquivo de palavras-chave contendo os comandos usados no jogo. Por fim, utiliza-se o método \texttt{init()} para inicializar a instância, deixando-a pronta para uso no \textit{STTRunner}.
+\item Um objeto da classe \textit{STTConfig} (explicado na seção \ref{stt-config}). Definiram-se os arquivos de configuração necessários: um modelo acústico em inglês, um dicionário de palavras em inglês e um arquivo de palavras-chave contendo os comandos usados no jogo. Neste último, os valores de limiar escolhidos foram, em geral, baseados no número de fonemas existentes no comando. Por fim, utilizou-se o método \texttt{init()} para inicializar a instância, deixando-a pronta para uso no \textit{STTRunner}.
 
-\item Um objeto da classe \textit{STTQueue} (explicado na seção \ref{stt-queue}). Esta fila guardará as comandos de voz falados pelo usuário.
+\item Um objeto da classe \textit{STTQueue} (explicado na seção \ref{stt-queue}). Esta fila guarda os comandos de voz falados pelo usuário.
 \end{itemize}
 
 O laço geral do jogo (\textit{game loop}) está implementado na função \texttt{\_process(delta)}, que é apresentada em pseudocódigo a seguir:
@@ -272,3 +272,13 @@ No contexto de \textit{Color Clutter}, este \textit{node} automaticamente atuali
 % ---------------------------------------------------------------------
 
 \section{Divulgação}
+
+Todo o código fonte do projeto \textit{Color Clutter} encontra-se em um repositório no GitHub do autor \citep{colorClutterGitHub}, juntamente com as instruções do jogo. Também foram disponibilizados binários para \textit{Windows} e \textit{Unix} \citep{colorClutterDownload}.
+
+\textit{Color Clutter} foi divulgado nos mesmos dois fóruns de \textit{Godot} onde publicou-se sobre \textit{Speech to Text}:
+
+\begin{itemize}
+\item \textbf{Godot Engine Q\&A} \citep{colorClutterGodotQA}: Embora não seja mais voltado para tirar dúvidas, publicou-se o jogo no site oficial de \textit{Godot}.
+
+\item \textbf{Godot Developers} \citep{colorClutterGodotDevelopers}: Voltado principalmente para jogos produzidos na \textit{game engine}.
+\end{itemize}
