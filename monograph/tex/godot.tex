@@ -152,7 +152,7 @@ Exemplificamos, na figura \ref{nodeResource}, alguns \textit{nodes} que tipicame
 Devido ao suporte a diferentes sistemas operacionais, \textit{Godot} viu uma necessidade de criar um padrão interno para gerenciar arquivos em seus projetos (isto é, jogos). Duas convenções foram tomadas \citep{godotFileSystem}:
 
 \begin{itemize}
-\item O diretório raiz do projeto é referido como \textbf{\texttt{res://}}. O usuário é encorajado fortemente a utilizar este prefixo ao invés do utilizado em sua plataforma.
+\item O diretório raiz do projeto, que contém um arquivo denominado \texttt{engine.cfg}, é referido como \textbf{\texttt{res://}}. O usuário é encorajado fortemente a utilizar este prefixo ao invés do utilizado em sua plataforma.
 
 \item Caminhos que usem \texttt{res://} devem usar o caractere \texttt{/} para separar diretórios, independentemente do sistema operacional do usuário. Por exemplo: \texttt{res://fontes/arial.fnt}.
 \end{itemize}

@@ -38,12 +38,107 @@ A figura \ref{color-clutter-screen} apresenta a tela do jogo durante uma rodada.
 
 % ---------------------------------------------------------------------
 
-\section{Criação do projeto}
+\section{Uso do editor \textit{Godot}}
+
+Antes de começarmos o desenvolvimento do jogo, iremos descrever alguns elementos da interface do editor \textit{Godot} para melhor familiarizar o leitor com esta ferramenta.
 
 % ---------------------------------------------------------------------
 
-\section{Interface do editor \textit{Godot}}
+\subsection{Gerenciamento de projetos}
+
+Ao executar o editor \textit{Godot}, o leitor é confrontado com a tela apresentada na figura \ref{editor-project-select}, na qual pode gerenciar seus projetos (jogos).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.85\textwidth]{image/editor-project-select}
+  \caption{Gerenciamento de projetos no editor \textit{Godot}}
+  \label{editor-project-select}
+\end{figure}
+
+Projetos são listados na aba \textit{Project List}, onde podem ser abertos para edição ou removidos. Também é possível criar um novo jogo ou a importar um já existente. A criação de um projeto, por exemplo, é feita pelo botão \textit{New Project} e requer a especificação do caminho na qual será criado (\textit{Project Path}) e seu nome (\textit{Project Name}). Já a importação exige que o usuário escolha um caminho que contenha o arquivo \texttt{engine.cfg}, responsável por definir o diretório raiz do jogo.
+
+Na figura \ref{editor-project-create}, exemplificamos a criação do projeto \textbf{teste} no diretório \texttt{\textasciitilde/Desktop/teste}. Ao clicar no botão \textit{Create}, o projeto é criado e o usuário é automaticamente encaminhado para a tela de edição de \textbf{teste}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.85\textwidth]{image/editor-project-create-edit}
+  \caption{Criação do projeto \textbf{teste} no editor \textit{Godot}}
+  \label{editor-project-create}
+\end{figure}
+
+% ---------------------------------------------------------------------
+
+\subsection{Interface de edição de um projeto}
+
+A criação de um novo projeto leva o usuário ao editor do mesmo. Continuando com nosso exemplo \textbf{teste}, sua tela de edição é apresentada na figura \ref{in-game-editor}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.9\textwidth]{image/in-game-editor}
+  \caption{Editor de um projeto \textit{Godot} (neste caso, \textbf{teste})}
+  \label{in-game-editor}
+\end{figure}
+
+Uma explicação detalhada de todas as funcionalidades do editor fugiria do tema deste trabalho. Iremos, portanto, nos atentar às ferramentas principais, apresentadas a seguir.
+
+% ---------------------------------------------------------------------
+
+\subsection{Uso de \textit{nodes} e \textit{scenes}}
+
+No canto superior direito do editor (conforme a figura \ref{in-game-editor}, a \textit{scene} atual do projeto é indicada na aba de mesmo nome. É neste espaço que a hierarquia de \textit{nodes} pertencentes a esta cena é apresentada.
+
+A criação de um \textit{node} para a cena é feita através do símbolo \texttt{+} desta aba, que leva o usuário a uma lista de nós existentes (figura \ref{editor-node}).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.9\textwidth]{image/editor-node-edit}
+  \caption{Lista de \textit{nodes} disponíveis no editor do projeto}
+  \label{editor-node}
+\end{figure}
+
+Como exemplo, escolheremos, nesta lista, o \textit{node} \textbf{\textit{Label}} para representar um texto. A aba \textit{Scene} mostrará que foi adicionada à cena. Além disso, se selecionarmos este nó, a aba debaixo, \textit{Inspector}, indicará quais as suas propriedades editáveis, enquanto a janela central do editor mostrará seu posicionamento em relação a outros elementos do jogo (figura \ref{editor-label}).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.9\textwidth]{image/editor-label}
+  \caption{Edição do \textit{node} \textbf{\textit{Label}}; note suas propriedadas na aba \textit{Inspector} (canto inferior direito)}
+  \label{editor-label}
+\end{figure}
+
+Suponha que desejamos executar o jogo com apenas o nó \textit{Label}, com ele apresentando o texto \textit{``Hello World!''}. Para tanto, seguiremos os seguintes passos, ilustrados melhor pela figura \ref{editor-run-scene-edit}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.9\textwidth]{image/editor-run-scene-edit}
+  \caption{Passos para execução da \textit{scene} contendo um \textit{Label} escrito \textit{``Hello World!''}}
+  \label{editor-run-scene-edit}
+\end{figure}
+
+\begin{itemize}
+\item Alterar o texto do \textit{Label} para \textit{``Hello World!''}. Isto é facilmente feito pela propriedade \textbf{\textit{Text}} na aba \textit{Inspector} (\textbf{1} na figura \ref{editor-run-scene-edit}).
+
+\item Salvar a \textit{scene} atual. Uma forma de fazer isso para depois executar o jogo é clicar no botão \textit{Play the project} (triângulo no centro superior do editor; vide \textbf{2} na figura \ref{editor-run-scene-edit}). O editor apresentará uma janela para salvar a cena (\textbf{3} na figura \ref{editor-run-scene-edit}) como um arquivo cujo formato padrão é \texttt{.tscn}.
+
+\item Se \textit{Play the project} foi usado para salvar a cena, imediatamente outra janela será exibida, solicitando a escolha da \textit{scene} a ser usada quando o jogo é iniciado. Basta escolher o arquivo \texttt{.tscn} que foi salvo no passo anterior.
+\end{itemize}
+
+O resultado, apresentado na figura \ref{editor-hello-world}, será a abertura de uma nova janela para a execução do jogo.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.9\textwidth]{image/editor-hello-world}
+  \caption{Execução da \textit{scene} contendo um \textit{Label} de texto \textit{``Hello world''}}
+  \label{editor-hello-world}
+\end{figure}
+
+% ---------------------------------------------------------------------
+
+\subsection{Uso de \textit{GDScript}}
 
 % ---------------------------------------------------------------------
 
 \section{Desenvolvimento}
+
+% ---------------------------------------------------------------------
+
+\section{Divulgação}
