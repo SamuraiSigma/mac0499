@@ -54,7 +54,7 @@ Uma explicação detalhada de todas as funcionalidades do editor fugiria do tema
 
 \subsection{Uso de \textit{nodes} e \textit{scenes}}
 
-No canto superior direito do editor (conforme a figura \ref{in-game-editor}, a \textit{scene} atual do projeto é indicada na aba de mesmo nome. É neste espaço que a hierarquia de \textit{nodes} pertencentes a esta cena é apresentada.
+No canto superior direito do editor (conforme a figura \ref{in-game-editor}, a \textit{scene} (explicada na seção \ref{godotScene}) atual do projeto é indicada na aba de mesmo nome. É neste espaço que a hierarquia de \textit{nodes} (definidos na seção \ref{godotNode} pertencentes a esta cena é apresentada.
 
 A criação de um \textit{node} para a cena é feita através do símbolo \texttt{+} desta aba, que leva o usuário a uma lista de nós existentes (figura \ref{editor-node}).
 
@@ -104,6 +104,49 @@ O resultado, apresentado na figura \ref{editor-hello-world}, será a abertura de
 
 \subsection{Uso de \textit{GDScript}}
 
+A linguagem \textit{GDScript} (introduzida na seção \ref{godotLanguages}) é usada para escrever trechos de código que definem o comportamento de \textit{nodes} \citep{godotScripting}.
+
+Para adicionar um \textit{script} a um nó, basta clicar em seu nome, na aba \textit{Scene}, com o botão direito e escolher \textbf{\textit{Add Script}} (figura \ref{editor-attach-script}). Uma janela irá surgir, onde é necessário preencher apenas o campo \textit{Path} para definir o nome do \textit{script} (figura \ref{editor-script-window}).
+
+\begin{figure}[H]
+  \centering
+
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includegraphics[width=.6\textwidth]{image/editor-attach-script}
+    \caption{Opção \textbf{\textit{Attach Script}} para o \textit{node} \textit{Label}}
+    \label{editor-attach-script}
+  \end{minipage}%
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includegraphics[width=.75\textwidth]{image/editor-script-window}
+    \caption{Janela de criação do arquivo \textit{script}}
+    \label{editor-script-window}
+  \end{minipage}
+\end{figure}
+
+Suponha que definimos \textit{Path} como \texttt{res://script.gd} na figura \ref{editor-script-window}. Ao clicarmos em \textit{Create}, a aba central do editor mudará para \textbf{\textit{Script}}, onde o código do arquivo pode ser modificado. Ilustramos a modificação ocorrida na figura \ref{editor-script-write}. Por curiosidade, veja, neste mesma imagem, que todos os recursos (como \textit{scenes}, \textit{scripts} e gráficos) existentes dentro do diretório do projeto são mostrados no canto inferior esquerdo do editor.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.9\textwidth]{image/editor-script-write}
+  \caption{A aba \textbf{\textit{Script}} permite modificar arquivos homônimos}
+  \label{editor-script-write}
+\end{figure}
+
+Não iremos ensinar, neste trabalho, a linguagem \textit{GDScript} porque o ganho nisso seria mínimo. Um tutorial detalhado, apresentado por \textit{Godot} em \citep{godotGDScriptTutorial}, já existe com esta finalidade. No entanto, explicaremos duas funções predefinidas pela linguagem e que possuem bastante importância no controle de \textit{nodes}.
+
+\subsubsection{\texttt{\_ready()}}
+
+A função \texttt{\_ready()} é chamada sempre que o \textit{node} é adicionado à cena. É geralmente usada para inicializar atributos e preparar configurações de comportamento.
+
+É importante lembrar que nós são organizados em árvore. Portanto, o \texttt{\_ready()} de um \textit{node} pai é sempre chamado antes da função respectiva nos filhos.
+
+\subsubsection{\texttt{\_process(delta)}}
+
+\texttt{\_process()} é uma função chamada repetidamente enquanto o nó existir na cena e \texttt{set\_process(true)} tiver sido chamada previamente (em \_ready(), por exemplo) para solicitar seu uso. Seu único argumento, \texttt{delta}, representa o tempo desde a última atualização de \textit{frame} do jogo.
+
+Esta função é muito útil para executar trechos de código periodicamente durante um jogo. Por exemplo, imagine um jogo em que a personagem controlada pelo usuário possua um certo número de pontos de vida. Poderia-se utilizar \texttt{\_process()} para checar se este valor chegou a zero e, se afirmativo, alterar a \textit{scene} atual para a do fim de jogo.
 
 % ---------------------------------------------------------------------
 
