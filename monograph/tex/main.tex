@@ -49,9 +49,13 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
+
 \renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{#1}}{}}
 \renewcommand{\sectionmark}[1]{\markright{\MakeUppercase{#1}}{}}
-\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\headrulewidth}{1pt}
+
+% Display centered page number on footer of all pages
+\fancyfoot[CE,CO]{\thepage}
 
 % ---------------------------------------------------------------------
 
@@ -104,12 +108,13 @@
 \sloppy  % Prevents words from passing line length
 
 \frontmatter
-% Header for pages in sections before chapter 1
-\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
 \setcounter{tocdepth}{2}
-\fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
+
+% Header for pages in sections before chapter 1
+\fancyhead[RO]{\nouppercase{\rightmark}}
+\fancyhead[LE]{\nouppercase{\leftmark}}
 \fancyhead[RE,LO]{}
-\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+
 \linespread{1.25}
 
 \pagenumbering{gobble}
@@ -145,7 +150,8 @@
 \pagenumbering{arabic}
 
 % Header for all pages in chapters
-\fancyhead[RE,LO]{\thesection}
+\fancyhead[LE,RO]{\footnotesize\thesection\quad\nouppercase{\rightmark}}
+\fancyhead[RE,LO]{\chaptername\:\thechapter:\quad\nouppercase{\leftmark}}
 
 % Add chapters here
 \input{tex/introduction}
@@ -173,6 +179,11 @@
 
 \backmatter
 \bibliographystyle{bib/plainnat-ime}  % Textual bibliographic quote
+
+% Header for bibliography pages
+\fancyhead[RO]{\nouppercase{\rightmark}}
+\fancyhead[LE]{\nouppercase{\leftmark}}
+\fancyhead[RE,LO]{}
 
 % Add bibliography files here
 \bibliography{bib/stt-theory,bib/stt-libs,bib/godot,bib/other}
