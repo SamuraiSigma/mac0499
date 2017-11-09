@@ -21,11 +21,13 @@ Antes de começarmos a implementar o módulo em si, precisaremos tomar algumas m
 
 Todos os módulos ativos são encontrados como subdiretórios dentro da pasta \texttt{modules/} no código fonte. Começaremos, portanto, com a criação do diretório \texttt{speech\_to\_text}:
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ cd modules
 $ mkdir speech_to_text
 $ cd speech_to_text
 \end{lstlisting}
+\end{minipage}
 
 % ---------------------------------------------------------------------
 
@@ -36,25 +38,31 @@ Usaremos a biblioteca \textit{Pocketsphinx} para realizar o reconhecimento de vo
 \begin{enumerate}
 \item Baixe o pacote \textit{Sphinxbase} em sua versão atual mais estável, a \textbf{5-prealpha}.
 
-\begin{lstlisting}
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[language=Bash]
 $ SPHINXURL="https://sourceforge.net/projects/cmusphinx/files"
 $ wget $SPHINXURL/sphinxbase/5prealpha/sphinxbase-5prealpha.tar.gz
 \end{lstlisting}
+\end{minipage}
 
 \item Extraia e renomeie o pacote baixado.
 
-\begin{lstlisting}
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[language=Bash]
 $ tar -xvf sphinxbase-5prealpha
 $ mv sphinxbase-5prealpha sphinxbase
 \end{lstlisting}
+\end{minipage}
 
 \item Remova arquivos supérfluos, como \texttt{Makefiles}, arquivos de teste e \textit{scripts} de compilação. Estes serviriam para aumentar, desnecessariamente, o tamanho do módulo. Em outras palavras, somente as interfaces e implementações nos pacotes serão mantidas. Veja a listagem \ref{sphinxbaseEssential} para maiores detalhes.
 
+\begin{minipage}{\linewidth}
 \lstinputlisting[
   language=Bash,
   caption={Remoção de arquivos supérfluos no pacote \textit{Sphinxbase}},
   label={sphinxbaseEssential}]
   {listing/sphinxbase-essential.sh}
+\end{minipage}
 \end{enumerate}
 
 % ---------------------------------------------------------------------
@@ -66,25 +74,32 @@ Precisamos, também, do pacote \textit{Pocketsphinx} para a biblioteca homônima
 \begin{enumerate}
 \item Baixe o pacote \textit{Pocketsphinx} em sua versão atual mais estável, a \textbf{5-prealpha}.
 
-\begin{lstlisting}
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[language=Bash]
 $ SPHINXURL="https://sourceforge.net/projects/cmusphinx/files"
 $ wget $SPHINXURL/pocketsphinx/5prealpha/pocketsphinx-5prealpha.tar.gz
 \end{lstlisting}
+\end{minipage}
 
 \item Extraia e renomeie o pacote baixado.
 
-\begin{lstlisting}
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[language=Bash]
 $ tar -xvf pocketsphinx-5prealpha
 $ mv pocketsphinx-5prealpha pocketsphinx
 \end{lstlisting}
+\end{minipage}
 
 \item Remova arquivos supérfluos, isto é, que não sejam interfaces ou implementações. Veja a listagem \ref{pocketsphinxEssential} para maiores detalhes.
 
+\begin{minipage}{\linewidth}
 \lstinputlisting[
   language=Bash,
   caption={Remoção de arquivos supérfluos no pacote \textit{Pocketsphinx}},
   label={pocketsphinxEssential}]
   {listing/pocketsphinx-essential.sh}
+\end{minipage}
+
 \end{enumerate}
 
 % ---------------------------------------------------------------------
@@ -162,6 +177,7 @@ Antes de nos aprofundarmos na arquitetura do módulo, algumas observações gera
 
 \item Quase todas as classes implementadas, exceto \textit{FileDirUtil}, possuem um método especial chamado \texttt{\_bind\_methods()}. Esta função, de nome predefinido por \textit{Godot}, é usada para ligar nomes a constantes ou referências de métodos, permitindo seu uso em \mbox{\textit{GDScript}}. Todas as ligações são guardadas numa grande classe \textit{singleton} denominada \textit{ObjectTypeDB}. A listagem \ref{configBindMethods} exemplifica a adição de uma linha no método \texttt{\_bind\_methods()} de \textit{STTConfig} para ser possível usar o método \texttt{init()} desta mesma classe em \mbox{\textit{GDScript}}.
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[
   language=C++,
   label=configBindMethods,
@@ -171,6 +187,8 @@ void STTConfig::_bind_methods() {
     ObjectTypeDB::bind_method("init", &STTConfig::init);
 }
 \end{lstlisting}
+\end{minipage}
+
 \end{itemize}
 
 % ---------------------------------------------------------------------
@@ -245,6 +263,7 @@ O método \texttt{start()} cria uma \textit{thread} para realizar o reconhecimen
 
 A listagem \ref{thread-recognize} mostra a implementação de \texttt{\_thread\_recognize()}, responsável por chamar o método privado \texttt{\_recognize()} da instância passada como argumento. É nesta última função que o laço de reconhecimento de voz ocorre, implementado de forma bastante similar ao que vimos na seção \ref{???}.
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[
   language=C++,
   label=thread-recognize,
@@ -254,6 +273,7 @@ void STTRunner::_thread_recognize(void *runner) {
     self->_recognize();
 }
 \end{lstlisting}
+\end{minipage}
 
 Para controle sobre a \textit{thread}, o usuário do módulo pode verificar sua execução com \texttt{running()} e ordenar sua parada imediata com \texttt{stop()}. Definiu-se que apenas uma \textit{thread} pode existir por instância de \textit{STTRunner}, pois o controle de várias operações em paralelo não traria nenhum benefício ao módulo.
 
@@ -386,6 +406,7 @@ Com a implementação feita, faltam apenas alguns arquivos e \textit{scripts} qu
 
 Serve para registrar classes no banco de dados \textit{ObjectTypeDB}. A implementação desta função no módulo \textit{Speech to Text} é apresentada na listagem \ref{register-types}.
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[
   language=C++,
   label=register-types,
@@ -403,6 +424,7 @@ void register_speech_to_text_types() {
         Globals::Singleton("STTError", STTError::get_singleton()));
 }
 \end{lstlisting}
+\end{minipage}
 
 O método \texttt{register\_type} de \textit{ObjectTypeDB} faz o registro da classe. Há um caso especial em \textit{STTError}, que usa \texttt{register\_virtual\_type} para não ser instanciável. Por fim, como esta mesma classe é um \textit{singleton}, aproveitamos para criar sua única instância com \texttt{memnew()} (o equivalente de \texttt{new} para \textit{Godot}) e guardar umas referência junto a outros \textit{singletons} em \textit{Globals}.
 
@@ -410,6 +432,7 @@ O método \texttt{register\_type} de \textit{ObjectTypeDB} faz o registro da cla
 
 Esta função é chamada após o jogo ser finalizado (fechado). Tipicamente é usada para desalocar memória e/ou realizar tarefas de término no módulo. A implementação desta função no módulo \textit{Speech to Text} é apresentada na listagem \ref{unregister-types}.
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[
   language=C++,
   label=unregister-types,
@@ -423,6 +446,7 @@ void unregister_speech_to_text_types() {
         FileDirUtil::remove_dir_recursive(user_dirname);
 }
 \end{lstlisting}
+\end{minipage}
 
 Em nosso caso, basta liberar o \textit{singleton} de \textit{STTError} alocado previamente; note que \texttt{memdelete} é o equivalente de \texttt{delete} em \textit{Godot}. Também removemos todos os arquivos de configuração copiados para \texttt{user://} pela classe \textit{STTConfig}.
 
@@ -448,6 +472,7 @@ Esta função recebe o nome da plataforma em que \textit{Godot} está sendo comp
 
 A listagem \ref{can-build} apresenta a implementação da função.
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[
   language=Python,
   label=can-build,
@@ -464,6 +489,7 @@ def can_build(platform):
    else:
       return False
 \end{lstlisting}
+\end{minipage}
 
 Em nosso caso, \textit{Speech to Text} deve verificar se a plataforma \textit{Unix} (referida como \textit{x11}) possui sistema de som \textit{PulseAudio} \citep{pulseaudio} ou \textit{ALSA} \citep{alsa}, pois ambos são compatíveis tanto com \textit{Godot} quanto com \textit{Pocketsphinx}. Sistemas \textit{Windows} são, teoricamente, sempre compatíveis devido a um arquivo de \textit{Pocketsphinx} que trata seu sistema de som. Outros sistemas operacionais não foram testados, então preferiu-se retornar \texttt{False}.
 
@@ -473,6 +499,7 @@ Recebe um objeto caracterizando o ambiente de compilação, podendo realizar aju
 
 Nenhuma mudança foi necessária em \textit{Speech to Text}, o que levou esta função a ficar sem conteúdo (listagem \ref{configure}).
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[
   language=Python,
   label=configure,
@@ -480,6 +507,7 @@ Nenhuma mudança foi necessária em \textit{Speech to Text}, o que levou esta fu
 def configure(env):
    pass
 \end{lstlisting}
+\end{minipage}
 
 % ---------------------------------------------------------------------
 
