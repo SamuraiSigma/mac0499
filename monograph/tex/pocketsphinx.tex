@@ -88,12 +88,10 @@ Antes de começar, instale as seguintes dependências em seu sistema:
 
 Em um sistema \emph{Ubuntu}, por exemplo, digitaria-se no terminal:
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ sudo apt-get install gcc automake autoconf libtool bison swig \
   python-dev pulseaudio
 \end{lstlisting}
-\end{minipage}
 
 % ---------------------------------------------------------------------
 
@@ -105,23 +103,18 @@ O pacote \textbf{Sphinxbase} oferece funcionalidades comuns a todos os projetos 
 \begin{enumerate}
 \item Clone o repositório do \textit{Sphinxbase}.
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ git clone https://github.com/cmusphinx/sphinxbase
 \end{lstlisting}
-\end{minipage}
 
 \item Dentro do diretório \texttt{sphinxbase/} criado pelo passo anterior, execute o \textit{script} \texttt{autogen.sh} para gerar o arquivo \texttt{configure}:
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ ./autogen.sh
 \end{lstlisting}
-\end{minipage}
 
 \item Execute o \textit{script} \texttt{configure} criado no último passo:
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 # Padrão
 $ ./configure
@@ -129,17 +122,14 @@ $ ./configure
 # Plataformas sem aritmética de ponto flutuante
 $ ./configure ---enable-fixed ---without-lapack
 \end{lstlisting}
-\end{minipage}
 
 Note que qualquer dependência ausente no sistema (por exemplo, o pacote \texttt{swig}) será notificada ao usuário neste passo. Se a execução ocorrer sem problemas, um \texttt{Makefile} será gerado.
 
 \item Compile o \textit{Sphinxbase} através do \texttt{Makefile}:
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ make
 \end{lstlisting}
-\end{minipage}
 
 \end{enumerate}
 
@@ -153,39 +143,31 @@ O pacote \textbf{Pocketsphinx} contém as funcionalidades de reconhecimento de v
 \begin{enumerate}
 \item Clone o repositório do \textit{Pocketsphinx}, o que criará o diretório \texttt{pocketsphinx/}.
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ git clone https://github.com/cmusphinx/pocketsphinx
 \end{lstlisting}
-\end{minipage}
 
 \item Certifique-se que as pastas \texttt{sphinxbase/} e \texttt{pocketsphinx/} estejam no mesmo diretório, pois \textit{Pocketsphinx} usa o caminho \texttt{../} para procurar pelo pacote \textit{Sphinxbase}.
 
 \item Dentro do diretório \texttt{pocketsphinx/}, execute o \textit{script} \texttt{autogen.sh} para gerar o arquivo \texttt{configure}:
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ ./autogen.sh
 \end{lstlisting}
-\end{minipage}
 
 \item Execute o \textit{script} \texttt{configure} criado no último passo:
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ ./configure
 \end{lstlisting}
-\end{minipage}
 
 Note que qualquer dependência ausente no sistema será notificada ao usuário neste passo. Se a execução ocorrer sem problemas, um \texttt{Makefile} será gerado.
 
 \item Compile o \textit{Pocketsphinx} através do \texttt{Makefile}:
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ make
 \end{lstlisting}
-\end{minipage}
 
 \end{enumerate}
 
@@ -197,27 +179,23 @@ Para verificar se a compilação feita nas subseções \ref{sphinxbaseCompile} e
 
 No diretório onde encontram-se as pastas \texttt{sphinxbase/} e \texttt{pocketsphinx/}, execute o conteúdo da listagem \ref{sphinxTest}.
 
-\begin{minipage}{\linewidth}
 \lstinputlisting[
   language=Bash,
   basicstyle=\scriptsize,
   caption={Comandos para teste de reconhecimento de voz contínuo usando \textit{Pocketsphinx}},
   label={sphinxTest}]
   {listing/run-sphinx-continuous.sh}
-\end{minipage}
 
 O programa imediatamente irá imprimir uma lista de seus parâmetros e seus respectivos valores. Depois, avisará ao usuário que está pronto para receber a entrada de voz por meio de uma linha terminada em \texttt{Ready....}
 
 A listagem \ref{sphinx123} representa uma saída resumida ao se falar \texttt{``one two three''} no microfone. Os caracteres \texttt{[..]} representam uma ou mais linhas omitidas.
 
-\begin{minipage}{\linewidth}
 \lstinputlisting[
   basicstyle=\scriptsize,
   numbers=left,
   caption={Saída do \texttt{pocketsphinx\_continuous} ao se falar \texttt{``one two three''}},
   label={sphinx123}]
   {listing/sphinx-continuous-123.txt}
-\end{minipage}
 
 Uma interpretação detalhada de toda a saída exige um estudo maior em reconhecimento de voz e na biblioteca \textit{Pocketsphinx} em si. No entanto, algumas linhas mostradas na listagem \ref{sphinx123} apresentam resultados compreensíveis:
 

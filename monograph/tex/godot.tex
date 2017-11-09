@@ -183,11 +183,9 @@ A solução apresentada por \textit{Godot} foi definir um outro prefixo, \textbf
 
 \textit{SCons} pode ser instalado pela linha de comando. Em um ambiente Ubuntu, por exemplo, digitaria-se:
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ sudo apt-get install scons
 \end{lstlisting}
-\end{minipage}
 
 Também é possível baixar um binário ou o código fonte pelo site \citep{sconsDownload}.
 
@@ -197,11 +195,9 @@ Também é possível baixar um binário ou o código fonte pelo site \citep{scon
 
 Para usar \textit{SCons} com os \textit{scripts} de configuração em um diretório, basta invocá-lo:
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ scons
 \end{lstlisting}
-\end{minipage}
 
 \textit{Godot} oferece alguns argumentos por linha de comando para maior controle sobre a compilação, os quais usaremos na seção \ref{godotCompile} e no capítulo \ref{cap:color-clutter}. Veja a tabela \ref{sconsParams} para maiores informações.
 
@@ -308,42 +304,33 @@ Antes de começar, verifique se o seu sistema \textit{Unix} possui as seguintes 
 
 A página de documentação de \textit{Godot} em \citep{godotReq} oferece comandos de terminal para baixar as dependências facilmente nas distribuições \textit{Unix} mais populares. Em \textit{Ubuntu}, por exemplo, faríamos:
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ sudo apt-get install build-essential scons pkg-config libx11-dev \
   libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu-dev \
   libasound2-dev libpulse-dev libfreetype6-dev libssl-dev libudev-dev \
   libxrandr-dev
 \end{lstlisting}
-\end{minipage}
 
 Feito isso, siga os passos a seguir para compilar \textit{Godot} na versão 2.1.4.
 
 \begin{enumerate}
 \item Clone o repositório da \textit{game engine}.
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ git clone https://github.com/godotengine/godot
 \end{lstlisting}
-\end{minipage}
 
 \item Dentro do diretório \texttt{godot/} criado pelo passo anterior, mude para a \textit{tag} corresponde à versão 2.1.4.
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ git checkout 2.1.4-stable
 \end{lstlisting}
-\end{minipage}
 
 \item Compile \textit{Godot} através da ferramenta \textit{SCons}; deve levar em torno de 15 minutos.
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ scons p=x11
 \end{lstlisting}
-\end{minipage}
-
 \end{enumerate}
 
 % ---------------------------------------------------------------------
@@ -352,11 +339,9 @@ $ scons p=x11
 
 Se a compilação foi feita com sucesso, um diretório \texttt{bin/} será gerado dentro de \texttt{godot/}. Execute o binário nele contido para abrir o editor \textit{Godot}.
 
-\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
 $ ./bin/godot.x11.tools.32  # Em sistema Unix, 32 bits
 $ ./bin/godot.x11.tools.64  # Em sistema Unix, 64 bits
 \end{lstlisting}
-\end{minipage}
 
 O uso do editor em si será visto no capítulo \ref{cap:color-clutter}, quando criarmos um jogo para demonstrar o módulo de reconhecimento de voz.
