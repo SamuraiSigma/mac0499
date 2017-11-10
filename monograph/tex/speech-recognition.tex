@@ -132,6 +132,24 @@ Ao voltarmos para o sistema genérico de reconhecimento de voz apresentado na se
 
 % ---------------------------------------------------------------------
 
+\subsection{Taxa de erro por palavra}
+\label{word-error-rate}
+
+A taxa de erro por palavra (\textit{word error rate}, ou $WER$) é uma métrica de desempenho de um sistema de reconhecimento de voz \citep{wordErrorRate}.
+
+Suponha que tenhamos o texto de referência $\tau$, correspondente ao que o usuário falou, e o texto $\tau'$ de hipótese, que foi gerado pelo sistema STT. O reconhecimento pode levar a diferentes interpretações nas $N$ palavras de $\tau$, levando a um $\tau'$ diferente. Em particular, costuma haver um certo número $I$ de palavras inseridas, uma quantidade $D$ de palavras removidas e um valor $S$ de palavras substituídas.
+
+Exemplificando, seja $\tau$ = \textit{``Gosto de chocolate''} e $\tau'$ = \textit{``Gosto \_ chocolate''}. Houve uma remoção por conta da preposição \textit{``de''} ter sido removida pelo sistema de reconhecimento de voz, então $D = 1$.
+
+A taxa de erro $WER$, geralmente expressa como uma porcentagem, é dada pela equação \ref{wer-equation}. Um valor elevado para esta métrica significa que a qualidade do reconhecimento de voz está ruim.
+
+\begin{equation}
+\label{wer-equation}
+WER =  \frac{I + D + S}{N}
+\end{equation}
+
+% ---------------------------------------------------------------------
+
 \subsection{Parâmetros ambientais}
 
 Parâmetros ambientais referem-se a fatores externos ao sistema que podem interferir no reconhecimento de voz. Destacam-se:

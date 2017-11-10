@@ -72,6 +72,9 @@
 % Allow forcing a figure to be displayed "here"
 \usepackage{float}
 
+% Footnotes in table with \tablefootnote{}
+\usepackage{tablefootnote}
+
 % Input code
 \usepackage{listings} \lstset{basicstyle=\ttfamily}
 \renewcommand\lstlistingname{Listagem}                % Listing caption name
@@ -88,7 +91,8 @@
             linkcolor=NavyBlue,
             urlcolor=DarkRed,
             filecolor=green,
-            bookmarksopen=true]{hyperref}
+            bookmarksopen=true,
+            hyperfootnotes=false]{hyperref}
 
 % Support PDF bookmarks, links, etc.
 \usepackage[numbered]{bookmark}

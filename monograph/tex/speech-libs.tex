@@ -74,11 +74,27 @@ Realizou-se uma pesquisa por bibliotecas de reconhecimento de voz que sigam o m�
 \item \textbf{Simon} \citep{Simon}: Popular para Linux e escrita em C++, Simon utiliza \textit{CMUSphinx}, \textit{HTK} e \textit{Julius} internamente. Não havia suporte para \textit{MacOS} até abril de 2017.
 \end{itemize}
 
-% TODO: Explain better each library and the comparison article
-Um artigo de 2014 comparou \emph{Kaldi}, \emph{CMUSphinx} e \emph{HTK} em relação a precisão e tempo gasto \citep{compareSpeech}. \emph{Kaldi} obteve resultados vastamente superiores; \emph{CMUSphinx} obteve bons resultados em pouco tempo; \emph{HTK} precisou de muito mais tempo e treino para conseguir resultados na ordem dos outros dois.
-
 % ---------------------------------------------------------------------
 
-\section{\textit{Pocketsphinx}, a biblioteca escolhida}
+\subsection{Escolha da biblioteca mais adequada}
 
-% TODO: Write this section
+Um artigo de 2014 \citep{compareSpeech} comparou as versões mais recentes de \emph{Kaldi}, \emph{CMUSphinx} e \emph{HTK} na época em relação à taxa de erro por palavra (\textit{word error rate}, explicado na seção \ref{word-error-rate}). Arquivos de áudio em inglês e alemão foram usados como entrada. Os resultados obtidos são apresentados na tabela \ref{werLibs}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\thead{\textbf{Biblioteca}} & \textbf{$\mathbf{WER}$ em inglês (\%)} & \textbf{$\mathbf{WER}$ em alemão (\%)} \\ \hline
+
+\textit{Kaldi}                           &  6,5 & 12,7 \\ \hline
+\textit{Pocketsphinx} v0.8               & 21,4 & 23,9 \\ \hline
+\textit{HTK} com \textit{HDecode}\tablefootnote{Decodificador utilizado junto à biblioteca \textit{HTK}.} v3.4.1 & 19,8 & 22,9 \\ \hline
+\end{tabular}
+
+\caption{Comparação do $WER$ de bibliotecas STT para entradas em inglês e alemão}
+\label{werLibs}
+\end{table}
+
+A tabela mostra que \emph{Kaldi} obteve resultados vastamente superiores, enquanto \emph{Pocketsphinx} e \textit{HTK} apresentaram desempenho parecido. O artigo comenta que, apesar dessa semelhança, a dificuldade bem maior em se configurar \textit{HTK} leva esta biblioteca a ser a menos ideal dentre as citadas.
+
+Os resultados apontam fortemente ao uso de \textit{Kaldi}. No entanto, seu uso e documentação apresentaram ser bastante complexos, e o fato de ser pesada e demorada para compilar nos levou a escolher \textit{Pocketsphinx} para uso no módulo de reconhecimento de voz.
