@@ -243,7 +243,7 @@ Comentamos, nos requisitos funcionais (seção \ref{moduleFunctionalRequirements
 
 O método \texttt{start()} cria uma \textit{thread} para realizar o reconhecimento de voz desde que o objeto \textit{STTRunner} já possua instâncias de \textit{STTConfig} e \textit{STTQueue}. Chama-se \texttt{Thread::create()} com um método estático como parâmetro (\texttt{\_thread\_recognize()}, que não aparece na figura \ref{stt-runner-diagram} por agir apenas como um intermédio) e a própria instância como argumento (isto é, \texttt{this}).
 
-A listagem \ref{thread-recognize} mostra a implementação de \texttt{\_thread\_recognize()}, responsável por chamar o método privado \texttt{\_recognize()} da instância passada como argumento. É nesta última função que o laço de reconhecimento de voz ocorre, implementado de forma bastante similar ao que vimos na seção \label{stt-continuous-algorithm}.
+A listagem \ref{thread-recognize} mostra a implementação de \texttt{\_thread\_recognize()}, responsável por chamar o método privado \texttt{\_recognize()} da instância passada como argumento. É nesta última função que o laço de reconhecimento de voz ocorre, implementado de forma bastante similar ao que vimos na seção \ref{stt-continuous-algorithm}.
 
 \begin{lstlisting}[
   language=C++,
