@@ -99,9 +99,7 @@ Quais os requisitos funcionais e não funcionais que queremos atender? O que um 
 
 \subsection{Requisitos não funcionais}
 
-% TODO: Fix references
-
-Reconhecimento de voz em jogos geralmente é usado em um contexto de tempo real. Isto é, para uma dada fala do usuário, não desejamos que o jogo demore muito para dar alguma forma de resposta com o risco de comprometer seu aspecto lúdico. A preocupação é reduzida ao lembrarmos que \textit{Pocketsphinx} apresentou resultados rápidos nos testes realizados na seção \ref{???}.
+Reconhecimento de voz em jogos geralmente é usado em um contexto de tempo real. Isto é, para uma dada fala do usuário, não desejamos que o jogo demore muito para dar alguma forma de resposta com o risco de comprometer seu aspecto lúdico.
 
 Portanto, em termos dos principais parâmetros de reconhecimento de voz definidos na seção \ref{sttMainTerms}, projetaremos o módulo com a questão de \textbf{eficiência} em mente:
 
@@ -115,9 +113,9 @@ Portanto, em termos dos principais parâmetros de reconhecimento de voz definido
 \item \textbf{Parâmetros ambientais}: Não é esperado que interfiram tanto no jogo. A relação sinal/ruído deve ser baixa, pois um ambiente muito barulhento comprometeria a jogabilidade. Por fim, desejamos que o usuário possa falar em um tom de voz normal, sem precisar ``forçar'' a pronúncia das palavras ou aumentar o volume de sua fala para o reconhecimento ser possível. Tais características são automaticamente tratadas pelo modelo acústico usado no \textit{Pocketsphinx}.
 \end{itemize}
 
-Desejamos que o módulo seja \textbf{confiável} em relação à acurácia do reconhecimento de voz. Conforme vimos na seção \ref{???}, isto dependerá dos modelos usados na configuração do \textit{Pocketsphinx}.
+Desejamos que o módulo seja \textbf{confiável} em relação à acurácia do reconhecimento de voz. Isto dependerá dos modelos usados na configuração do \textit{Pocketsphinx} (descritos na seção \ref{pocketsphinx-models}).
 
-\textbf{Configurabilidade} também é uma característica desejada: o usuário do módulo deverá ter controle sobre a língua do reconhecimento e o vocabulário reconhecido, por exemplo. \textit{Pocketsphinx} permite isso facilmente com a alteração de seus arquivos de configuração, incluindo o modelo acústico e as palavras-chave.
+\textbf{Configurabilidade} também é uma característica desejada: o usuário do módulo deverá ter controle sobre a língua do reconhecimento e o vocabulário reconhecido, por exemplo. \textit{Pocketsphinx} permite isso facilmente com a alteração de seus arquivos de configuração. O uso de palavras-chave (comentado na seção \ref{pocketsphinx-keywords}) em vez de um modelo de língua é mais adequado para um jogo, uma vez que a interação exercida pelo usuário ocorre por meio de palavras específicas.
 
 O módulo deverá ser de \textbf{propósito geral} em relação ao tipo de jogo em que é empregado (ação, terror, plataforma, etc.); portanto, não é possível prever características do típico usuário do jogo. Este requisito, em geral, não é tão preocupante quando levamos em conta o uso de um modelo acústico geral com a biblioteca \textit{Pocketsphinx}.
 
@@ -201,7 +199,7 @@ Verifica-se se os nomes passados como argumentos para os \textit{setters} corres
 
 Por fim, resta um problema para tratarmos, resultante da distinção entre os sistemas de arquivo de \textit{Godot} (visto na seção \ref{godotFileSystem}) e \textit{Pocketsphinx}. Suponha que o desenvolvedor de um jogo tenha guardado seu arquivo de dicionário, o \texttt{dicionario.dict}, na raiz do projeto. Como referenciar este arquivo? \textit{Godot} utilizaria o caminho \texttt{res://dicionario.dict}, mas \textit{Pocketsphinx} não entende este prefixo, necessitando do caminho absoluto usado no sistema.
 
-Uma solução simples seria converter o caminho com \texttt{res://} para o caminho absoluto do sistema operacional; o método \texttt{???} da classe \textit{???} de \textit{Godot} faz justamente isso. No entanto, se o jogo estiver no formato de um binário fechado, é impossível referenciar qualquer arquivo dentro dele por meio da plataforma hospedeira.
+Uma solução simples seria converter o caminho com \texttt{res://} para o caminho absoluto do sistema operacional; o método \texttt{globalize\_path} da classe \textit{Globals} de \textit{Godot} faz justamente isso. No entanto, se o jogo estiver no formato de um binário fechado, é impossível referenciar qualquer arquivo dentro dele por meio da plataforma hospedeira.
 
 A solução final implementada envolve usar o outro prefixo definido pela \textit{game engine}, o \textbf{\texttt{user://}}. Copiam-se todos os arquivos e diretórios de configuração para este caminho e usa-se o método \texttt{get\_data\_dir()} da classe \textit{OS} para buscar seu equivalente na plataforma hospedeira. Por precaução, adotou-se a prática de sobrescrever arquivos e diretórios copiados previamente.
 
@@ -213,7 +211,7 @@ Deparamo-nos com outro problema de compatibilidade: os nomes dos arquivos são f
 
 % TODO: Fix reference below
 
-O método \texttt{init()} irá inicializar as variáveis de configuração \texttt{cmd\_ln\_t}, de gravação de voz \texttt{ad\_rec\_t} e o decodificador \texttt{ps\_decoder\_t} (todos vistos na seção \ref{???}). Caso algum problema ocorra, retorna-se um número de erro, pertencente à classe \mbox{\textit{STTError}}, relativo ao problema ocorrido.
+O método \texttt{init()} irá inicializar as variáveis de configuração \texttt{cmd\_ln\_t}, de gravação de voz \texttt{ad\_rec\_t} e o decodificador \texttt{ps\_decoder\_t} (todos vistos na seção \ref{pocketsphinx-structs}). Caso algum problema ocorra, retorna-se um número de erro, pertencente à classe \mbox{\textit{STTError}}, relativo ao problema ocorrido.
 
 A cópia de arquivos para o caminho \textit{user://}, mencionada anteriormente, também ocorre neste método.
 
@@ -245,7 +243,7 @@ Comentamos, nos requisitos funcionais (seção \ref{moduleFunctionalRequirements
 
 O método \texttt{start()} cria uma \textit{thread} para realizar o reconhecimento de voz desde que o objeto \textit{STTRunner} já possua instâncias de \textit{STTConfig} e \textit{STTQueue}. Chama-se \texttt{Thread::create()} com um método estático como parâmetro (\texttt{\_thread\_recognize()}, que não aparece na figura \ref{stt-runner-diagram} por agir apenas como um intermédio) e a própria instância como argumento (isto é, \texttt{this}).
 
-A listagem \ref{thread-recognize} mostra a implementação de \texttt{\_thread\_recognize()}, responsável por chamar o método privado \texttt{\_recognize()} da instância passada como argumento. É nesta última função que o laço de reconhecimento de voz ocorre, implementado de forma bastante similar ao que vimos na seção \ref{???}.
+A listagem \ref{thread-recognize} mostra a implementação de \texttt{\_thread\_recognize()}, responsável por chamar o método privado \texttt{\_recognize()} da instância passada como argumento. É nesta última função que o laço de reconhecimento de voz ocorre, implementado de forma bastante similar ao que vimos na seção \label{stt-continuous-algorithm}.
 
 \begin{lstlisting}[
   language=C++,

@@ -40,6 +40,7 @@ No contexto de reconhecimento de voz, CMUSphinx divide as \textit{utterances} em
 % ---------------------------------------------------------------------
 
 \subsection{Modelo}
+\label{pocketsphinx-models}
 
 Um \textbf{modelo} é uma simplificação, onde reduz-se o que se quer modelar às suas características mais importantes. Neste caso, falamos de um modelo de reconhecimento de voz: como tratar as transições entre os quadros em que se divide o áudio capturado?
 
@@ -64,6 +65,7 @@ Um exemplo de uma linha de um dicionário em inglês seria:
 % ---------------------------------------------------------------------
 
 \subsection{Palavras-chave}
+\label{pocketsphinx-keywords}
 
 Dentre várias formas diferentes de busca, \textit{CMUSphinx} também oferece suporte para reconhecimento de voz por palavras-chave. Ao invés de usar um modelo de linguagem, fornece-se à biblioteca um arquivo de palavras ou frases a qual se quer detectar, juntamente com um limiar de detecção. Qualquer som capturado que não se encaixar no arquivo ou cujo limiar calculado for baixo demais será descartado.
 
@@ -78,7 +80,7 @@ Um exemplo de linha no arquivo de palavras-chave está a seguir: cada palavra de
 \section{Compilação}
 \label{sphinxCompile}
 
-Apresentamos instruções, em \textit{Bash}, para baixar e compilar a biblioteca \textit{Pocketsphinx}. Os passos foram baseados nas instruções em \citep{pocketsphinxInstall}.
+Apresentamos instruções, em \textit{Bash}, para baixar e compilar a biblioteca \textit{Pocketsphinx}. Os passos foram baseados nas instruções em \citep{pocketsphinxInstallUse}.
 
 Antes de começar, instale as seguintes dependências em seu sistema:
 
@@ -202,6 +204,7 @@ Uma interpretação detalhada de toda a saída exige um estudo maior em reconhec
 % ---------------------------------------------------------------------
 
 \section{Estruturas e tipos importantes}
+\label{pocketsphinx-structs}
 
 Feita a compilação da biblioteca, começaremos a analisar as ferramentas que oferece para implementação de reconhecimento de voz. Ressaltamos que a implementação dos pacotes \textit{Sphinxbase} e \textit{Pocketsphinx} é feita na linguagem \textit{C}.
 
@@ -211,7 +214,7 @@ Dentre os tipos de dados oferecidos pelos pacotes \textit{Sphinxbase} e \textit{
 
 \subsection{Configuração: \texttt{cmd\_ln\_t}}
 
-A \textit{struct} \texttt{cmd\_ln\_t}, definida no pacote \textit{Sphinxbase}, representa uma variável de configuração. Ela é fornecida a outros tipos de dados em \textit{Pocketsphinx}; informa-se, por exemplo, os arquivos a serem usados (dicionário, modelo acústico, etc.) e se reconhecimento usará um arquivo de áudio ou será feito na hora.
+A \textit{struct} \texttt{cmd\_ln\_t}, definida no pacote \textit{Sphinxbase}, representa uma variável de configuração \citep{pocketsphinxInstallUse}. Ela é fornecida a outros tipos de dados em \textit{Pocketsphinx}; informa-se, por exemplo, os arquivos a serem usados (dicionário, modelo acústico, etc.) e se reconhecimento usará um arquivo de áudio ou será feito na hora.
 
 Um ponteiro pode ser alocado e gerenciado com a função \texttt{cmd\_ln\_init()}, devendo-se liberá-lo posteriormente com uma chamada a \texttt{cmd\_ln\_free\_r()}.
 
@@ -221,7 +224,7 @@ Um dos parâmetros existentes neste tipo de configuração é o nome do microfon
 
 \subsection{Gravação: \texttt{ad\_rec\_t}}
 
-A \textit{struct} \texttt{ad\_rec\_t} está definida no pacote \textit{Sphinxbase} e tem como objetivo gravar som de alguma entrada de voz. Seu uso é vital na implementação de reconhecimento de voz contínuo, através do microfone do usuário.
+A \textit{struct} \texttt{ad\_rec\_t} está definida no pacote \textit{Sphinxbase} e tem como objetivo gravar som de alguma entrada de voz \citep{pocketsphinxInstallUse}. Seu uso é vital na implementação de reconhecimento de voz contínuo, através do microfone do usuário.
 
 Aloca-se um ponteiro para este tipo com a função \texttt{ad\_open\_dev()}, cujos parâmetros são um ponteiro para um tipo de configuração \texttt{cmd\_ln\_t} e a taxa de amostragem por segundo. O ponteiro do gravador deve ser liberado posteriormente  com \texttt{ad\_close()}.
 
@@ -243,7 +246,7 @@ Termina a gravação no seu argumento \texttt{ad\_rec\_t *recorder}.
 
 \subsection{Decodificação: \texttt{ps\_decoder\_t}}
 
-A \textit{struct} \texttt{ps\_decoder\_t}, definida no pacote \textit{Pocketsphinx}, representa um decodificador de áudio para texto. Toda a lógica por trás de reconhecimento de voz, portanto, é tratada por funções ligadas a este tipo.
+A \textit{struct} \texttt{ps\_decoder\_t}, definida no pacote \textit{Pocketsphinx}, representa um decodificador de áudio para texto \citep{pocketsphinxInstallUse}. Toda a lógica por trás de reconhecimento de voz, portanto, é tratada por funções ligadas a este tipo.
 
 Cria-se um ponteiro para um decodificador com a função \texttt{ps\_init()}, que recebe um tipo de configuração \texttt{cmd\_ln\_t} como seu único argumento. A memória alocada deve ser liberada após seu uso com a função \texttt{ps\_free()}.
 
@@ -271,6 +274,7 @@ Termina o processamento para \textit{utterance} no \texttt{ps\_decoder\_t *decod
 % ---------------------------------------------------------------------
 
 \section{Implementação de reconhecimento contínuo}
+\label{stt-continuous-algorithm}
 
 O reconhecimento contínuo de palavras-chave foi implementado com base no código presente em \citep{pocketsphinxMicLoop}. Apresentamos, na listagem \ref{ps-stt-loop}, a função que implementa o laço central do algoritmo, onde repetidamente capta-se a voz do usuário para processamento e imprime-se, na tela, as palavras mais próximas ao que foi pronunciado. Removeram-se as linhas relativas a tratamento de erro para não estender demais a função.
 
