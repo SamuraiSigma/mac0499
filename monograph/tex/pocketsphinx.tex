@@ -257,6 +257,10 @@ Inicializa o processamento para \textit{utterance} no \texttt{ps\_decoder\_t *de
 
 Usa-se \texttt{ps\_decoder\_t *decoder} para decodificar o áudio guardado no \textit{buffer} de tamanho especificado. Os dois parâmetros restantes representam pequenas otimizações possíveis: \texttt{no\_search} realiza parcialmente o reconhecimento para usar menos processamento, e \texttt{full\_utt} considera o \textit{buffer} inteiro como um \textit{utterance}.
 
+\subsubsection{\texttt{bool ps\_get\_in\_speech(decoder)}}
+
+Retorna \texttt{true} se o \texttt{ps\_decoder\_t *decoder} fornecido tiver decodificado algo, ou \texttt{false} caso contrário. Esta função só deve ser chamada após um \texttt{ps\_process\_raw()}.
+
 \subsubsection{\texttt{char * ps\_get\_hyp(decoder, \&score)}}
 
 Retorna a hipótese (isto é, o termo mais provável) para um \texttt{ps\_decoder\_t *decoder} que foi processado anteriormente com \texttt{ps\_process\_raw()}. Opcionalmente, se um modelo de língua está sendo usado, pode-se passar a referência de um inteiro como segundo argumento para obter a avaliação (\textit{score}) recebida para a hipótese.
@@ -266,4 +270,29 @@ Termina o processamento para \textit{utterance} no \texttt{ps\_decoder\_t *decod
 
 % ---------------------------------------------------------------------
 
-\subsection{Reconhecimento contínuo de palavras chave}
+\section{Implementação de reconhecimento contínuo}
+
+O reconhecimento contínuo de palavras-chave foi implementado com base no código presente em \citep{pocketsphinxMicLoop}. Apresentamos, na listagem \ref{ps-stt-loop}, a função que implementa o laço central do algoritmo, onde repetidamente capta-se a voz do usuário para processamento e imprime-se, na tela, as palavras mais próximas ao que foi pronunciado. Removeram-se as linhas relativas a tratamento de erro para não estender demais a função.
+
+\begin{minipage}{\linewidth}
+\lstinputlisting[
+  language=C,
+  numbers=left,
+  caption={Laço de reconhecimento de voz usando-se as ferramentas de \textit{Pocketsphinx}},
+  label={ps-stt-loop}]
+  {listing/ps-stt-loop.c}
+\end{minipage}
+
+As linhas 2 a 9 correspondem à inicialização de variáveis, do gravador e do decodificador. Assume-se, inicialmente, que não estamos no meio de um \textit{utterance} através de \texttt{utt\_started = false} (linha 3).
+
+O laço de reconhecimento de voz começa na linha 11, e usa a seguinte lógica:
+
+\begin{itemize}
+\item \textbf{Linhas 12-14}: O áudio de entrada é capturado, e seus dados são processados pelo decodificador.
+
+\item \textbf{Linhas 16-18}: Se foi possível decodificar alguma palavra do usuário, significa que estamos diante de um \textit{utterance}. Em outras palavras, o usuário está falando algo. Coloca-se \texttt{utt\_started = true}.
+
+\item \textbf{Linhas 22-34}: A condição da linha 23 é oposta à que acabamos de ver anteriormente, verificando se o gravador/decodificador não detectaram mais nenhuma palavra vinda do usuário. Caso seja verdade, encerramos o \textit{utterance} atual e adquirimos sua interpretação (hipótese) através de \texttt{ps\_get\_hyp()} (linhas 26 a 28). Por fim, reiniciamos o decodificador para captar um novo \textit{utterance}, alterando \texttt{utt\_started} para \texttt{false} para refletir esta mudança (linhas 31 a 33).
+\end{itemize}
+
+O leitor talvez note que a chamada a \texttt{ad\_stop\_rec()} na linha 37 é inalcançável devido ao laço implementado não possuir condição de parada. A implementação foi feita desta forma porque a situação apresentada é um teste; em um caso mais específico, como na implementação do módulo de reconhecimento de voz, a presença de uma condição de parada é vital.
