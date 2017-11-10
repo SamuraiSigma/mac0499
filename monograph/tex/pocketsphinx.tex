@@ -197,9 +197,73 @@ A listagem \ref{sphinx123} representa uma saída resumida ao se falar \texttt{``
   label={sphinx123}]
   {listing/sphinx-continuous-123.txt}
 
-Uma interpretação detalhada de toda a saída exige um estudo maior em reconhecimento de voz e na biblioteca \textit{Pocketsphinx} em si. No entanto, algumas linhas mostradas na listagem \ref{sphinx123} apresentam resultados compreensíveis:
+Uma interpretação detalhada de toda a saída exige um estudo maior em reconhecimento de voz e na biblioteca \textit{Pocketsphinx} em si. No entanto, destacamos alguma informações, como o número de palavras reconhecidas (linhas 4 e 8) e a quantidade de \textit{senones} (detectores curtos de sons para trifonemas) captadas.
 
-\begin{itemize}
-\item As linhas 4 a 6 apresentam resultados anteriores
-\item O número de \textit{senones}, que são detectores curtos de sons para trifonemas
-\end{itemize}
+% ---------------------------------------------------------------------
+
+\section{Estruturas e tipos importantes}
+
+Feita a compilação da biblioteca, começaremos a analisar as ferramentas que oferece para implementação de reconhecimento de voz. Ressaltamos que a implementação dos pacotes \textit{Sphinxbase} e \textit{Pocketsphinx} é feita na linguagem \textit{C}.
+
+Dentre os tipos de dados oferecidos pelos pacotes \textit{Sphinxbase} e \textit{Pocketsphinx}, destacamos três, a seguir, que serão importantes para um experimento que faremos em breve.
+
+% ---------------------------------------------------------------------
+
+\subsection{Configuração: \texttt{cmd\_ln\_t}}
+
+A \textit{struct} \texttt{cmd\_ln\_t}, definida no pacote \textit{Sphinxbase}, representa uma variável de configuração. Ela é fornecida a outros tipos de dados em \textit{Pocketsphinx}; informa-se, por exemplo, os arquivos a serem usados (dicionário, modelo acústico, etc.) e se reconhecimento usará um arquivo de áudio ou será feito na hora.
+
+Um ponteiro pode ser alocado e gerenciado com a função \texttt{cmd\_ln\_init()}, devendo-se liberá-lo posteriormente com uma chamada a \texttt{cmd\_ln\_free\_r()}.
+
+Um dos parâmetros existentes neste tipo de configuração é o nome do microfone, no contexto do sistema do usuário. Não conseguimos encontrar uma forma de se obter, em tempo de execução, os nomes dos microfones disponíveis em um sistema \textit{Unix}. Percebemos, também, que seria bastante complicado desenvolver uma solução que funcionasse independentemente do sistema operacional. Portanto, escolhemos passar o nome do microfone como \texttt{NULL}, o que leva \textit{Pocketsphinx} a sempre utilizar o microfone padrão do computador, seja qual for a plataforma em que ele está.
+
+% ---------------------------------------------------------------------
+
+\subsection{Gravação: \texttt{ad\_rec\_t}}
+
+A \textit{struct} \texttt{ad\_rec\_t} está definida no pacote \textit{Sphinxbase} e tem como objetivo gravar som de alguma entrada de voz. Seu uso é vital na implementação de reconhecimento de voz contínuo, através do microfone do usuário.
+
+Aloca-se um ponteiro para este tipo com a função \texttt{ad\_open\_dev()}, cujos parâmetros são um ponteiro para um tipo de configuração \texttt{cmd\_ln\_t} e a taxa de amostragem por segundo. O ponteiro do gravador deve ser liberado posteriormente  com \texttt{ad\_close()}.
+
+As três funções mais importantes para manipulação de um \texttt{ad\_rec\_t} são explicadas abaixo. Todas elas retornam um inteiro diferente de 0 no caso de um erro ocorrer.
+
+\subsubsection{\texttt{int ad\_start\_rec(recorder)}}
+
+Inicia a gravação no seu argumento \texttt{ad\_rec\_t *recorder}.
+
+\subsubsection{\texttt{int ad\_read(recorder, buffer, size)}}
+
+Lê o áudio gravado em \texttt{ad\_rec\_t *recorder} desde a última chamada desta função para este argumento. Guarda-se o áudio lido em um \textit{buffer} do tipo inteiro, que possui o tamanho \texttt{size} especificado.
+
+\subsubsection{\texttt{int ad\_stop\_rec(recorder)}}
+
+Termina a gravação no seu argumento \texttt{ad\_rec\_t *recorder}.
+
+% ---------------------------------------------------------------------
+
+\subsection{Decodificação: \texttt{ps\_decoder\_t}}
+
+A \textit{struct} \texttt{ps\_decoder\_t}, definida no pacote \textit{Pocketsphinx}, representa um decodificador de áudio para texto. Toda a lógica por trás de reconhecimento de voz, portanto, é tratada por funções ligadas a este tipo.
+
+Cria-se um ponteiro para um decodificador com a função \texttt{ps\_init()}, que recebe um tipo de configuração \texttt{cmd\_ln\_t} como seu único argumento. A memória alocada deve ser liberada após seu uso com a função \texttt{ps\_free()}.
+
+Suas funções mais importantes para manipulação são explicadas a seguir. Todas as funções do tipo \texttt{int} retornam um inteiro diferente de 0 no caso de um erro ocorrer.
+
+\subsubsection{\texttt{int ps\_start\_utt(decoder)}}
+
+Inicializa o processamento para \textit{utterance} no \texttt{ps\_decoder\_t *decoder} indicado.
+
+\subsubsection{\texttt{int ps\_process\_raw(decoder, buffer, size, no\_search, full\_utt)}}
+
+Usa-se \texttt{ps\_decoder\_t *decoder} para decodificar o áudio guardado no \textit{buffer} de tamanho especificado. Os dois parâmetros restantes representam pequenas otimizações possíveis: \texttt{no\_search} realiza parcialmente o reconhecimento para usar menos processamento, e \texttt{full\_utt} considera o \textit{buffer} inteiro como um \textit{utterance}.
+
+\subsubsection{\texttt{char * ps\_get\_hyp(decoder, \&score)}}
+
+Retorna a hipótese (isto é, o termo mais provável) para um \texttt{ps\_decoder\_t *decoder} que foi processado anteriormente com \texttt{ps\_process\_raw()}. Opcionalmente, se um modelo de língua está sendo usado, pode-se passar a referência de um inteiro como segundo argumento para obter a avaliação (\textit{score}) recebida para a hipótese.
+
+\subsubsection{\texttt{int ps\_stop\_utt(decoder)}}
+Termina o processamento para \textit{utterance} no \texttt{ps\_decoder\_t *decoder} indicado.
+
+% ---------------------------------------------------------------------
+
+\subsection{Reconhecimento contínuo de palavras chave}
