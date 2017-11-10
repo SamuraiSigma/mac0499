@@ -131,7 +131,6 @@
 \hypersetup{pageanchor=true}
 \pagenumbering{roman}
 \onehalfspacing
-\input{tex/thanks}
 \input{tex/abstract}
 
 % Add list of listings to ToC
@@ -169,7 +168,20 @@
 \input{tex/stt-module}
 \input{tex/color-clutter}
 \input{tex/conclusion}
+
+{
+\fancyhead[RO]{\nouppercase{Agradecimentos}}
+\fancyhead[LE]{\nouppercase{Agradecimentos}}
+\fancyhead[RE,LO]{}
+\input{tex/thanks}
+}
+
+{
+\fancyhead[RO]{\nouppercase{Disciplinas importantes para este trabalho}}
+\fancyhead[LE]{\nouppercase{Disciplinas importantes para este trabalho}}
+\fancyhead[RE,LO]{}
 \input{tex/subjects}
+}
 
 % ---------------------------------------------------------------------
 % Appendix
@@ -194,17 +206,6 @@
 
 % Add bibliography files here
 \bibliography{bib/stt-theory,bib/stt-libs,bib/godot,bib/other}
-
-% ---------------------------------------------------------------------
-% Index
-
-% \index{TBP|see{periodicidade região codificante}}
-% \index{DSP|see{processamento digital de sinais}}
-% \index{STFT|see{transformada de Fourier de tempo reduzido}}
-% \index{DFT|see{transformada discreta de Fourier}}
-% \index{Fourier!transformada|see{transformada de Fourier}}
-
-% \printindex  % imprime o índice remissivo no documento
 
 % ---------------------------------------------------------------------
 
