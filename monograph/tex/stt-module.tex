@@ -400,7 +400,7 @@ void register_speech_to_text_types() {
 }
 \end{lstlisting}
 
-O método \texttt{register\_type} de \texttt{ObjectTypeDB} faz o registro da classe. Há um caso especial em \texttt{STTError}, que usa \texttt{register\_virtual\_type} para não ser instanciável. Por fim, como esta mesma classe é um \textit{singleton}, aproveitamos para criar sua única instância com \texttt{memnew()} (o equivalente de \texttt{new} para \textit{Godot}) e guardar umas referência junto a outros \textit{singletons} em \texttt{Globals}.
+O método \texttt{register\_type} de \texttt{ObjectTypeDB} faz o registro da classe. Há um caso especial em \texttt{STTError}, que usa \texttt{register\_virtual\_type} para não ser instanciável. Por fim, como esta mesma classe é um \textit{singleton}, aproveitamos para criar sua única instância com \texttt{memnew()} (o equivalente de \texttt{new} para \textit{Godot}) e guardar uma referência junto a outros \textit{singletons} em \texttt{Globals}.
 
 \subsubsection{\texttt{unregister\_speech\_to\_text\_types()}}
 

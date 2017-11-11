@@ -24,7 +24,7 @@ Ao executar o editor \textit{Godot}, o leitor é confrontado com a tela apresent
   \label{editor-project-select}
 \end{figure}
 
-Projetos são listados na aba \textit{Project List}, onde podem ser abertos para edição ou removidos. Também é possível criar um novo jogo ou a importar um já existente. A criação de um projeto, por exemplo, é feita pelo botão \textit{New Project} e requer a especificação do caminho na qual será criado (\textit{Project Path}) e seu nome (\textit{Project Name}). Já a importação exige que o usuário escolha um caminho que contenha o arquivo \texttt{engine.cfg}, responsável por definir o diretório raiz do jogo.
+Projetos são listados na aba \textit{Project List}, onde podem ser abertos para edição ou removidos. Também é possível criar um novo jogo ou importar um já existente. A criação de um projeto, por exemplo, é feita pelo botão \textit{New Project} e requer a especificação do caminho na qual será criado (\textit{Project Path}) e seu nome (\textit{Project Name}). Já a importação exige que o usuário escolha um caminho que contenha o arquivo \texttt{engine.cfg}, responsável por definir o diretório raiz do jogo.
 
 Na figura \ref{editor-project-create}, exemplificamos a criação do projeto \textbf{teste} no diretório \texttt{\textasciitilde/Desktop/teste}. Ao clicar no botão \textit{Create}, o projeto é criado e o usuário é automaticamente encaminhado para a tela de edição de \textbf{teste}.
 
@@ -271,11 +271,11 @@ No contexto de \textit{Color Clutter}, este \textit{node} automaticamente atuali
 
 \textit{Color Clutter} foi testado por 10 pessoas com boa fluência em inglês. A maioria dos testadores utilizavam alguma versão de \textit{Windows} (versões 7, 8 ou 10), com três testes sendo feitos nas distribuições \textit{Ubuntu}, \textit{Debian} e \textit{Linux Mint} do sistema operacional \textit{Unix}.
 
-Um dos primeiros resultados visualizados é que não houve diferença perceptível no reconhecimento de voz execução entre os sistemas operacionais. Todos os testadores comentaram que a velocidade de reconhecimento estava rápida (menos de 1 segundo).
+Um dos primeiros resultados visualizados é que não houve diferença perceptível no reconhecimento de voz entre os sistemas operacionais. Todos os testadores comentaram que a velocidade de reconhecimento estava rápida (menos de 1 segundo).
 
 No entanto, praticamente todas as pessoas envolvidas no teste comentaram que alguns comandos não eram reconhecidos na primeira vez em que eram pronunciados, exigindo-se repeti-los 2 ou 3 vezes até serem aceitos. Destacam-se as cores \textit{green}, \textit{orange} e \textit{purple} como as palavras que, em geral, geravam maior dificuldade de reconhecimento.
 
-A efeito de comparação, executou-se uma API de reconhecimento de voz desenvolvida pelo Google \citep{googleSpeechAPI}, configurada para o inglês americano, simultaneamente em que \textit{Color Clutter} era jogado. Este programa reconheceu todas as palavras proferidas enquanto \textit{Color Clutter}, por vezes, não entendia algum comando. Duas respostas possíveis surgem para esta diferença: a eficiência da API do Google é bem maior do que a de \textit{Pocketsphinx}, ou é necessário um ajuste no limiar das palavras-chave do jogo (isto é, é possível que uma pronúncia muito parecida com a da fonética do dicionário esteja sendo exigida).
+A efeito de comparação, executou-se uma API de reconhecimento de voz desenvolvida pelo Google \citep{googleSpeechAPI}, configurada para o inglês americano, simultaneamente em que \textit{Color Clutter} era jogado. Este programa reconheceu todas as palavras proferidas enquanto \textit{Color Clutter}, por vezes, não entendia algum comando. Duas respostas possíveis surgem para esta diferença: a eficiência da API do Google é bem maior do que a de \textit{Pocketsphinx}, ou é necessário um ajuste no limiar das palavras-chave do jogo (ou seja, é possível que uma pronúncia muito parecida com a da fonética do dicionário esteja sendo exigida).
 
 % ---------------------------------------------------------------------
 
