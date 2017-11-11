@@ -203,7 +203,7 @@ A solução final implementada envolve usar o outro prefixo definido pela \texti
 
 \subsubsection{Inicializar variáveis do \textit{Pocketsphinx}}
 
-A inicialização de varíaveis usadas por \textit{Pocketsphinx} é feita através de \texttt{init()}. Os nomes do diretório do modelo acústico, do arquivo de dicionário e do arquivo de palavras-chave precisam ter sido definidos previamente com os apropriados \textit{setters}, ou o método retornará um número de erro.
+A inicialização de variáveis usadas por \textit{Pocketsphinx} é feita através de \texttt{init()}. Os nomes do diretório do modelo acústico, do arquivo de dicionário e do arquivo de palavras-chave precisam ter sido definidos previamente com os apropriados \textit{setters}, ou o método retornará um número de erro.
 
 Deparamo-nos com outro problema de compatibilidade: os nomes dos arquivos são fornecidos com o tipo \texttt{String} adotado por \textit{Godot}. No entanto, \textit{Pocketsphinx} não conhece este tipo, utilizando o \texttt{char *} comumente encontrado em \textit{C} para receber estes mesmos nomes. Felizmente, \texttt{String} possui um método \texttt{c\_str()} para realizar a conversão.
 
@@ -304,7 +304,7 @@ Além dos métodos da tabela \ref{stt-queue-main-methods}, há mais dois que for
 
 \subsection{Classe \texttt{STTError}}
 
-\texttt{STTError} define constantes numéricas para possíveis erros que podem ocorrer no módulo (mais especificamente, em \texttt{STTConfig} e \texttt{STTRunner}). A utilidade da classe, portanto, está em ajudar o usuário a entender melhor a causa de um erro que possa vir a ocorrer no módulo. Por ser um \textit{singleton} mas ter seu uso necessário no editor \textit{Godot} (através de \textit{GDScript}), decidiu-se fazer a classse herdar de \texttt{Object} (visto na seção \ref{godotObject}).
+\texttt{STTError} define constantes numéricas para possíveis erros que podem ocorrer no módulo (mais especificamente, em \texttt{STTConfig} e \texttt{STTRunner}). A utilidade da classe, portanto, está em ajudar o usuário a entender melhor a causa de um erro que possa vir a ocorrer no módulo. Por ser um \textit{singleton} mas ter seu uso necessário no editor \textit{Godot} (através de \textit{GDScript}), decidiu-se fazer a classe herdar de \texttt{Object} (visto na seção \ref{godotObject}).
 
 A figura \ref{stt-error-diagram} apresenta os atributos, métodos e relacionamentos da classe \texttt{STTError}. O construtor e destrutor foram omitidos por simplicidade.
 

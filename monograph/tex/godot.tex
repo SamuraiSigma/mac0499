@@ -158,7 +158,7 @@ Devido ao suporte a diferentes sistemas operacionais, \textit{Godot} viu uma nec
 \item Caminhos que usem \texttt{res://} devem usar o caractere \texttt{/} para separar diretórios, independentemente do sistema operacional do usuário. Por exemplo: \texttt{res://fontes/arial.fnt}.
 \end{itemize}
 
-Por fim, muitos jogos possuem a necessidade de criar, ler, escrever e atualizar arquivos durante sua execução; uma situação comum é guardar o progresso do jogador. Em geral, não é aconselhável criair tais arquivos dentro do diretório do projeto; tal ação é impossível, aliás, se o jogo estiver no formato de um binário fechado.
+Por fim, muitos jogos possuem a necessidade de criar, ler, escrever e atualizar arquivos durante sua execução; uma situação comum é guardar o progresso do jogador. Em geral, não é aconselhável criar tais arquivos dentro do diretório do projeto; tal ação é impossível, aliás, se o jogo estiver no formato de um binário fechado.
 
 A solução apresentada por \textit{Godot} foi definir um outro prefixo, \textbf{\texttt{user://}}, que refere-se a algum diretório preestabelecido e externo ao projeto \citep{godotFileSystem}. Em sistemas \textit{Unix}, o caminho tipicamente corresponde a \texttt{\textasciitilde/.godot/app\_userdata}.
 

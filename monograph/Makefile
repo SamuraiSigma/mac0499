@@ -14,13 +14,17 @@ TEXDIR = tex
 
 # =====================================================================
 
-.PHONY: all clean view
+.PHONY: all spell-check clean view
 
 all:
 	@mkdir -p $(AUXDIR)
 	@cd $(AUXDIR) && mv * .. 2> /dev/null ||:
 	-latexmk -interaction=nonstopmode -jobname=$(MONO:.pdf=) -pdf $(TEXDIR)/$(TARGET)
 	@mv $(TEMPTEX) $(AUXDIR) 2> /dev/null ||:
+
+spell-check:
+	@find $(TEXDIR) -type f | xargs cat | \
+	aspell -l pt_BR -t list | aspell -l en_US list | sort | uniq -u
 
 clean:
 	rm -rf $(AUXDIR) $(TEMPTEX)
