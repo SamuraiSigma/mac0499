@@ -44,7 +44,7 @@ No contexto de reconhecimento de voz, CMUSphinx divide as \textit{utterances} em
 
 Um \textbf{modelo} é uma simplificação, onde reduz-se o que se quer modelar às suas características mais importantes. Neste caso, falamos de um modelo de reconhecimento de voz: como tratar as transições entre os quadros em que se divide o áudio capturado?
 
-A solução encontrada pelo projeto CMUSphinx foi utilizar o Modelo Oculto de Markov (\textit{Hidden Markov Model}, ou HMM, conforme visto na seção \ref{cap:hmm}) para tratar a fala gravada como uma sequência de estados que transitam entre si com certa probabilidade.
+A solução encontrada pelo projeto CMUSphinx foi utilizar o Modelo Oculto de Markov (\textit{Hidden Markov Model}, ou HMM,\iffalse conforme visto na seção \ref{cap:hmm})\fi para tratar a fala gravada como uma sequência de estados que transitam entre si com certa probabilidade.
 
 Buscam-se os estados do HMM que levam à maior probabilidade no vetor de características. Para isso, três modelos, alimentados à biblioteca na forma de arquivos externos, são usados:
 
