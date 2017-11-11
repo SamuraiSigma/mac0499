@@ -1,4 +1,4 @@
-\chapter{Godot}
+\chapter{\textit{Godot}}
 \label{cap:godot}
 
 Voltaremos nossa atenção à \textit{game engine} \textit{Godot} neste capítulo. Em particular, estamos interessados no estudo dos elementos principais que compõe sua arquitetura, a organização do seu código fonte e instruções para compilação.
@@ -13,7 +13,7 @@ Todas as instruções e comandos apresentados foram originalmente realizados no 
 
 O desenvolvimento de \textit{Godot} começou em 2007, através de Juan Linietsky e Ariel Manzur. O nome foi escolhido em homenagem à peça \emph{Waiting for Godot}, de Samuel Beckett, para representar uma biblioteca que cada vez mais ganha novas funcionalidades, mas nunca chegará a um produto definitivo \citep{godotHistory}.
 
-\textit{Godot} é notavelmente conhecido por possuir código aberto, que foi liberado ao público em fevereiro de 2014. Desde então, ganha constantes atualizações para se equiparar a \textit{game engines} competidoras mais sofisticadas, como \textit{Unity} e \textit{Unreal Engine}. Atualmente, encontra-se na versão 2.1.4, com uma versão 3 em beta, e possui suporte para a produção de jogos em diversas plataformas, entre elas Unix, Windows, MacOS, Android, iOS e web.
+\textit{Godot} é notavelmente conhecido por possuir código aberto, que foi liberado ao público em fevereiro de 2014. Desde então, ganha constantes atualizações para se equiparar a \textit{game engines} competidoras mais sofisticadas, como \textit{Unity} e \textit{Unreal Engine}. Atualmente, encontra-se na versão 2.1.4, com uma versão 3 em beta, e possui suporte para a produção de jogos em diversas plataformas, entre elas \textit{Unix}, \textit{Windows}, \textit{MacOS}, \textit{Android}, \textit{iOS} e Web.
 
 O logo da \textit{game engine} é apresentado na figura \ref{godotLogo}.
 
@@ -31,9 +31,9 @@ O logo da \textit{game engine} é apresentado na figura \ref{godotLogo}.
 
 \textit{Godot} possui seu código fonte escrito primordialmente em \textbf{\textit{C++}}. Apesar de não possuir toda a versatilidade de uma linguagem de \textit{script} como \textit{Python} e \textit{Ruby}, um código escrito em \textit{C++} possui uma execução bem rápida, fator crítico para um software que produzirá jogos. Comparado ao antecessor, \textit{C}, a linguagem oferece ferramentas mais poderosas, como Orientação a Objetos e bibliotecas para tipos abstratos de dados (pilhas, filas, etc.).
 
-Um usuário da \textit{game engine}, no entanto, raramente interage diretamente com \textit{C++}. Ao invés disso, usa-se uma interface gráfica, na forma de um editor, com várias facilidades para a criação de jogos. Para programação, \textit{Godot} disponibiliza uma linguagem de \textit{script} nativa chamada \mbox{\textbf{\textit{GDScript}}}.
+Um usuário da \textit{game engine}, no entanto, raramente interage diretamente com \textit{C++}. Ao invés disso, usa-se uma interface gráfica, na forma de um editor, com várias facilidades para a criação de jogos. Para programação, \textit{Godot} disponibiliza uma linguagem de \textit{script} nativa chamada \textbf{\textit{GDScript}}.
 
-\mbox{\textit{GDScript}} possui uma sintaxe extremamente simples, parecida com \textit{Python}, e foi projetada para usufruir da arquitetura da \textit{game engine}. O usuário pode programar classes, estruturas e partes de seu jogo com maior facilidade, utilizando as ferramentas oferecidas pelo software sem precisar se preocupar com detalhes internos de implementação \citep{godotScripting}. Em outras palavras, \mbox{\textit{GDScript}} age como uma ``linguagem intermediária'' entre o usuário e as interfaces em \textit{C++} que \textit{Godot} disponibiliza.
+\textit{GDScript} possui uma sintaxe extremamente simples, parecida com \textit{Python}, e foi projetada para usufruir da arquitetura da \textit{game engine}. O usuário pode programar classes, estruturas e partes de seu jogo com maior facilidade, utilizando as ferramentas oferecidas pelo software sem precisar se preocupar com detalhes internos de implementação \citep{godotScripting}. Em outras palavras, \textit{GDScript} age como uma ``linguagem intermediária'' entre o usuário e as interfaces em \textit{C++} que \textit{Godot} disponibiliza.
 
 % ---------------------------------------------------------------------
 
@@ -167,10 +167,10 @@ A solução apresentada por \textit{Godot} foi definir um outro prefixo, \textbf
 \section{\textit{SCons}}
 \label{scons}
 
-\textit{Godot} pode ser compilado para diversas plataformas; entre elas, citamos Windows, MacOS, Unix, Android, iOS e HTML5. A necessidade de atender a uma variedade tão grande de sistemas operacionais fez com que o projeto escolhesse \textbf{\textit{SCons}} para simplificar sua compilação \citep{godotScons}. Esta é uma ferramenta de construção de código aberto, como \textit{automake} e \textit{cmake}, mas apresenta algumas vantagens interessantes \citep{scons}:
+\textit{Godot} pode ser compilado para diversas plataformas; entre elas, citamos \textit{Windows}, \textit{MacOS}, \textit{Unix}, \textit{Android}, \textit{iOS} e \textit{Web} \citep{godotDeployPlatforms}. A necessidade de atender a uma variedade tão grande de sistemas operacionais fez com que o projeto escolhesse \textbf{\textit{SCons}} para simplificar sua compilação \citep{godotScons}. Esta é uma ferramenta de construção de código aberto, como \textit{automake} e \textit{cmake}, mas apresenta algumas vantagens interessantes \citep{scons}:
 
 \begin{itemize}
-\item Compilação multiplataforma. Por exemplo, é possível compilar um executável para Windows em um sistema Unix.
+\item Compilação multiplataforma. Por exemplo, é possível compilar um executável para \textit{Windows} em um sistema \textit{Unix}.
 
 \item Todos os arquivos de configuração são \textit{scripts} na linguagem \textit{Python}.
 
@@ -212,7 +212,7 @@ $ scons
 \makecell[l]{
   Inclui: \\
   \begin{tabular}{@{}ll@{}}
-    \texttt{x11} (Unix) & \texttt{javascript} (Web) \\
+    \texttt{x11} (\textit{Unix}) & \texttt{javascript} (Web) \\
     \texttt{windows} & \texttt{android} \\
     \texttt{osx} & \texttt{iphone} \\
   \end{tabular}
@@ -246,7 +246,7 @@ Um inteiro compatível com o nº de processadores na máquina \\ \hline
 \label{sconsParams}
 \end{table}
 
-Algumas explicações devem ser dadas sobre a tabela \ref{sconsParams}. A opção \texttt{default} do parâmetro \texttt{bits} possui grande dependência do sistema operacional em uso: se for Windows ou MacOS, é equivalente a \texttt{32}; se for Unix, assume a mesma quantidade de bits do sistema.
+Algumas explicações devem ser dadas sobre a tabela \ref{sconsParams}. A opção \texttt{default} do parâmetro \texttt{bits} possui grande dependência do sistema operacional em uso: se for \textit{Windows} ou \textit{MacOS}, é equivalente a \texttt{32}; se for Unix, assume a mesma quantidade de bits do sistema.
 
 O binário produzido pode ser usado para executar jogos na plataforma para a qual foi criado. A opção \texttt{tools} controla se ele deverá conter ou não o editor \textit{Godot}. Executáveis gerados com o valor \texttt{no} são chamados de \emph{templates de exportação}, pois são usados para exportar jogos para um determinado sistema operacional.
 

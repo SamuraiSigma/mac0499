@@ -3,7 +3,7 @@
 
 Após adquirirmos conhecimento sobre a biblioteca \textit{Pocketsphinx} e a \textit{game engine} \textit{Godot}, chegou o momento de construirmos o módulo de reconhecimento de voz.
 
-Conforme descrito na seção \ref{godotLanguages}, a linguagem \mbox{\textit{GDScript}} é extremamente prática para programar estruturas em um jogo feito em \textit{Godot}. No entanto, às vezes deseja-se otimizar alguma parte crítica através de \textit{C++} ou adicionar uma nova funcionalidade inexistente em \textit{Godot}. Os módulos servem justamente para este objetivo, pois não fazem parte do código essencial da \textit{game engine}.
+Conforme descrito na seção \ref{godotLanguages}, a linguagem \textit{GDScript} é extremamente prática para programar estruturas em um jogo feito em \textit{Godot}. No entanto, às vezes deseja-se otimizar alguma parte crítica através de \textit{C++} ou adicionar uma nova funcionalidade inexistente em \textit{Godot}. Os módulos servem justamente para este objetivo, pois não fazem parte do código essencial da \textit{game engine}.
 
 Este capítulo documenta os passos e decisões de projeto tomados na criação do módulo, a qual chamaremos de \textit{Speech to Text}. Pressupomos que o leitor esteja familiarizado com as instruções para compilação de \textit{Godot}, vistas na seção \ref{godotCompile}, e com a biblioteca \textit{Pocketsphinx} (capítulo \ref{cap:pocketsphinx}), que será usada para a realização do reconhecimento de voz.
 
@@ -132,9 +132,7 @@ A princípio, desejamos que o reconhecimento de voz seja executado em paralelo c
 
 As palavras reconhecidas pelo módulo \textit{Speech to Text} não precisariam ser interpretadas imediatamente pelo jogo. Uma ideia mais flexível é guardá-las em um \textit{buffer} e deixar o próprio jogo lê-las em seu ritmo.
 
-% TODO: Update reference on Pocketsphinx keywords section below
-
-Como o vocabulário deve ser tipicamente pequeno, o reconhecimento por \emph{palavras-chaves} do \textit{Pocketsphinx} é bem mais viável do que por modelo de língua.
+Como o vocabulário deve ser tipicamente pequeno, o reconhecimento por \emph{palavras-chaves} do \textit{Pocketsphinx} (visto na seção \ref{pocketsphinx-keywords}) é bem mais viável do que por modelo de língua.
 
 A configurabilidade desejada nos requisitos não funcionais nos leva a precisar de uma interface para ajustar parâmetros e arquivos do reconhecimento de voz. Em particular, um usuário estaria interessado em configurar o modelo acústico, o dicionário e as palavras-chave.
 
@@ -158,14 +156,14 @@ Antes de nos aprofundarmos na arquitetura do módulo, algumas observações gera
 
 \item A \textit{game engine} oferece implementações próprias de alguns tipos e estruturas de dados. Destacamos \texttt{String} para cadeias de caracteres e \texttt{Vector} como um vetor de uso geral, podendo representar uma fila, pilha, etc.
 
-\item O uso de duas classes \textit{singleton} no módulo parece exagero. A justificativa é que \textit{Godot} proíbe a exportação de classes que não podem ser instanciadas (em outras palavras, classes que só possuem métodos estáticos) para uso em \mbox{\textit{GDScript}}. Recomenda-se, portanto, esta outra abordagem para contornar tal limitação \citep{godotStaticClasses}.
+\item O uso de duas classes \textit{singleton} no módulo parece exagero. A justificativa é que \textit{Godot} proíbe a exportação de classes que não podem ser instanciadas (em outras palavras, classes que só possuem métodos estáticos) para uso em \textit{GDScript}. Recomenda-se, portanto, esta outra abordagem para contornar tal limitação \citep{godotStaticClasses}.
 
-\item Quase todas as classes implementadas, exceto \textit{FileDirUtil}, possuem um método especial chamado \texttt{\_bind\_methods()}. Esta função, de nome predefinido por \textit{Godot}, é usada para ligar nomes a constantes ou referências de métodos, permitindo seu uso em \mbox{\textit{GDScript}}. Todas as ligações são guardadas numa grande classe \textit{singleton} denominada \textit{ObjectTypeDB}. A listagem \ref{configBindMethods} exemplifica a adição de uma linha no método \texttt{\_bind\_methods()} de \textit{STTConfig} para ser possível usar o método \texttt{init()} desta mesma classe em \mbox{\textit{GDScript}}.
+\item Quase todas as classes implementadas, exceto \texttt{FileDirUtil}, possuem um método especial chamado \texttt{\_bind\_methods()}. Esta função, de nome predefinido por \textit{Godot}, é usada para ligar nomes a constantes ou referências de métodos, permitindo seu uso em \textit{GDScript}. Todas as ligações são guardadas numa grande classe \textit{singleton} denominada \texttt{ObjectTypeDB}. A listagem \ref{configBindMethods} exemplifica a adição de uma linha no método \texttt{\_bind\_methods()} de \texttt{STTConfig} para ser possível usar o método \texttt{init()} desta mesma classe em \textit{GDScript}.
 
 \begin{lstlisting}[
   language=C++,
   label=configBindMethods,
-  caption={Adicionando o método \texttt{init()} de \textit{STTConfig} para uso em \mbox{\textit{GDScript}}}
+  caption={Adicionando o método \texttt{init()} de \textit{STTConfig} para uso em \textit{GDScript}}
 ]
 void STTConfig::_bind_methods() {
     ObjectTypeDB::bind_method("init", &STTConfig::init);
@@ -175,17 +173,17 @@ void STTConfig::_bind_methods() {
 
 % ---------------------------------------------------------------------
 
-\subsection{Classe \textit{STTConfig}}
+\subsection{Classe \texttt{STTConfig}}
 \label{stt-config}
 
-Como o nome sugere, \textit{STTConfig} é uma classe de configuração para a realização do reconhecimento de voz. Por possuir a característica de servir mais como um armazenamento de informação, decidimos fazer a classe herdar de \textit{Resource} (visto na seção \ref{godotResource}).
+Como o nome sugere, \texttt{STTConfig} é uma classe de configuração para a realização do reconhecimento de voz. Por possuir a característica de servir mais como um armazenamento de informação, decidimos fazer a classe herdar de \texttt{Resource} (visto na seção \ref{godotResource}).
 
-A figura \ref{stt-config-diagram} apresenta os atributos, métodos e relacionamentos da classe \textit{STTConfig}. O construtor e destrutor foram omitidos por simplicidade. Todos os atributos e métodos estáticos, neste e em futuros diagramas, estarão \underline{sublinhados}.
+A figura \ref{stt-config-diagram} apresenta os atributos, métodos e relacionamentos da classe \texttt{STTConfig}. O construtor e destrutor foram omitidos por simplicidade. Todos os atributos e métodos estáticos, neste e em futuros diagramas, estarão \underline{sublinhados}.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.9\textwidth]{image/stt-config.pdf}
-  \caption{Atributos, métodos e relacionamentos da classe \textit{STTConfig}}
+  \caption{Atributos, métodos e relacionamentos da classe \texttt{STTConfig}}
   \label{stt-config-diagram}
 \end{figure}
 
@@ -199,9 +197,9 @@ Verifica-se se os nomes passados como argumentos para os \textit{setters} corres
 
 Por fim, resta um problema para tratarmos, resultante da distinção entre os sistemas de arquivo de \textit{Godot} (visto na seção \ref{godotFileSystem}) e \textit{Pocketsphinx}. Suponha que o desenvolvedor de um jogo tenha guardado seu arquivo de dicionário, o \texttt{dicionario.dict}, na raiz do projeto. Como referenciar este arquivo? \textit{Godot} utilizaria o caminho \texttt{res://dicionario.dict}, mas \textit{Pocketsphinx} não entende este prefixo, necessitando do caminho absoluto usado no sistema.
 
-Uma solução simples seria converter o caminho com \texttt{res://} para o caminho absoluto do sistema operacional; o método \texttt{globalize\_path} da classe \textit{Globals} de \textit{Godot} faz justamente isso. No entanto, se o jogo estiver no formato de um binário fechado, é impossível referenciar qualquer arquivo dentro dele por meio da plataforma hospedeira.
+Uma solução simples seria converter o caminho com \texttt{res://} para o caminho absoluto do sistema operacional; o método \texttt{globalize\_path} da classe \texttt{Globals} de \textit{Godot} faz justamente isso. No entanto, se o jogo estiver no formato de um binário fechado, é impossível referenciar qualquer arquivo dentro dele por meio da plataforma hospedeira.
 
-A solução final implementada envolve usar o outro prefixo definido pela \textit{game engine}, o \textbf{\texttt{user://}}. Copiam-se todos os arquivos e diretórios de configuração para este caminho e usa-se o método \texttt{get\_data\_dir()} da classe \textit{OS} para buscar seu equivalente na plataforma hospedeira. Por precaução, adotou-se a prática de sobrescrever arquivos e diretórios copiados previamente.
+A solução final implementada envolve usar o outro prefixo definido pela \textit{game engine}, o \textbf{\texttt{user://}}. Copiam-se todos os arquivos e diretórios de configuração para este caminho e usa-se o método \texttt{get\_data\_dir()} da classe \texttt{OS} para buscar seu equivalente na plataforma hospedeira. Por precaução, adotou-se a prática de sobrescrever arquivos e diretórios copiados previamente.
 
 \subsubsection{Inicializar variáveis do \textit{Pocketsphinx}}
 
@@ -209,25 +207,23 @@ A inicialização de varíaveis usadas por \textit{Pocketsphinx} é feita atrav�
 
 Deparamo-nos com outro problema de compatibilidade: os nomes dos arquivos são fornecidos com o tipo \texttt{String} adotado por \textit{Godot}. No entanto, \textit{Pocketsphinx} não conhece este tipo, utilizando o \texttt{char *} comumente encontrado em \textit{C} para receber estes mesmos nomes. Felizmente, \texttt{String} possui um método \texttt{c\_str()} para realizar a conversão.
 
-% TODO: Fix reference below
+O método \texttt{init()} irá inicializar as variáveis de configuração \texttt{cmd\_ln\_t}, de gravação de voz \texttt{ad\_rec\_t} e o decodificador \texttt{ps\_decoder\_t} (todos vistos na seção \ref{pocketsphinx-structs}). Caso algum problema ocorra, retorna-se um número de erro, pertencente à classe \textit{STTError}, relativo ao problema ocorrido.
 
-O método \texttt{init()} irá inicializar as variáveis de configuração \texttt{cmd\_ln\_t}, de gravação de voz \texttt{ad\_rec\_t} e o decodificador \texttt{ps\_decoder\_t} (todos vistos na seção \ref{pocketsphinx-structs}). Caso algum problema ocorra, retorna-se um número de erro, pertencente à classe \mbox{\textit{STTError}}, relativo ao problema ocorrido.
-
-A cópia de arquivos para o caminho \textit{user://}, mencionada anteriormente, também ocorre neste método.
+A cópia de arquivos para o caminho \texttt{user://}, mencionada anteriormente, também ocorre neste método.
 
 % ---------------------------------------------------------------------
 
 \subsection{Classe \textit{STTRunner}}
 \label{stt-runner}
 
-\textit{STTRunner} é a classe responsável por realizar o reconhecimento de voz em si. Por claramente implementar uma \textbf{funcionalidade} a ser usada pelo usuário do editor \textit{Godot}, decidiu-se que uma herança de \textit{Node} (visto na seção \ref{godotNode}) seria bastante apropriada.
+\texttt{STTRunner} é a classe responsável por realizar o reconhecimento de voz em si. Por claramente implementar uma \textbf{funcionalidade} a ser usada pelo usuário do editor \textit{Godot}, decidiu-se que uma herança de \texttt{Node} (visto na seção \ref{godotNode}) seria bastante apropriada.
 
 A figura \ref{stt-runner-diagram} apresenta os atributos, métodos e relacionamentos da classe \textit{STTRunner}. O construtor e destrutor foram omitidos por simplicidade.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.9\textwidth]{image/stt-runner.pdf}
-  \caption{Atributos, métodos e relacionamentos da classe \textit{STTRunner}}
+  \caption{Atributos, métodos e relacionamentos da classe \texttt{STTRunner}}
   \label{stt-runner-diagram}
 \end{figure}
 
@@ -264,22 +260,22 @@ Por fim, oferece-se controle sobre o tamanho do \textit{buffer} de gravação de
 \subsection{Classe \textit{STTQueue}}
 \label{stt-queue}
 
-\textit{STTQueue} implementa um \textit{buffer} para guardar palavras geradas no reconhecimento de voz, conforme planejado nos requisitos funcionais (seção \ref{moduleFunctionalRequirements}). Fizemos que com herdasse da classe \textit{Reference} (visto na seção \ref{godotReference}) com o intuito de simplificar seu gerenciamento de memória.
+\textit{STTQueue} implementa um \textit{buffer} para guardar palavras geradas no reconhecimento de voz, conforme planejado nos requisitos funcionais (seção \ref{moduleFunctionalRequirements}). Fizemos que com herdasse da classe \texttt{Reference} (visto na seção \ref{godotReference}) com o intuito de simplificar seu gerenciamento de memória.
 
-É usado por \textit{STTRunner} para guardar termos do reconhecimento de voz. Ao mesmo tempo, o usuário do módulo pode retirar estes termos do módulo e usá-los no jogo.
+É usado por \texttt{STTRunner} para guardar termos do reconhecimento de voz. Ao mesmo tempo, o usuário do módulo pode retirar estes termos do módulo e usá-los no jogo.
 
-A figura \ref{stt-queue-diagram} apresenta os atributos, métodos e relacionamentos da classe \textit{STTQueue}. O construtor e destrutor foram omitidos por simplicidade.
+A figura \ref{stt-queue-diagram} apresenta os atributos, métodos e relacionamentos da classe \texttt{STTQueue}. O construtor e destrutor foram omitidos por simplicidade.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.8\textwidth]{image/stt-queue.pdf}
-  \caption{Atributos, métodos e relacionamentos da classe \textit{STTQueue}}
+  \caption{Atributos, métodos e relacionamentos da classe \texttt{STTQueue}}
   \label{stt-queue-diagram}
 \end{figure}
 
-Conforme o nome sugere, o tipo abstrato de dados usado para o \textit{buffer} da \textit{STTQueue} é uma \textbf{fila}. \textit{Godot} implementa esta estrutura, com diversas funcionalidade a mais, em sua classe \textit{Vector}. Como muitas de seus métodos seriam desnecessários (não é necessário, por exemplo, que o usuário possa ordenar a fila de reconhecimento de voz), \textit{STTQueue} age como um intermédio do que pode e não pode ser feito em \textit{Vector}.
+Conforme o nome sugere, o tipo abstrato de dados usado para o \textit{buffer} da \texttt{STTQueue} é uma \textbf{fila}. \textit{Godot} implementa esta estrutura, com diversas funcionalidade a mais, em sua classe \texttt{Vector}. Como muitas de seus métodos seriam desnecessários (não é necessário, por exemplo, que o usuário possa ordenar a fila de reconhecimento de voz), \texttt{STTQueue} age como um intermédio do que pode e não pode ser feito em \texttt{Vector}.
 
-Os principais métodos de \textit{STTQueue} estão resumidos na tabela \ref{stt-queue-main-methods}.
+Os principais métodos de \texttt{STTQueue} estão resumidos na tabela \ref{stt-queue-main-methods}.
 
 \begin{table}[H]
 \centering
@@ -298,7 +294,7 @@ Os principais métodos de \textit{STTQueue} estão resumidos na tabela \ref{stt-
 \label{stt-queue-main-methods}
 \end{table}
 
-O leitor pode se perguntar se não ocorre condição de corrida no acesso à fila: há risco de se perder algum dado quando \textit{STTRunner} realiza um \texttt{add()} ao mesmo tempo em que o usuário utiliza \texttt{get()}, por exemplo? Felizmente, a implementação de \texttt{Vector} é \textit{thread-safe}, garantindo que esses problemas não ocorram.
+O leitor pode se perguntar se não ocorre condição de corrida no acesso à fila: há risco de se perder algum dado quando \texttt{STTRunner} realiza um \texttt{add()} ao mesmo tempo em que o usuário utiliza \texttt{get()}, por exemplo? Felizmente, a implementação de \texttt{Vector} é \textit{thread-safe}, garantindo que esses problemas não ocorram.
 
 Uma decisão deveria ser tomada quanto a um caso particular de \texttt{get()}: o que fazer quando o método fosse chamado com uma fila vazia? Nesta situação, decidiu-se retornar uma \texttt{String} vazia (\texttt{``''}) e simultaneamente imprimir uma mensagem de \textit{warning} devido ao uso impróprio. Recomenda-se, portanto, verificar o tamanho da fila com \texttt{empty()} antes do uso de \texttt{get()}.
 
@@ -306,20 +302,20 @@ Além dos métodos da tabela \ref{stt-queue-main-methods}, há mais dois que for
 
 % ---------------------------------------------------------------------
 
-\subsection{Classe \textit{STTError}}
+\subsection{Classe \texttt{STTError}}
 
-\textit{STTError} define constantes numéricas para possíveis erros que podem ocorrer no módulo (mais especificamente, em \textit{STTConfig} e \textit{STTRunner}). A utilidade da classe, portanto, está em ajudar o usuário a entender melhor a causa de um erro que possa vir a ocorrer no módulo. Por ser um \textit{singleton} mas ter seu uso necessário no editor \textit{Godot} (através de \mbox{\textit{GDScript}}), decidiu-se fazer a classse herdar de \textit{Object} (visto na seção \ref{godotObject}).
+\texttt{STTError} define constantes numéricas para possíveis erros que podem ocorrer no módulo (mais especificamente, em \texttt{STTConfig} e \texttt{STTRunner}). A utilidade da classe, portanto, está em ajudar o usuário a entender melhor a causa de um erro que possa vir a ocorrer no módulo. Por ser um \textit{singleton} mas ter seu uso necessário no editor \textit{Godot} (através de \textit{GDScript}), decidiu-se fazer a classse herdar de \texttt{Object} (visto na seção \ref{godotObject}).
 
-A figura \ref{stt-error-diagram} apresenta os atributos, métodos e relacionamentos da classe \textit{STTError}. O construtor e destrutor foram omitidos por simplicidade.
+A figura \ref{stt-error-diagram} apresenta os atributos, métodos e relacionamentos da classe \texttt{STTError}. O construtor e destrutor foram omitidos por simplicidade.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.9\textwidth]{image/stt-error.pdf}
-  \caption{Atributos, métodos e relacionamentos da classe \textit{STTError}}
+  \caption{Atributos, métodos e relacionamentos da classe \texttt{STTError}}
   \label{stt-error-diagram}
 \end{figure}
 
-Alguns métodos de \textit{STTConfig} e \textit{STTRunner} retornam um número definido pelo \texttt{enum Error}. Uma \texttt{String} contendo a interpretação deste valor pode ser obtida chamando-se o método \texttt{get\_error\_string()} da classe.
+Alguns métodos de \texttt{STTConfig} e \texttt{STTRunner} retornam um número definido pelo \texttt{enum Error}. Uma \texttt{String} contendo a interpretação deste valor pode ser obtida chamando-se o método \texttt{get\_error\_string()} da classe.
 
 A tabela \ref{stt-error-enum} contém os valores definidos no \texttt{enum Error}, bem como suas respectivas interpretações.
 
@@ -353,22 +349,22 @@ A tabela \ref{stt-error-enum} contém os valores definidos no \texttt{enum Error
 
 % ---------------------------------------------------------------------
 
-\subsection{Classe \textit{FileDirUtil}}
+\subsection{Classe \texttt{FileDirUtil}}
 
-\textit{FileDirUtil} é uma classe auxiliar, não possuindo relação alguma com reconhecimento de voz. Como o nome sugere, ela possui métodos para manipular arquivos e diretórios.
+\texttt{FileDirUtil} é uma classe auxiliar, não possuindo relação alguma com reconhecimento de voz. Como o nome sugere, ela possui métodos para manipular arquivos e diretórios.
 
-A figura \ref{file-dir-util-diagram} apresenta os métodos e relacionamento da classe \textit{FileDirUtil}. O construtor e destrutor foram omitidos por simplicidade.
+A figura \ref{file-dir-util-diagram} apresenta os métodos e relacionamento da classe \texttt{FileDirUtil}. O construtor e destrutor foram omitidos por simplicidade.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.75\textwidth]{image/file-dir-util.pdf}
-  \caption{Atributos, métodos e relacionamentos da classe \textit{FileDirUtil}}
+  \caption{Atributos, métodos e relacionamentos da classe \texttt{FileDirUtil}}
   \label{file-dir-util-diagram}
 \end{figure}
 
 As ferramentas oferecidas por \textit{Godot} para gerenciamento de arquivos e diretórios são bem simples, limitando-se ao seguinte: criação de arquivos/diretórios, escrita/leitura/cópia de arquivos, remoção de arquivos individuais e diretórios vazios.
 
-Vimos que \textit{STTConfig} necessita copiar os arquivos de configuração para \texttt{user://}. \textit{FileDirUtil} meramente combina os métodos já implementados pela \textit{game engine} para realizar operações como cópia e remoção recursiva de diretórios.
+Vimos que \texttt{STTConfig} necessita copiar os arquivos de configuração para \texttt{user://}. \texttt{FileDirUtil} meramente combina os métodos já implementados pela \textit{game engine} para realizar operações como cópia e remoção recursiva de diretórios.
 
 % ---------------------------------------------------------------------
 
@@ -380,11 +376,11 @@ Com a implementação feita, faltam apenas alguns arquivos e \textit{scripts} qu
 
 \subsection{Registro de tipos}
 
-\textit{Godot} exige dois arquivos adicionais, \texttt{register\_types.h} e \texttt{register\_types.cpp}, para controlar quais classes do módulo poderão ser usadas em \mbox{\textit{GDScript}}. Duas funções obrigatoriamente devem ser implementadas, com o nome do módulo no meio de seu nome:
+\textit{Godot} exige dois arquivos adicionais, \texttt{register\_types.h} e \texttt{register\_types.cpp}, para controlar quais classes do módulo poderão ser usadas em \textit{GDScript}. Duas funções obrigatoriamente devem ser implementadas, com o nome do módulo no meio de seu nome:
 
 \subsubsection{\texttt{register\_speech\_to\_text\_types()}}
 
-Serve para registrar classes no banco de dados \textit{ObjectTypeDB}. A implementação desta função no módulo \textit{Speech to Text} é apresentada na listagem \ref{register-types}.
+Serve para registrar classes no banco de dados \texttt{ObjectTypeDB}. A implementação desta função no módulo \textit{Speech to Text} é apresentada na listagem \ref{register-types}.
 
 \begin{lstlisting}[
   language=C++,
@@ -404,7 +400,7 @@ void register_speech_to_text_types() {
 }
 \end{lstlisting}
 
-O método \texttt{register\_type} de \textit{ObjectTypeDB} faz o registro da classe. Há um caso especial em \textit{STTError}, que usa \texttt{register\_virtual\_type} para não ser instanciável. Por fim, como esta mesma classe é um \textit{singleton}, aproveitamos para criar sua única instância com \texttt{memnew()} (o equivalente de \texttt{new} para \textit{Godot}) e guardar umas referência junto a outros \textit{singletons} em \textit{Globals}.
+O método \texttt{register\_type} de \texttt{ObjectTypeDB} faz o registro da classe. Há um caso especial em \texttt{STTError}, que usa \texttt{register\_virtual\_type} para não ser instanciável. Por fim, como esta mesma classe é um \textit{singleton}, aproveitamos para criar sua única instância com \texttt{memnew()} (o equivalente de \texttt{new} para \textit{Godot}) e guardar umas referência junto a outros \textit{singletons} em \texttt{Globals}.
 
 \subsubsection{\texttt{unregister\_speech\_to\_text\_types()}}
 
@@ -424,7 +420,7 @@ void unregister_speech_to_text_types() {
 }
 \end{lstlisting}
 
-Em nosso caso, basta liberar o \textit{singleton} de \textit{STTError} alocado previamente; note que \texttt{memdelete} é o equivalente de \texttt{delete} em \textit{Godot}. Também removemos todos os arquivos de configuração copiados para \texttt{user://} pela classe \textit{STTConfig}.
+Em nosso caso, basta liberar o \textit{singleton} de \texttt{STTError} alocado previamente; note que \texttt{memdelete} é o equivalente de \texttt{delete} em \textit{Godot}. Também removemos todos os arquivos de configuração copiados para \texttt{user://} pela classe \texttt{STTConfig}.
 
 % ---------------------------------------------------------------------
 
