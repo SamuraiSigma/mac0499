@@ -448,6 +448,7 @@ Esta função recebe o nome da plataforma em que \textit{Godot} está sendo comp
 
 A listagem \ref{can-build} apresenta a implementação da função.
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[
   language=Python,
   label=can-build,
@@ -464,6 +465,7 @@ def can_build(platform):
    else:
       return False
 \end{lstlisting}
+\end{minipage}
 
 Em nosso caso, \textit{Speech to Text} deve verificar se a plataforma \textit{Unix} (referida como \textit{x11}) possui sistema de som \textit{PulseAudio} \citep{pulseaudio} ou \textit{ALSA} \citep{alsa}, pois ambos são compatíveis tanto com \textit{Godot} quanto com \textit{Pocketsphinx}. Sistemas \textit{Windows} são, teoricamente, sempre compatíveis devido a um arquivo de \textit{Pocketsphinx} que trata seu sistema de som. Outros sistemas operacionais não foram testados, então preferiu-se retornar \texttt{False}.
 
