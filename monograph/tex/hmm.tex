@@ -1,2 +1,31 @@
 \chapter{Modelo Oculto de Markov}
 \label{cap:hmm}
+
+Este capítulo visa a aprofundar a teoria do Modelo Oculto de Markov (HMM). Embora não seja aplicado em si no restante do trabalho, é interessante abordar este conceito para melhor entender o que ocorre por trás de muitos sistemas de reconhecimento de voz.
+
+Definimos, primeiramente, Cadeias de Markov antes de entrarmos em HMM, terminando com um exemplo geral de seu uso.
+
+% ---------------------------------------------------------------------
+
+\section{Cadeia de Markov}
+
+\textbf{Cadeias de Markov} são um processo estocástico $\{X_1, X_2, \ldots, X_n\}$, assumindo um número finito ou contável de valores possíveis, onde vale a propriedade definida na equação \ref{markov-assumption}:
+
+\begin{equation}
+\label{markov-assumption}
+P(X_n\:|\:X_{n-1}, X_{n-2}, \dots, X_1) = P(X_n\:|\:X_{n-1})
+\end{equation}
+
+Pode-se interpretar tal equação como uma simplificação no cálculo da probabilidade de transição de estado; a probabilidade do próximo estado $X_n$ assumir um valor não depende de todo o passado de $X$, mas apenas do estado anterior, em $X_{n-1}$.
+
+% ---------------------------------------------------------------------
+
+\section{Modelo Oculto de Markov}
+
+Em essência, o Modelo Oculto de Markov é uma cadeia de Markov com estados que não podem ser observados. Ao invés disso, analisamos evidências relacionadas aos estados em si para nossos cálculos de probabilidade.
+
+% ---------------------------------------------------------------------
+
+\subsection{Exemplo}
+
+% ---------------------------------------------------------------------
