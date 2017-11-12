@@ -1,9 +1,22 @@
-\documentclass{beamer}
-\usetheme{Warsaw}
+\documentclass[usenames,dvipsnames]{beamer}
+
+\mode<presentation>
+{
+  \usetheme{Madrid}
+  % Change blue color of Madrid theme
+  \setbeamercolor*{palette primary}{use=structure,fg=white,bg=Maroon}
+  % \setbeamercolor*{palette secondary}{use=structure,fg=white,bg=Maroon}
+  % \setbeamercolor*{palette tertiary}{use=structure,fg=white,bg=Maroon}
+
+  % Change itemize bullet color
+  \setbeamercolor*{item}{fg=Maroon}
+  \setbeamercolor*{block title}{bg=Maroon,fg=white}
+}
+
 \setbeamercovered{transparent=5}
 
 % Preamble
-\input{tex/preamble.tex}
+\input{tex/preamble}
 
 % Only display frame number in footer
 \setbeamertemplate{footline}{
@@ -20,7 +33,8 @@
 
 \title{
 Desenvolvimento de um módulo de\\
-reconhecimento de voz para a \textit{game engine} \textit{Godot}
+reconhecimento de voz para\\
+a \textit{game engine} \textit{Godot}
 }
 
 \author{
@@ -42,12 +56,8 @@ Universidade de São Paulo
 
 \addtocounter{page}{-1}
 
-\begin{frame}{Sumário}{}
-\tableofcontents
-\end{frame}
-
-% Add other files here!
-% \input{tex/introducao.tex}
+% Add other files here
+\input{tex/introduction}
 
 {\setbeamertemplate{footline}{} \maketitle }
 \end{document}
