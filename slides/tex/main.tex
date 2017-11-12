@@ -1,5 +1,8 @@
 \documentclass[usenames,dvipsnames]{beamer}
 
+% Preamble
+\input{tex/preamble}
+
 \mode<presentation>
 {
   \usetheme{Madrid}
@@ -13,10 +16,8 @@
   \setbeamercolor*{block title}{bg=Maroon,fg=white}
 }
 
-\setbeamercovered{transparent=5}
-
-% Preamble
-\input{tex/preamble}
+% Uncovered text is invisible until displayed
+\setbeamercovered{invisible}
 
 % Only display frame number in footer
 \setbeamertemplate{footline}{
@@ -33,8 +34,7 @@
 
 \title{
 Desenvolvimento de um módulo de\\
-reconhecimento de voz para\\
-a \textit{game engine} \textit{Godot}
+reconhecimento de voz para a \textit{game engine} \textit{Godot}
 }
 
 \author{
@@ -43,6 +43,7 @@ Orientador: Prof. Dr. Marco Dimas Gubitoso
 }
 
 \institute{
+Bacharelado em Ciência da Computação\\
 Instituto de Matemática e Estatística\\
 Universidade de São Paulo
 }
@@ -58,6 +59,7 @@ Universidade de São Paulo
 
 % Add other files here
 \input{tex/introduction}
+\input{tex/speech-recognition}
 
 {\setbeamertemplate{footline}{} \maketitle }
 \end{document}
