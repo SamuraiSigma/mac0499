@@ -14,7 +14,9 @@ aux/
 *.lol
 *.log
 *.lot
+*.nav
 *.out
+*.snm
 *.toc
 *.synctex.gz
 

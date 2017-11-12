@@ -81,6 +81,37 @@
 \renewcommand\lstlistlistingname{Lista de Listagens}  % List of listings title
 \def\lstlistingautorefname{Listagem}                  % Listing autoref
 
+% Define code style
+\lstset{
+  inputencoding=utf8,
+  extendedchars=true,
+  commentstyle=\color{ao},
+  keywordstyle=\color{magenta},
+  numberstyle=\footnotesize\color{gray},  % Line number font size
+  stringstyle=\color{purple},
+  basicstyle=\footnotesize,        % Code font size
+  xleftmargin=\parindent,
+  aboveskip=2\medskipamount,       % Upper margin
+  breakatwhitespace=false,         % Automatic breaks at whitespace
+  breaklines=true,                 % Sets automatic line breaking
+  captionpos=b,                    % Caption position (b = bottom)
+  keepspaces=true,
+  numbers=none,                    % Where to put line numbers
+  stepnumber=1,                    % Step between two line numbers
+  numbersep=5pt,                   % How far line numbers are from the code
+  showspaces=false,                % Show spaces adding particular underscores
+  showstringspaces=false,          % Underline spaces within strings
+  showtabs=false,                  % Show tabs within strings
+  tabsize=2,                       % Size of tab
+  frame=single,                    % Frame type around code
+  framerule=0.6pt,                 % Frame size
+  backgroundcolor=\color[rgb]{1.0,1.0,0.9},
+  rulecolor=\color[rgb]{0.8,0.8,0.8},
+  escapeinside={\%*}{*)},          % For adding a comment within the code
+  % Add literates for all accents in Portuguese
+  literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1 {à}{{\`a}}1 {À}{{\`A}}1 {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1 {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1 {ã}{{\~a}}1 {õ}{{\~o}}1 {Ã}{{\~A}}1 {Õ}{{\~O}}1 {ç}{{\c c}}1 {Ç}{{\c C}}1
+}
+
 % Link colors
 \usepackage[bookmarksopen=true]{hyperref}
 
