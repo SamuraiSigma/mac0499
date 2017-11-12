@@ -9,12 +9,17 @@ This monograph consists in the following directories:
 
 - [**bib**](bib/): Contains *BibTeX* files.
 
-- [**listing**](listing/): Contains listings (code, scripts, algorithms, etc.) used
-  throughout the document.
+- [**drawio**](drawio/): Contains *xml* files for diagrams created on the
+  [draw.io][drawio] website.
 
 - [**image**](image/): Contains images used throughout the document.
 
+- [**listing**](listing/): Contains listings (code, scripts, algorithms, etc.) used
+  throughout the document.
+
 - [**tex**](tex/): Contains the core *LaTeX* files.
+
+[drawio]: https://www.draw.io "draw.io site"
 
 ## PDF creation
 
