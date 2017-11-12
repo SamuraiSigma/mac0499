@@ -1,0 +1,93 @@
+% Language and encoding
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,brazil]{babel}
+
+% Tries to fix hboxes in PDF for better justification
+\usepackage{microtype}
+
+% Fonts: normal and monospaced
+\usepackage{mathpazo}
+\usepackage{inconsolata}
+
+% Additional commands to math mode
+\usepackage{amsmath}
+
+% Checmark symbol (\checkmark)
+\usepackage{amssymb}
+
+% Indent first line of first paragraph
+\usepackage{indentfirst}
+
+% Allow access date, author, title
+% \usepackage{titling}
+
+% Don't put page number on empty page
+\usepackage{emptypage}
+
+% Line breaks URLs on '-' and '_'
+\usepackage{url}
+
+% Remove space after a comma when it acts like a decimal separator
+\usepackage{icomma}
+
+% Enable use of colors
+% \usepackage[usenames,svgnames,dvipsnames]{xcolor}
+
+% Dark green color called 'ao'
+\definecolor{ao}{rgb}{0.0, 0.5, 0.0}
+
+% Show customised enumerate
+\usepackage{enumerate}
+
+% Easier control over itemize icon
+\usepackage{enumitem}
+
+% Tables with automatic line breaks
+\usepackage{tabularx}
+
+% Formatting of table cells
+\usepackage{makecell}
+
+% Fix makecell \thead to use default font, with normal size
+\renewcommand\theadfont{\normalsize\scshape}
+\renewcommand\theadfont{\bfseries\normalfont}
+
+% Multiple columns
+\usepackage{multicol}
+
+% Write pseudocode
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% Support graphics
+\usepackage{graphicx}
+
+% Input raw text
+\usepackage{verbatim}
+
+% Include external raw PDF pages
+\usepackage{pdfpages}
+
+% Allow forcing a figure to be displayed "here"
+\usepackage{float}
+
+% Footnotes in table with \tablefootnote{}
+\usepackage{tablefootnote}
+
+% Input code
+\usepackage{listings} \lstset{basicstyle=\ttfamily}
+\renewcommand\lstlistingname{Listagem}                % Listing caption name
+\renewcommand\lstlistlistingname{Lista de Listagens}  % List of listings title
+\def\lstlistingautorefname{Listagem}                  % Listing autoref
+
+% Link colors
+\usepackage[bookmarksopen=true]{hyperref}
+
+% Support PDF bookmarks, links, etc.
+\usepackage[numbered]{bookmark}
+
+% Left, centered and right table columns with length control
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}

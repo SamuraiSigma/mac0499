@@ -1,0 +1,53 @@
+\documentclass{beamer}
+\usetheme{Warsaw}
+\setbeamercovered{transparent=5}
+
+% Preamble
+\input{tex/preamble.tex}
+
+% Only display frame number in footer
+\setbeamertemplate{footline}{
+\hspace*{\fill}%
+\usebeamerfont{page number in head/foot}%
+\insertpagenumber%
+\hspace*{\fill}\vskip2pt%
+}
+
+% Get rid of bottom navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+% ---------------------------------------------------------------------
+
+\title{
+Desenvolvimento de um módulo de\\
+reconhecimento de voz para a \textit{game engine} \textit{Godot}
+}
+
+\author{
+Leonardo Pereira Macedo\\
+Orientador: Prof. Dr. Marco Dimas Gubitoso
+}
+
+\institute{
+Instituto de Matemática e Estatística\\
+Universidade de São Paulo
+}
+
+\date{\small\today}
+
+% ---------------------------------------------------------------------
+
+\begin{document}
+{\setbeamertemplate{footline}{} \maketitle}  % Remove frame number from title
+
+\addtocounter{page}{-1}
+
+\begin{frame}{Sumário}{}
+\tableofcontents
+\end{frame}
+
+% Add other files here!
+% \input{tex/introducao.tex}
+
+{\setbeamertemplate{footline}{} \maketitle }
+\end{document}

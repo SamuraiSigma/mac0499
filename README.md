@@ -37,6 +37,9 @@ the new module, *Speech to Text*, was developed.
 - [**monograph**](monograph/): A monograph, written in *LaTeX*, registering steps
 done in the project (in *Portuguese*).
 
+- [**slides**](slides/): Presentation slides, written in *LaTeX*, registering steps
+done in the project (in *Portuguese*).
+
 - [**speech-recognition**](speech-recognition/): Contains submodules for speech
 recognition libraries, as well as instructions and code on how to build them. Any
 experiments done separately for each library are also located here.
