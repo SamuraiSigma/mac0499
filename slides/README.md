@@ -7,12 +7,17 @@ available only in *Portuguese*.
 
 This directory consists in the following subdirectories:
 
+- [**drawio**](drawio/): Contains *xml* files for diagrams created on the
+  [draw.io][drawio] website.
+
 - [**image**](image/): Contains images used throughout the document.
 
 - [**listing**](listing/): Contains listings (code, scripts, algorithms, etc.) used
   throughout the document.
 
 - [**tex**](tex/): Contains the core *LaTeX* files.
+
+[drawio]: https://www.draw.io "draw.io site"
 
 ## PDF creation
 
