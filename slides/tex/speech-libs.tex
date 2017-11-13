@@ -1,0 +1,51 @@
+\begin{frame}{Bibliotecas de reconhecimento de voz}{Qual utilizar?}
+
+\begin{itemize}
+\item Busca por uma biblioteca que implemente STT; o que priorizar?
+
+\uncover<2->{
+\addtocounter{framenumber}{-1}
+\begin{itemize}
+  \item Código aberto e licença permissiva
+  \item Rápida, leve
+  \item Escrita em \textit{C}/\textit{C++}
+  \item Multiplataforma
+  \item Reconhecimento de diferentes línguas (principalmente inglês)
+\end{itemize}
+}
+
+\item<3-> Três opções válidas:
+\begin{itemize}
+  \item \textit{Kaldi}
+  \item \only<3-4>{\textit{Pocketsphinx}}
+  \only<5>{\textbf{\textit{Pocketsphinx}}} \uncover<5->{{\color{green}\checkmark}}
+  \item \textit{HTK}
+\end{itemize}
+\end{itemize}
+
+\begin{columns}[t]
+
+\begin{column}{0.3\textwidth}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+  \vspace*{-2.5cm}
+  \uncover<4->{
+    \begin{table}
+    \centering
+    \begin{tabular}{|l|c|}
+    \hline\small
+    \thead{\textbf{Biblioteca}} & \textbf{$\mathbf{WER}$ (\%)}\\ \hline
+    \textit{Kaldi}             &  6,5\\
+    \textit{Pocketsphinx} v0.8 & 21,4\\
+    \textit{HTK} v3.4.1        & 19,8\\ \hline
+    \end{tabular}
+
+    \vspace{0.2cm}
+    {\scriptsize\textit{Word error rate} ($WER$) de bibliotecas STT para entradas em inglês}
+    \end{table}
+  }
+\end{column}
+
+\end{columns}
+\end{frame}
