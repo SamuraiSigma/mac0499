@@ -1,0 +1,45 @@
+\begin{frame}{\textit{Pocketsphinx}}{Funcionamento}
+
+\begin{itemize}
+\item Desenvolvida pela \textit{Carnegie Mellon University} (projeto \textit{CMUSphinx})
+
+\item Define que palavras são formadas por \textbf{fonemas}
+
+\item<2-> Voz $\rightarrow$ \textit{Utterances} $\rightarrow$ Vetores de características
+
+\item<3-> Utiliza o \textbf{Modelo Oculto de Markov} na interpretação
+
+\begin{itemize}
+  \item Trata a fala gravada como uma sequência de estados, que transitam entre si com certa \textbf{probabilidade}
+\end{itemize}
+\end{itemize}
+
+\uncover<4->{
+\begin{center}
+\textbf{Estados mais prováveis $\rightarrow$ Melhor interpretação da voz}
+\end{center}
+}
+
+\end{frame}
+
+% ---------------------------------------------------------------------
+
+\begin{frame}{\textit{Pocketsphinx}}{Arquivos de configuração}
+
+\begin{itemize}
+\item \textbf{Modelo acústico}: Arquivos que configuram detectores de fonemas
+
+\item<2-> \textbf{Dicionário fonético}: Mapeamento \{palavras \(\rightarrow\) fonemas\}
+
+\begin{center}
+  \color{Maroon}\texttt{yellow Y EH L OW}
+\end{center}
+
+\item<3-> \textbf{Palavras-chave}: Palavras a serem detectadas, de acordo com limiar
+
+\begin{center}
+  \color{Maroon}\texttt{yellow /1e-6/}
+\end{center}
+
+\end{itemize}
+\end{frame}
