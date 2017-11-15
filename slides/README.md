@@ -7,6 +7,8 @@ available only in *Portuguese*.
 
 This directory consists in the following subdirectories:
 
+- [**bib**](bib/): Contains *BibTeX* files.
+
 - [**drawio**](drawio/): Contains *xml* files for diagrams created on the
   [draw.io][drawio] website.
 

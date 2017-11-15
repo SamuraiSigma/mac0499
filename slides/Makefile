@@ -3,7 +3,7 @@
 
 SLIDES  = Slides.pdf
 TARGET  = main.tex
-TEMPTEX = *.aux *.fdb_latexmk *.fls *.log *.nav *.out *.snm *.toc
+TEMPTEX = *.aux *.bbl *.blg *.fdb_latexmk *.fls *.log *.nav *.out *.snm *.toc
 
 # ---------------------------------------------------------------------
 # Directories
