@@ -23,8 +23,8 @@
 \setbeamertemplate{footline}{
 \hspace*{\fill}%
 \usebeamerfont{page number in head/foot}%
-\insertpagenumber%
-\hspace*{\fill}\vskip2pt%
+\hspace*{\fill}\insertframenumber%
+\hspace*{1em}\vskip4pt%
 }
 
 % Get rid of bottom navigation symbols
@@ -54,8 +54,6 @@ Universidade de São Paulo
 
 \begin{document}
 {\setbeamertemplate{footline}{} \maketitle}  % Remove frame number from title
-
-\addtocounter{page}{-1}
 
 % Add other files here
 \input{tex/introduction}
