@@ -37,6 +37,8 @@ the new module, *Speech to Text*, was developed.
 - [**monograph**](monograph/): A monograph, written in *LaTeX*, registering steps
 done in the project (in *Portuguese*).
 
+- [**poster**](poster/): A poster summing up the whole project.
+
 - [**slides**](slides/): Presentation slides, written in *LaTeX*, registering steps
 done in the project (in *Portuguese*).
 
