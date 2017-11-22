@@ -10,10 +10,10 @@
 
 \item<4-> Execução do módulo em \textbf{paralelo} com o restante do jogo
 \begin{itemize}
-  \item<5-> Uso de uma \textit{thread}
+  \item Uso de uma \textit{thread}
 \end{itemize}
 
-\item<6-> Uso de um \textbf{\textit{buffer}} para armazenar palavras conforme são reconhecidas
+\item<5-> Uso de um \textbf{\textit{buffer}} para armazenar palavras conforme são reconhecidas
 \end{itemize}
 \end{frame}
 
@@ -21,9 +21,41 @@
 
 \begin{frame}{Módulo \textit{Speech to Text}}{Implementação}
 
+\only<1>{
 \begin{figure}
 \includegraphics[width=.95\textwidth]{image/stt-module-simple.pdf}
 \end{figure}
+}
+
+\only<2>{
+\begin{figure}
+\includegraphics[width=.95\textwidth]{image/stt-module-sttconfig.pdf}
+\end{figure}
+}
+
+\only<3>{
+\begin{figure}
+\includegraphics[width=.95\textwidth]{image/stt-module-sttrunner.pdf}
+\end{figure}
+}
+
+\only<4>{
+\begin{figure}
+\includegraphics[width=.95\textwidth]{image/stt-module-sttqueue.pdf}
+\end{figure}
+}
+
+\only<5>{
+\begin{figure}
+\includegraphics[width=.95\textwidth]{image/stt-module-stterror.pdf}
+\end{figure}
+}
+
+\only<6>{
+\begin{figure}
+\includegraphics[width=.95\textwidth]{image/stt-module-filedirutil.pdf}
+\end{figure}
+}
 
 \begin{itemize}
 \item<2-> \texttt{STTConfig}: Controle dos arquivos de configuração
