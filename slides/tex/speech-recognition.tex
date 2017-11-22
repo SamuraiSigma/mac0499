@@ -1,19 +1,30 @@
-\begin{frame}{Reconhecimento de Voz}{Definição e componentes}
+\begin{frame}[t]{Reconhecimento de Voz}{Definição e componentes}
 
 \begin{block}{Definição}
 \textbf{Reconhecimento automático de voz} é um campo que desenvolve técnicas para computadores captarem, reconhecerem e traduzirem a linguagem falada para texto; por isso também o nome \textit{speech to text} (STT)
 \end{block}
 
-\uncover<2->{
+\uncover<2-3>{
 \begin{itemize}
-\item Um sistema genérico STT possui três componentes:
+\item \only<2>{Um sistema genérico STT possui três componentes:}
+      \only<3>{No contexto deste trabalho, temos:\vspace{.025cm}}
 \end{itemize}
+}
 
+\only<2>{
 \begin{figure}
+\centering
 \includegraphics[width=\textwidth]{image/generic-stt.pdf}
 \begin{center}
 \color{blue}\tiny\cite{sttComponentsParameters}
 \end{center}
+\end{figure}
+}
+
+\only<3>{
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{image/generic-stt-godot.pdf}
 \end{figure}
 }
 
