@@ -15,36 +15,10 @@
 \item<3-> Três opções viáveis:
 \begin{itemize}
   \item \textit{Kaldi}
-  \item \only<3-4>{\textit{Pocketsphinx}}
-  \only<5>{\textbf{\textit{Pocketsphinx}}} \uncover<5->{{\color{green}\checkmark}}
+  \item \only<3>{\textit{Pocketsphinx}}
+  \only<4>{\textbf{\textit{Pocketsphinx}}} \uncover<4->{{\color{green}\checkmark}}
   \item \textit{HTK}
 \end{itemize}
+
 \end{itemize}
-
-\begin{columns}[t]
-
-\begin{column}{0.3\textwidth}
-\end{column}
-
-\begin{column}{0.5\textwidth}
-  \vspace*{-2.7cm}
-  \uncover<4->{
-    \begin{table}
-    \centering
-    \begin{tabular}{|l|c|}
-    \hline\small
-    \thead{\textbf{Biblioteca}} & \textbf{$\mathbf{WER}$ (\%)}\\ \hline
-    \textit{Kaldi}             &  6,5\\
-    \textit{Pocketsphinx} v0.8 & 21,4\\
-    \textit{HTK} v3.4.1        & 19,8\\ \hline
-    \end{tabular}
-
-    \vspace{0.2cm}
-    {\scriptsize\textit{Word error rate} ($WER$) de bibliotecas STT para entradas em inglês}
-    {\color{blue}\tiny\cite{compareSpeech}}
-    \end{table}
-  }
-\end{column}
-
-\end{columns}
 \end{frame}
