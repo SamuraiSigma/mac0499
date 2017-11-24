@@ -13,7 +13,7 @@ Neste capítulo, abordaremos a parte teórica do reconhecimento de voz, sem nos 
 
 \section{História}
 
-Apresentamos uma breve visão histórica de sistemas de reconhecimento de voz, baseado principalmente em \citep{STTHistory}, desde seu início até os dias atuais.
+Apresentamos uma breve visão histórica de sistemas de reconhecimento de voz, desde seu início até os dias atuais. Baseamo-nos principalmente em um artigo \citep{STTHistory}.
 
 % ---------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ Laboratórios nos EUA, URSS, Inglaterra e Japão começaram a desenvolver \texti
 
 Na década de 70, o departamento de defesa dos EUA mostrou grande interesse em financiar a tecnologia de reconhecimento de voz. Tal impulso ajudou no desenvolvimento do sistema \emph{Harpy} de reconhecimento de voz pela Universidade Carnegie Mellon.
 
-Usava-se um grafo para representar o domínio das palavras reconhecíveis. Um algoritmo de busca heurística, \emph{Beam Search}, era aplicado para procurar a melhor interpretação para a voz de entrada. Este algoritmo assemelha-se ao \textit{Best-First Search} (BFS), que explora um grafo através da expansão do estado mais promissor ao sair do estado presente. No entanto, sua otimização consiste em ordenar os próximos possíveis estados, através de uma heurística, antes de realizar uma expansão, o que permite prever o quão longe o estado presente está em relação ao estado meta. Com isso, o \textit{Beam Search} é caracterizado como um algoritmo guloso, que gasta menos memória quando comparado ao BFS \citep{beamSearch}.
+\textit{Harpy} usava um grafo para representar o domínio das palavras reconhecíveis. Um algoritmo de busca heurística, \emph{Beam Search}, era aplicado para procurar a melhor interpretação para a voz de entrada. Este algoritmo assemelha-se ao \textit{Best-First Search} (BFS), que explora um grafo através da expansão do estado mais promissor ao sair do estado presente. No entanto, sua otimização consiste em ordenar os próximos possíveis estados, através de uma heurística, antes de realizar uma expansão, o que permite prever o quão longe o estado presente está em relação ao estado meta. Com isso, o \textit{Beam Search} é caracterizado como um algoritmo guloso, que gasta menos memória quando comparado ao BFS \citep{beamSearch}.
 
 Através de uma forma de busca mais eficiente, \textit{Harpy} conseguia entender 1011 palavras, aproximadamente o vocabulário de uma criança típica de três anos.
 
@@ -61,13 +61,13 @@ Os progressos em sistemas de reconhecimento de voz começaram a se refletir no m
 
 Na década de 90, a popularização de computadores para uso pessoal e o desenvolvimento de processadores mais rápidos permitiu que o reconhecimento de voz ficasse viável para uma quantidade maior de pessoas.
 
-Em 1996, surgiu o primeiro portal de voz, \emph{VAL}, criado pela empresa de telecomunicações norte-americana BellSouth. O sistema atendia chamadas telefônicas e respondia de acordo com a informação proferida pelo cliente.
+Em 1996, surgiu o primeiro portal de voz, VAL, criado pela empresa de telecomunicações norte-americana BellSouth. O sistema atendia chamadas telefônicas e respondia de acordo com a informação proferida pelo cliente.
 
 Até o final dos anos 2000, sistemas de reconhecimento de voz pareciam ter ficado estagnados em uma acurácia de aproximadamente 80\%, e muitas aplicações eram caracterizadas pela complexidade ou dificuldade de uso se comparadas ao tradicional \textit{mouse} e teclado.
 
-A popularidade do conceito ressurgiu com força através do aplicativo de Busca por Voz, feito pela Google para iPhone. As duas razões para o sucesso dessa forma de busca eram a facilidade de entrada de dados, se comparado ao teclado da plataforma, e o uso de \textit{data centers} em nuvem da Google, o que retirava a necessidade de um poderoso processamento nos iPhones em si. Com isso, mostrava-se que era possível contornar duas das principais limitações: a disponibilidade de dados e a dificuldade de processá-los eficientemente.
+A popularidade do conceito ressurgiu com força através do aplicativo de Busca por Voz, feito pela Google para \textit{iPhone}. As duas razões para tal sucesso eram a facilidade de entrada de dados, se comparado ao teclado da plataforma, e o uso de \textit{data centers} em nuvem da Google, o que retirava a necessidade de um poderoso processamento nos \textit{iPhones} em si. Com isso, mostrava-se que era possível contornar duas das principais limitações de sistemas de voz: a disponibilidade de dados e a dificuldade de processá-los eficientemente.
 
-A evolução na tecnologia de reconhecimento de voz foi tamanha que, atualmente, é inegável seu impacto em nosso dia a dia. Um celular moderno consegue captar palavras ou pequenas frases de seu usuário dentre um enorme vocabulário para fazer buscas na Internet, tocar uma música ou fazer uma ligação. Alguns países chegam até a usar reconhecimento de voz para autenticar a identidade de alguém por telefone, com o objetivo de evitar fornecer dados pessoais pelo mesmo. Também há usos em transportes, na área médica e para fins educativos, muitas vezes acentuados pela maior facilidade em se falar um comando comparado ao uso de um teclado ou interface gráfica.
+A evolução na tecnologia de reconhecimento de voz foi tamanha que, atualmente, é inegável seu impacto em nosso dia a dia. Um celular moderno consegue captar palavras ou pequenas frases de seu usuário dentre um enorme vocabulário para fazer buscas na Internet, tocar uma música ou fazer uma ligação. Alguns países usam reconhecimento de voz para autenticar a identidade de alguém por telefone, com o objetivo de evitar fornecer dados pessoais pelo mesmo. Também há usos em transportes, na área médica e para fins educativos, muitas vezes acentuados pela maior facilidade em se falar um comando comparado ao uso de um teclado ou interface gráfica.
 
 % ---------------------------------------------------------------------
 
@@ -96,7 +96,7 @@ A figura \ref{generic-stt} apresenta os três componentes de um sistema genéric
 \section{Principais termos}
 \label{sttMainTerms}
 
-De acordo com \citep{sttComponentsParameters} e \citep{sttBasics}, apresentamos, a seguir, os termos mais recorrentes em sistemas de reconhecimento de voz. Também entramos em detalhes nos tipos de parâmetros que caracterizam as capacidades de um sistema de reconhecimento de voz, influenciando sua forma de funcionamento, eficiência e acurácia. A influência destes fatores varia de acordo com o tipo de aplicação que se deseja construir.
+De acordo com \citep{sttComponentsParameters} e \citep{sttBasics}, apresentamos, a seguir, os termos mais recorrentes em sistemas de reconhecimento de voz. Também detalhamos seus parâmetros principais, que atuam sobre sua forma de funcionamento, eficiência e acurácia. A influência destes fatores varia de acordo com o tipo de aplicação que se deseja construir.
 
 % ---------------------------------------------------------------------
 
@@ -117,7 +117,7 @@ A fluência está relacionada à forma de se comunicar com o sistema. Tipicament
 A dependência ou não do usuário classifica os sistemas em dois grupos:
 
 \begin{itemize}
-\item Os sistemas \textbf{dependentes} (\textit{speaker-dependent}), caracterizados pelo \emph{treinamento} feito pelo usuário. Isto é, são computadores que analisam e se adaptam aos padrões particulares da fala captada, resultando em uma maior acurácia. Geralmente, o usuário deve ler algumas páginas de texto para a máquina antes de começar a usar o sistema. Esta variante é comumente usada em casos particulares, onde um número limitado de palavras deve ser reconhecido com bastante precisão \citep{speakerDependency}.
+\item Os sistemas \textbf{dependentes} (\textit{speaker-dependent}), caracterizados pelo \emph{treinamento} feito pelo usuário. Isto é, são computadores que analisam e se adaptam aos padrões particulares da fala captada, resultando em uma maior acurácia. Geralmente, o usuário deve ler algumas páginas de texto para a máquina antes de iniciar o uso do sistema. Esta variante é comumente escolhida em casos particulares, onde um número limitado de palavras deve ser reconhecido com bastante precisão \citep{speakerDependency}.
 
 \item Os sistemas \textbf{independentes} (\textit{speaker-independent}), que são desenvolvidos para reconhecer a voz de qualquer pessoa e não requerem treinamento. É a melhor opção para aplicações interativas que usam voz, já que não é viável fazer com que os usuários leiam páginas de texto antes do uso, ou para sistemas usados por diferentes pessoas. Sua desvantagem é a acurácia menor se comparado ao reconhecimento dependente; para contornar isso, costuma-se limitar o vocabulário reconhecido pelo sistema \citep{speakerDependency}.
 \end{itemize}
@@ -143,9 +143,9 @@ Ao voltarmos para o sistema genérico de reconhecimento de voz apresentado na se
 
 A taxa de erro por palavra (\textit{word error rate}, ou $WER$) é uma métrica de desempenho de um sistema de reconhecimento de voz \citep{wordErrorRate}.
 
-Suponha que tenhamos o texto de referência $\tau$, correspondente ao que o usuário falou, e o texto $\tau'$ de hipótese, que foi gerado pelo sistema STT. O reconhecimento pode levar a diferentes interpretações nas $N$ palavras de $\tau$, levando a um $\tau'$ diferente. Em particular, costuma haver um certo número $I$ de palavras inseridas, uma quantidade $D$ de palavras removidas e um valor $S$ de palavras substituídas.
+Suponha que tenhamos o texto de referência $\tau$, correspondente ao que o usuário falou, e o texto $\tau'$ de hipótese, que foi gerado pelo sistema STT. O reconhecimento de voz pode levar a diferentes interpretações nas $N$ palavras de $\tau$, levando a um $\tau'$ diferente. Em particular, costuma haver um certo número $I$ de palavras inseridas, uma quantidade $D$ de palavras removidas e um valor $S$ de palavras substituídas.
 
-Exemplificando, seja $\tau$ = \textit{``Gosto de chocolate''} e $\tau'$ = \textit{``Gosto \_ chocolate''}. Houve uma remoção por conta da preposição \textit{``de''} ter sido removida pelo sistema de reconhecimento de voz, então $D = 1$.
+Exemplificando, seja $\tau$ = \textit{``Gosto de chocolate''} e $\tau'$ = \textit{``Gosto chocolate''}. Houve uma remoção por conta da preposição \textit{``de''} ter sido eliminada pelo sistema de reconhecimento de voz, então $D = 1$.
 
 A taxa de erro $WER$, geralmente expressa como uma porcentagem, é dada pela equação \ref{wer-equation}. Um valor elevado para esta métrica significa que a qualidade do reconhecimento de voz está ruim.
 
