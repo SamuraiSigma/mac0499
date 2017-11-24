@@ -1,4 +1,4 @@
-void mic_loop() {
+void mic_loop(ad_rec_t *recorder, ps_decoder_t *decoder) {
     int buffer[BUFFER_SIZE];
     bool utt_started = false;
     int n;

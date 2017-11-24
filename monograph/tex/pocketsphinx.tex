@@ -1,7 +1,7 @@
 \chapter{\textit{Pocketsphinx}}
 \label{cap:pocketsphinx}
 
-Neste capítulo, analisaremos mais a fundo a biblioteca \textit{Pocketsphinx}, incluindo seu funcionamento, instruções para usá-la de forma básica e passos para compilação a partir do código fonte.
+Neste capítulo, analisaremos mais a fundo a biblioteca \textit{Pocketsphinx}, incluindo seu funcionamento, passos para compilação a partir do código fonte e instruções para usá-la de forma básica.
 
 Supõe-se que o usuário esteja usando um sistema operacional \textit{Unix}, e que possua acesso a privilégios administrativos para a realização de alguns passos. Recomenda-se que o leitor possua um microfone à disposição no computador, podendo ser embutido ou externo, para melhor aproveitamento.
 
@@ -14,9 +14,9 @@ Todas as instruções e comandos apresentados foram originalmente realizados no 
 O funcionamento das bibliotecas do projeto \textit{CMUSphinx}, incluindo-se a \textit{Pocketsphinx}, pode ser resumido por três grandes passos:
 
 \begin{itemize}
-\item A configuração inicial de arquivos a serem usados pela biblioteca, como o dicionário.
-\item A captura de áudio de voz, separando-a em \textit{utterances}.
-\item A busca, para cada \textit{utterance}, da melhor combinação de palavras do dicionário que se assemelhe a ela.
+\item A configuração inicial de arquivos a serem usados pela biblioteca, como o dicionário;
+\item A captura de áudio de voz, separando-a em \textit{utterances};
+\item A busca, para cada \textit{utterance}, da melhor combinação de palavras do dicionário que se assemelhe a ele.
 \end{itemize}
 
 Definimos, abaixo, alguns conceitos numa ordem que nos proporcione um melhor entendimento das etapas descritas.
@@ -27,7 +27,7 @@ Definimos, abaixo, alguns conceitos numa ordem que nos proporcione um melhor ent
 
 Um \textbf{fonema} é a menor unidade de som em uma língua.
 
-O leitor poderia pensar que uma palavra é uma sequência de fonemas, mas tal definição esconde diversas complexidades: há sons que surgem na transição entre palavras e variantes linguísticas na pronúncia do falante, por exemplo. Devido a isso, surgem termos como \textit{difonemas} e \textit{trifonemas}, que tratam de fonemas consecutivos para levar em conta o contexto em que o som é captado.
+O leitor poderia pensar que uma palavra é uma sequência de fonemas, mas tal definição esconde diversas complexidades: há sons que surgem na transição entre palavras, além de variantes linguísticas afetando a pronúncia do falante, por exemplo. Devido a isso, surgem termos como \emph{difonemas} e \emph{trifonemas}, que tratam de fonemas consecutivos para levar em conta o contexto em que o som é captado.
 
 % ---------------------------------------------------------------------
 
@@ -35,25 +35,25 @@ O leitor poderia pensar que uma palavra é uma sequência de fonemas, mas tal de
 
 Em aprendizado de máquina, uma \textbf{característica} é uma quantidade que descreve algum exemplo.
 
-No contexto de reconhecimento de voz, CMUSphinx divide as \textit{utterances} em quadros (\textit{frames}) de aproximadamente 10 ms de comprimento. Através de uma função complexa, extraem-se 39 números -- características -- para representar a \textit{utterance}; juntos, eles formam o \textbf{vetor de características}.
+No contexto de reconhecimento de voz, CMUSphinx divide os \textit{utterances} em quadros (\textit{frames}) de aproximadamente 10 ms de comprimento. Através de uma função complexa, extraem-se 39 números -- características -- para representar o \textit{utterance}; juntos, eles formam o \textbf{vetor de características}.
 
 % ---------------------------------------------------------------------
 
 \subsection{Modelo}
 \label{pocketsphinx-models}
 
-Um \textbf{modelo} é uma simplificação, onde reduz-se o que se quer modelar às suas características mais importantes. Neste caso, falamos de um modelo de reconhecimento de voz: como tratar as transições entre os quadros em que se divide o áudio capturado?
+Um \textbf{modelo} é uma simplificação, onde reduz-se um objeto de estudo às suas características mais importantes. Neste caso, falamos de um modelo de reconhecimento de voz: como tratar as transições entre os quadros em que se divide o áudio capturado?
 
-A solução encontrada pelo projeto CMUSphinx foi utilizar o Modelo Oculto de Markov (\textit{Hidden Markov Model}, ou HMM, \iffalse conforme visto na seção \ref{cap:hmm})\fi para tratar a fala gravada como uma sequência de estados que transitam entre si com certa probabilidade.
+A solução encontrada pelo projeto \textit{CMUSphinx} foi utilizar o \textbf{Modelo Oculto de Markov} (\textit{Hidden Markov Model}, ou HMM\iffalse, conforme visto na seção \ref{cap:hmm}\fi) para tratar a fala gravada como uma sequência de estados que transitam entre si com certa probabilidade.
 
 Buscam-se os estados do HMM que levam à maior probabilidade no vetor de características. Para isso, três modelos, alimentados à biblioteca na forma de arquivos externos, são usados:
 
 \begin{itemize}
-\item \textbf{Modelo acústico}: Conjunto de arquivos que contém propriedades acústicas para detectores de fonemas. Define os vetores de características mais prováveis para cada unidade de som, além de determinar a criação de uma sequência de fonemas para um dado contexto. Este modelo costuma vir na forma de vários arquivos. Possui alta dependência com a língua na qual se realiza o reconhecimento de voz.
+\item \textbf{Modelo acústico}: Conjunto de arquivos que contém propriedades acústicas para detectores de fonemas. Define os vetores de características mais prováveis para cada unidade de som, além de determinar a criação de uma sequência de fonemas para um dado contexto. Este modelo costuma vir na forma de vários arquivos. Possui alta dependência com a língua na qual o reconhecimento de voz é realizado.
 
-\item \textbf{Dicionário fonético}: Arquivo texto responsável por mapear palavras em fonemas, que devem existir segundo o modelo acústico. Um mapeamento perfeito é praticamente impossível; devido a variantes linguísticas e outros fatores, não há como adicionar todas as diferentes formas de se pronunciar uma palavra.
+\item \textbf{Dicionário fonético}: Arquivo texto responsável por mapear palavras em fonemas, sendo que estes últimos devem existir no modelo acústico. Um mapeamento perfeito é praticamente impossível; devido a variantes linguísticas e outros fatores, não há como adicionar todas as diferentes formas de se pronunciar uma palavra.
 
-Um exemplo de uma linha de um dicionário em inglês seria:
+Exemplificando, a palavra \texttt{yellow} poderia ser expressa da seguinte forma em um dicionário em inglês:
 
 \begin{center}
 \texttt{yellow Y EH L OW}
@@ -69,7 +69,7 @@ Um exemplo de uma linha de um dicionário em inglês seria:
 
 Dentre várias formas diferentes de busca, \textit{CMUSphinx} também oferece suporte para reconhecimento de voz por palavras-chave. Ao invés de usar um modelo de linguagem, fornece-se à biblioteca um arquivo de palavras ou frases a qual se quer detectar, juntamente com um limiar de detecção. Qualquer som capturado que não se encaixar no arquivo ou cujo limiar calculado for baixo demais será descartado.
 
-Um exemplo de linha no arquivo de palavras-chave está a seguir: cada palavra deve vir seguida de seu limiar. Destaca-se que este valor deve vir isolado entre caracteres \texttt{``/''}.
+Exemplificamos, a seguir, a palavra \texttt{yellow} como palavra-chave. Cada palavra do arquivo deve vir seguida de seu limiar, que deve ser escrito entre caracteres \texttt{``/''}.
 
 \begin{center}
 \texttt{yellow /1e-6/}
@@ -103,7 +103,7 @@ $ sudo apt-get install gcc automake autoconf libtool bison swig \
 O pacote \textbf{Sphinxbase} oferece funcionalidades comuns a todos os projetos \textit{CMUSphinx}. Siga as instruções abaixo para compilá-lo.
 
 \begin{enumerate}
-\item Clone o repositório do \textit{Sphinxbase}.
+\item Clone o repositório de \textit{Sphinxbase}:
 
 \begin{lstlisting}[language=Bash]
 $ git clone https://github.com/cmusphinx/sphinxbase
@@ -127,7 +127,7 @@ $ ./configure ---enable-fixed ---without-lapack
 
 Note que qualquer dependência ausente no sistema (por exemplo, o pacote \texttt{swig}) será notificada ao usuário neste passo. Se a execução ocorrer sem problemas, um \texttt{Makefile} será gerado.
 
-\item Compile o \textit{Sphinxbase} através do \texttt{Makefile}:
+\item Compile \textit{Sphinxbase} através do \texttt{Makefile}:
 
 \begin{lstlisting}[language=Bash]
 $ make
@@ -143,7 +143,7 @@ $ make
 O pacote \textbf{Pocketsphinx} contém as funcionalidades de reconhecimento de voz em si que nos interessam para este trabalho. Siga as instruções abaixo para compilá-lo.
 
 \begin{enumerate}
-\item Clone o repositório do \textit{Pocketsphinx}, o que criará o diretório \texttt{pocketsphinx/}.
+\item Clone o repositório de \textit{Pocketsphinx}, o que criará o diretório \texttt{pocketsphinx/}.
 
 \begin{lstlisting}[language=Bash]
 $ git clone https://github.com/cmusphinx/pocketsphinx
@@ -165,7 +165,7 @@ $ ./configure
 
 Note que qualquer dependência ausente no sistema será notificada ao usuário neste passo. Se a execução ocorrer sem problemas, um \texttt{Makefile} será gerado.
 
-\item Compile o \textit{Pocketsphinx} através do \texttt{Makefile}:
+\item Compile \textit{Pocketsphinx} através do \texttt{Makefile}:
 
 \begin{lstlisting}[language=Bash]
 $ make
@@ -177,13 +177,12 @@ $ make
 
 \subsection{Teste de verificação}
 
-Para verificar se a compilação feita nas subseções \ref{sphinxbaseCompile} e \ref{pocketsphinxCompile} ocorreu corretamente, recomenda-se fazer um teste de reconhecimento de voz contínuo com o binário \texttt{pocketsphinx\_continuous}, criado na compilação do \textit{Pocketsphinx}. Nesta verificação, o usuário fala uma palavra ou uma frase curta, em inglês, em seu microfone. Quando um silêncio é detectado, o programa analisa o \textit{utterance} obtido e imprime na tela o texto que calculou ser a melhor interpretação.
+Para verificar se a compilação feita nas seções \ref{sphinxbaseCompile} e \ref{pocketsphinxCompile} ocorreu corretamente, recomenda-se fazer um teste de reconhecimento de voz contínuo com o binário \texttt{pocketsphinx\_continuous}, criado na compilação do \textit{Pocketsphinx}. Nesta verificação, o usuário fala uma palavra ou uma frase curta, em inglês, em seu microfone. Quando um silêncio é detectado, o programa analisa o \textit{utterance} obtido e imprime na tela o texto que calculou ser a melhor interpretação.
 
 No diretório onde encontram-se as pastas \texttt{sphinxbase/} e \texttt{pocketsphinx/}, execute o conteúdo da listagem \ref{sphinxTest}.
 
 \lstinputlisting[
   language=Bash,
-  basicstyle=\scriptsize,
   caption={Comandos para teste de reconhecimento de voz contínuo usando \textit{Pocketsphinx}},
   label={sphinxTest}]
   {listing/run-sphinx-continuous.sh}
@@ -199,24 +198,24 @@ A listagem \ref{sphinx123} representa uma saída resumida ao se falar \texttt{``
   label={sphinx123}]
   {listing/sphinx-continuous-123.txt}
 
-Uma interpretação detalhada de toda a saída exige um estudo maior em reconhecimento de voz e na biblioteca \textit{Pocketsphinx} em si. No entanto, destacamos alguma informações, como o número de palavras reconhecidas (linhas 4 e 8) e a quantidade de \textit{senones} (detectores curtos de sons para trifonemas) captadas.
+Uma interpretação detalhada de toda a saída exige um estudo maior em reconhecimento de voz e na biblioteca \textit{Pocketsphinx} em si. No entanto, destacamos alguma informações, como o número de palavras analisadas no dicionário (linhas 4 e 9) e a quantidade de \textit{senones} (detectores curtos de sons para trifonemas) captadas (linhas 5 e 10).
 
 % ---------------------------------------------------------------------
 
 \section{Estruturas e tipos importantes}
 \label{pocketsphinx-structs}
 
-Feita a compilação da biblioteca, começaremos a analisar as ferramentas que oferece para implementação de reconhecimento de voz. Ressaltamos que a implementação dos pacotes \textit{Sphinxbase} e \textit{Pocketsphinx} é feita na linguagem \textit{C}.
+Feita a compilação da biblioteca, analisaremos as ferramentas que ela oferece para implementação de reconhecimento de voz. Ressaltamos que a implementação dos pacotes é feita na linguagem \textit{C}.
 
-Dentre os tipos de dados oferecidos pelos pacotes \textit{Sphinxbase} e \textit{Pocketsphinx}, destacamos três, a seguir, que serão importantes para um experimento que faremos em breve.
+Dentre os tipos de dados oferecidos por \textit{Sphinxbase} e \textit{Pocketsphinx}, destacamos três, a seguir, que serão importantes para um experimento que faremos em breve.
 
 % ---------------------------------------------------------------------
 
 \subsection{Configuração: \texttt{cmd\_ln\_t}}
 
-A \textit{struct} \texttt{cmd\_ln\_t}, definida no pacote \textit{Sphinxbase}, representa uma variável de configuração \citep{pocketsphinxInstallUse}. Ela é fornecida a outros tipos de dados em \textit{Pocketsphinx}; informa-se, por exemplo, os arquivos a serem usados (dicionário, modelo acústico, etc.) e se reconhecimento usará um arquivo de áudio ou será feito na hora.
+A \textit{struct} \texttt{cmd\_ln\_t}, definida no pacote \textit{Sphinxbase}, representa uma variável de configuração \citep{pocketsphinxInstallUse}. Ela é fornecida a outros tipos de dados em \textit{Pocketsphinx}; informa-se, por exemplo, os arquivos a serem usados (dicionário, modelo acústico, etc.) e se o reconhecimento usará um arquivo de áudio ou será feito na hora.
 
-Um ponteiro pode ser alocado e gerenciado com a função \texttt{cmd\_ln\_init()}, devendo-se liberá-lo posteriormente com uma chamada a \texttt{cmd\_ln\_free\_r()}.
+Um ponteiro pode ser alocado com a função \texttt{cmd\_ln\_init()}, devendo-se liberá-lo posteriormente com uma chamada a \texttt{cmd\_ln\_free\_r()}.
 
 Um dos parâmetros existentes neste tipo de configuração é o nome do microfone, no contexto do sistema do usuário. Não conseguimos encontrar uma forma de se obter, em tempo de execução, os nomes dos microfones disponíveis em um sistema \textit{Unix}. Percebemos, também, que seria bastante complicado desenvolver uma solução que funcionasse independentemente do sistema operacional. Portanto, escolhemos passar o nome do microfone como \texttt{NULL}, o que leva \textit{Pocketsphinx} a sempre utilizar o microfone padrão do computador, seja qual for a plataforma em que ele está.
 
@@ -232,15 +231,15 @@ As três funções mais importantes para manipulação de um \texttt{ad\_rec\_t}
 
 \subsubsection{\texttt{int ad\_start\_rec(recorder)}}
 
-Inicia a gravação no seu argumento \texttt{ad\_rec\_t *recorder}.
+Inicia a gravação no seu argumento \texttt{recorder}.
 
 \subsubsection{\texttt{int ad\_read(recorder, buffer, size)}}
 
-Lê o áudio gravado em \texttt{ad\_rec\_t *recorder} desde a última chamada desta função para este argumento. Guarda-se o áudio lido em um \textit{buffer} do tipo inteiro, que possui o tamanho \texttt{size} especificado.
+Lê o áudio gravado em \texttt{recorder} desde a última chamada desta função para este argumento. Guarda-se o áudio lido em um \textit{buffer} do tipo inteiro, que possui o tamanho \texttt{size} especificado.
 
 \subsubsection{\texttt{int ad\_stop\_rec(recorder)}}
 
-Termina a gravação no seu argumento \texttt{ad\_rec\_t *recorder}.
+Termina a gravação no seu argumento \texttt{recorder}.
 
 % ---------------------------------------------------------------------
 
@@ -254,22 +253,22 @@ Suas funções mais importantes para manipulação são explicadas a seguir. Tod
 
 \subsubsection{\texttt{int ps\_start\_utt(decoder)}}
 
-Inicializa o processamento para \textit{utterance} no \texttt{ps\_decoder\_t *decoder} indicado.
+Inicializa o processamento para \textit{utterance} no \texttt{decoder} indicado.
 
 \subsubsection{\texttt{int ps\_process\_raw(decoder, buffer, size, no\_search, full\_utt)}}
 
-Usa-se \texttt{ps\_decoder\_t *decoder} para decodificar o áudio guardado no \textit{buffer} de tamanho especificado. Os dois parâmetros restantes representam pequenas otimizações possíveis: \texttt{no\_search} realiza parcialmente o reconhecimento para usar menos processamento, e \texttt{full\_utt} considera o \textit{buffer} inteiro como um \textit{utterance}.
+Usa-se \texttt{decoder} para decodificar o áudio guardado no \textit{buffer} de tamanho especificado. Os dois parâmetros restantes representam pequenas otimizações possíveis: \texttt{no\_search} realiza parcialmente o reconhecimento para usar menos processamento, e \texttt{full\_utt} considera o \textit{buffer} inteiro como um \textit{utterance}.
 
 \subsubsection{\texttt{bool ps\_get\_in\_speech(decoder)}}
 
-Retorna \texttt{true} se o \texttt{ps\_decoder\_t *decoder} fornecido tiver decodificado algo, ou \texttt{false} caso contrário. Esta função só deve ser chamada após um \texttt{ps\_process\_raw()}.
+Retorna \texttt{true} se o \texttt{decoder} fornecido tiver decodificado algo, ou \texttt{false} caso contrário. Esta função só deve ser chamada após um \texttt{ps\_process\_raw()}.
 
 \subsubsection{\texttt{char * ps\_get\_hyp(decoder, \&score)}}
 
-Retorna a hipótese (isto é, o termo mais provável) para um \texttt{ps\_decoder\_t *decoder} que foi processado anteriormente com \texttt{ps\_process\_raw()}. Opcionalmente, se um modelo de língua está sendo usado, pode-se passar a referência de um inteiro como segundo argumento para obter a avaliação (\textit{score}) recebida para a hipótese.
+Retorna a hipótese (isto é, o termo mais provável) para um \texttt{decoder} que foi processado anteriormente com \texttt{ps\_process\_raw()}. Em outras palavras, retorna o termo, em texto, que melhor corresponde ao que o usuário queria dizer. Opcionalmente, se um modelo de língua está sendo usado, pode-se passar a referência de um inteiro como segundo argumento para obter a avaliação (\textit{score}) recebida para a hipótese.
 
 \subsubsection{\texttt{int ps\_stop\_utt(decoder)}}
-Termina o processamento para \textit{utterance} no \texttt{ps\_decoder\_t *decoder} indicado.
+Termina o processamento para \textit{utterance} no \texttt{decoder} indicado.
 
 % ---------------------------------------------------------------------
 
@@ -287,7 +286,7 @@ O reconhecimento contínuo de palavras-chave foi implementado com base no códig
   {listing/ps-stt-loop.c}
 \end{minipage}
 
-As linhas 2 a 9 correspondem à inicialização de variáveis, do gravador e do decodificador. Assume-se, inicialmente, que não estamos no meio de um \textit{utterance} através de \texttt{utt\_started = false} (linha 3).
+As linhas 2 a 7 correspondem à inicialização de variáveis, do gravador e do decodificador. Assume-se, inicialmente, que não estamos no meio de um \textit{utterance} através de \mbox{\texttt{utt\_started = false}} (linha 3).
 
 O laço de reconhecimento de voz começa na linha 11, e usa a seguinte lógica:
 
@@ -296,7 +295,7 @@ O laço de reconhecimento de voz começa na linha 11, e usa a seguinte lógica:
 
 \item \textbf{Linhas 16-18}: Se foi possível decodificar alguma palavra do usuário, significa que estamos diante de um \textit{utterance}. Em outras palavras, o usuário está falando algo. Coloca-se \texttt{utt\_started = true}.
 
-\item \textbf{Linhas 22-34}: A condição da linha 23 é oposta à que acabamos de ver anteriormente, verificando se o gravador/decodificador não detectaram mais nenhuma palavra vinda do usuário. Caso seja verdade, encerramos o \textit{utterance} atual e adquirimos sua interpretação (hipótese) através de \texttt{ps\_get\_hyp()} (linhas 26 a 28). Por fim, reiniciamos o decodificador para captar um novo \textit{utterance}, alterando \texttt{utt\_started} para \texttt{false} para refletir esta mudança (linhas 31 a 33).
+\item \textbf{Linhas 22-34}: A condição da linha 23 é oposta à que acabamos de ver anteriormente, verificando se o gravador e decodificador não detectaram mais nenhuma palavra vinda do usuário. Caso seja verdade, encerramos o \textit{utterance} atual e adquirimos sua interpretação (hipótese) através de \texttt{ps\_get\_hyp()} (linhas 26 a 28). Por fim, reiniciamos o decodificador para captar um novo \textit{utterance}, alterando \texttt{utt\_started} para \texttt{false} para refletir esta mudança (linhas 31 a 33).
 \end{itemize}
 
 O leitor talvez note que a chamada a \texttt{ad\_stop\_rec()} na linha 37 é inalcançável devido ao laço implementado não possuir condição de parada. A implementação foi feita desta forma porque a situação apresentada é um teste; em um caso mais específico, como na implementação do módulo de reconhecimento de voz, a presença de uma condição de parada é vital.
