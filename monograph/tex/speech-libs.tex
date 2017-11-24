@@ -1,11 +1,11 @@
 \chapter{Bibliotecas para Reconhecimento de Voz}
 \label{cap:speech-libs}
 
-A seguir, veremos o primeiro item necessário para atingirmos o objetivo final: uma biblioteca que fará o reconhecimento de voz dentro do módulo.
+A seguir, veremos o primeiro item necessário para atingirmos nosso objetivo final: uma biblioteca que fará o reconhecimento de voz dentro do módulo.
 
 Uma implementação do zero fugiria do tema deste trabalho, pois seria necessário aprender sobre reconhecimento de padrões voltado a sons e outros tópicos relacionados a Inteligência Artificial. A outra opção existente, e a que seguiremos, é procurar por uma biblioteca existente e aprender a manejá-la.
 
-Analisaremos quais as características necessárias e desejáveis na biblioteca ideal, e estudaremos a que melhor se adequa ao nosso objetivo dentre as opções existentes.
+Analisaremos quais as características necessárias e desejáveis em uma biblioteca ideal, e estudaremos, no capítulo \ref{cap:pocketsphinx}, a opção que melhor se adequa dentre as existentes.
 
 % ---------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ Recordemos os principais componentes para reconhecimento de voz, apresentados na
 
 \item O \textbf{dispositivo de STT} corresponde ao \textbf{módulo de reconhecimento de voz}, objetivo principal deste trabalho. Esta componente é usada pelo jogo para converter a fala do jogador em texto.
 
-\item O \textbf{software de aplicação} é o \textbf{jogo} em si, feito em \textit{Godot}, que recebe indiretamente os comandos do usuário e realiza ações apropriadas.
+\item O \textbf{software de aplicação} é o \textbf{jogo} em si, feito em \textit{Godot}, que recebe indiretamente os comandos do usuário através do módulo e realiza ações apropriadas.
 \end{itemize}
 
 % ---------------------------------------------------------------------
@@ -55,7 +55,7 @@ Em ordem decrescente de importância, temos:
 
 \item \textbf{Reconhecer diferentes línguas:} Apesar da obrigatoriedade do inglês, a possibilidade de usar diferentes línguas aumentaria a versatilidade do módulo. Tal característica é acentuada ao notarmos que muitos jogos, hoje em dia, oferecem a possibilidade de alterar a língua.
 
-\item \textbf{Ser implementada em C/C++:} Conforme veremos na seção \ref{cap:godot}, \textit{Godot} possui toda a sua base escrita em C++, linguagem também usada para a criação de módulos. A implementação da biblioteca na mesma linguagem ajudaria a simplificar problemas de compatibilidade. Eventualmente, C também é uma opção viável por ser aceita pela linguagem sucessora.
+\item \textbf{Ser implementada em \textit{C}/\textit{C++}:} Conforme veremos no capítulo \ref{cap:godot}, \textit{Godot} possui toda a sua base escrita em \textit{C++}, linguagem também usada para a criação de módulos. A implementação da biblioteca na mesma linguagem ajudaria a simplificar problemas de compatibilidade. Eventualmente, \textit{C} também é uma opção viável por ser aceita pela linguagem sucessora.
 \end{enumerate}
 
 % ---------------------------------------------------------------------
@@ -67,11 +67,11 @@ Realizou-se uma pesquisa por bibliotecas de reconhecimento de voz que sigam o m�
 \begin{itemize}
 \item \textbf{Kaldi} \citep{kaldi}: É a biblioteca mais recente da lista, com seu código publicado em 2011. Escrita em C++, é tida como uma biblioteca para pesquisadores de reconhecimento de voz.
 
-\item \textbf{CMUSphinx} \citep{cmusphinx}: Desenvolvida pela \textit{Carnegie Mellon University}, possui diversos pacotes para diferentes tarefas e aplicações. O pacote principal é escrito em Java. Existe também a variante \emph{Pocketsphinx}, com características interessantes para este trabalho: é escrita em C, possuindo maior velocidade e portabilidade que a biblioteca original.
+\item \textbf{CMUSphinx} \citep{cmusphinx}: Desenvolvida pela \textit{Carnegie Mellon University}, possui diversos pacotes para diferentes tarefas e aplicações. O pacote principal é escrito em \textit{Java}. Existe também a variante \emph{Pocketsphinx}, com características interessantes para este trabalho: é escrita em \textit{C}, possuindo maior velocidade e portabilidade que a biblioteca original.
 
-\item \textbf{HTK} \citep{htk}: Desenvolvida pela \textit{Cambridge University Engineering Department}, HTK é uma sigla para \textit{Hidden Markov Model Toolkit}. É escrita em C, com novas versões sendo lançadas consistentemente.
+\item \textbf{HTK} \citep{htk}: Desenvolvida pela \textit{Cambridge University Engineering Department}, HTK é uma sigla para \textit{Hidden Markov Model Toolkit}. É escrita em \textit{C}, com novas versões sendo lançadas consistentemente.
 
-\item \textbf{Simon} \citep{Simon}: Popular para Linux e escrita em C++, Simon utiliza \textit{CMUSphinx}, \textit{HTK} e \textit{Julius} internamente. Não havia suporte para \textit{MacOS} até abril de 2017.
+\item \textbf{Simon} \citep{Simon}: Popular para sistemas \textit{Unix} e escrita em \textit{C++}, \textit{Simon} utiliza \textit{CMUSphinx}, \textit{HTK} e \textit{Julius} internamente. Não havia suporte para \textit{MacOS} até abril de 2017.
 \end{itemize}
 
 % ---------------------------------------------------------------------
@@ -91,7 +91,7 @@ Um artigo de 2014 \citep{compareSpeech} comparou as versões mais recentes de \e
 \textit{HTK} com \textit{HDecode}\tablefootnote{Decodificador utilizado junto à biblioteca \textit{HTK}.} v3.4.1 & 19,8 & 22,9 \\ \hline
 \end{tabular}
 
-\caption{Comparação do $WER$ de bibliotecas STT para entradas em inglês e alemão}
+\caption{Comparação do $WER$ de bibliotecas STT para entradas em inglês e alemão \citep{compareSpeech}}
 \label{werLibs}
 \end{table}
 
