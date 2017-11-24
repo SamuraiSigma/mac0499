@@ -3,11 +3,11 @@
 
 Após adquirirmos conhecimento sobre a biblioteca \textit{Pocketsphinx} e a \textit{game engine} \textit{Godot}, chegou o momento de construirmos o módulo de reconhecimento de voz.
 
-Conforme descrito na seção \ref{godotLanguages}, a linguagem \textit{GDScript} é extremamente prática para programar estruturas em um jogo feito em \textit{Godot}. No entanto, às vezes deseja-se otimizar alguma parte crítica através de \textit{C++} ou adicionar uma nova funcionalidade inexistente em \textit{Godot}. Os módulos servem justamente para este objetivo, pois não fazem parte do código essencial da \textit{game engine}.
+Conforme descrito na seção \ref{godotLanguages}, a linguagem \textit{GDScript} é extremamente prática para programar estruturas em um jogo feito em \textit{Godot}. No entanto, às vezes deseja-se otimizar alguma parte crítica através de \textit{C++} ou adicionar uma nova funcionalidade inexistente. Os módulos servem justamente para este objetivo, pois não fazem parte do código essencial da \textit{game engine}.
 
-Este capítulo documenta os passos e decisões de projeto tomados na criação do módulo, a qual chamaremos de \textit{Speech to Text}. Pressupomos que o leitor esteja familiarizado com as instruções para compilação de \textit{Godot}, vistas na seção \ref{godotCompile}, e com a biblioteca \textit{Pocketsphinx} (capítulo \ref{cap:pocketsphinx}), que será usada para a realização do reconhecimento de voz.
+Este capítulo documenta os passos e decisões de projeto tomados na criação do módulo, a qual chamaremos de \textbf{\textit{Speech to Text}}. Pressupomos que o leitor esteja familiarizado com as instruções para compilação de \textit{Godot}, vistas na seção \ref{godotCompile}, e com a biblioteca \textit{Pocketsphinx} (capítulo \ref{cap:pocketsphinx}), que será usada para a realização do reconhecimento de voz.
 
-As instruções para criação do módulo foram baseadas no tutorial existente na documentação de \textit{Godot} \citep{godotModuleCreation}.
+Os passos para criação do módulo foram baseadas no tutorial existente na documentação de \textit{Godot} \citep{godotModuleCreation}.
 
 Todas as instruções e comandos apresentados foram originalmente realizados no sistema \texttt{Ubuntu 16.04 LTS, 64-bit} do autor.
 
@@ -17,9 +17,11 @@ Todas as instruções e comandos apresentados foram originalmente realizados no 
 
 Antes de começarmos a implementar o módulo em si, precisaremos tomar algumas medidas simples de preparação.
 
+% ---------------------------------------------------------------------
+
 \subsection{Criação do diretório do módulo}
 
-Todos os módulos ativos são encontrados como subdiretórios dentro da pasta \texttt{modules/} no código fonte. Começaremos, portanto, com a criação do diretório \texttt{speech\_to\_text}:
+Todos os módulos ativos são encontrados como subdiretórios dentro da pasta \texttt{modules/} no código fonte de \textit{Godot}. Começaremos, portanto, com a criação do diretório \texttt{speech\_to\_text}:
 
 \begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Bash]
@@ -115,7 +117,7 @@ Portanto, em termos dos principais parâmetros de reconhecimento de voz definido
 
 Desejamos que o módulo seja \textbf{confiável} em relação à acurácia do reconhecimento de voz. Isto dependerá dos modelos usados na configuração do \textit{Pocketsphinx} (descritos na seção \ref{pocketsphinx-models}).
 
-\textbf{Configurabilidade} também é uma característica desejada: o usuário do módulo deverá ter controle sobre a língua do reconhecimento e o vocabulário reconhecido, por exemplo. \textit{Pocketsphinx} permite isso facilmente com a alteração de seus arquivos de configuração. O uso de palavras-chave (comentado na seção \ref{pocketsphinx-keywords}) em vez de um modelo de língua é mais adequado para um jogo, uma vez que a interação exercida pelo usuário ocorre por meio de palavras específicas.
+\textbf{Configurabilidade} também é uma característica almejada: o usuário do módulo deverá ter controle sobre a língua do reconhecimento e o vocabulário reconhecido, por exemplo. \textit{Pocketsphinx} permite isso facilmente com a alteração de seus arquivos de configuração. O uso de palavras-chave (comentado na seção \ref{pocketsphinx-keywords}) em vez de um modelo de língua é mais adequado para um jogo, uma vez que a interação exercida pelo usuário ocorre por meio de palavras específicas (comandos).
 
 O módulo deverá ser de \textbf{propósito geral} em relação ao tipo de jogo em que é empregado (ação, terror, plataforma, etc.); portanto, não é possível prever características do típico usuário do jogo. Este requisito, em geral, não é tão preocupante quando levamos em conta o uso de um modelo acústico geral com a biblioteca \textit{Pocketsphinx}.
 
@@ -187,7 +189,7 @@ A figura \ref{stt-config-diagram} apresenta os atributos, métodos e relacioname
   \label{stt-config-diagram}
 \end{figure}
 
-\textit{STTConfig} possui duas funcionalidades principais:
+\texttt{STTConfig} possui duas funcionalidades principais:
 
 \subsubsection{Definir arquivos de configuração}
 
@@ -213,12 +215,12 @@ A cópia de arquivos para o caminho \texttt{user://}, mencionada anteriormente, 
 
 % ---------------------------------------------------------------------
 
-\subsection{Classe \textit{STTRunner}}
+\subsection{Classe \texttt{STTRunner}}
 \label{stt-runner}
 
 \texttt{STTRunner} é a classe responsável por realizar o reconhecimento de voz em si. Por claramente implementar uma \textbf{funcionalidade} a ser usada pelo usuário do editor \textit{Godot}, decidiu-se que uma herança de \texttt{Node} (visto na seção \ref{godotNode}) seria bastante apropriada.
 
-A figura \ref{stt-runner-diagram} apresenta os atributos, métodos e relacionamentos da classe \textit{STTRunner}. O construtor e destrutor foram omitidos por simplicidade.
+A figura \ref{stt-runner-diagram} apresenta os atributos, métodos e relacionamentos da classe \texttt{STTRunner}. O construtor e destrutor foram omitidos por simplicidade.
 
 \begin{figure}[H]
   \centering
@@ -227,17 +229,17 @@ A figura \ref{stt-runner-diagram} apresenta os atributos, métodos e relacioname
   \label{stt-runner-diagram}
 \end{figure}
 
-A classe usa um objeto \textit{STTConfig} para obter as variáveis \textit{Pocketsphinx} necessárias em sua tarefa, e um objeto \textit{STTQueue} para guardar termos (palavras ou pequenas frases) gerados no reconhecimento de voz. Ambos podem ser obtidos e definidos através dos \textit{getters} e \textit{setters} para \texttt{config} e \texttt{queue}.
+A classe usa um objeto \texttt{STTConfig} para obter as variáveis \textit{Pocketsphinx} necessárias em sua tarefa, e um objeto \texttt{STTQueue} para guardar termos (palavras ou pequenas frases) gerados no reconhecimento de voz. Ambos podem ser obtidos e definidos através dos \textit{getters} e \textit{setters} para \texttt{config} e \texttt{queue}.
 
-Comentamos, nos requisitos funcionais (seção \ref{moduleFunctionalRequirements}), que o reconhecimento deveria ocorrer em paralelo com o restante do jogo. O uso de uma \textit{thread} serve bem para tal propósito; \textit{Godot}, inclusive, oferece uma implementação própria dessa estrutura em sua classe \textit{Thread}. Seus dois métodos de maior importância para nós são:
+Comentamos, nos requisitos funcionais (seção \ref{moduleFunctionalRequirements}), que o reconhecimento deveria ocorrer em paralelo com o restante do jogo. O uso de uma \textit{thread} serve bem para tal propósito; \textit{Godot}, inclusive, oferece uma implementação própria dessa estrutura em sua classe \texttt{Thread}. Seus dois métodos de maior importância para nós são:
 
 \begin{itemize}
-\item \texttt{Thread * create(função, argumento, configurações)}: Cria uma \textit{thread} para executar uma função de assinatura \texttt{func(void *arg)}. O parâmetro \textbf{função} corresponde ao nome da função (neste caso, \texttt{func}) e \textbf{argumento}, a \texttt{arg}. Opcionalmente, podem ser passadas configurações adicionais como um terceiro parâmetro, mas não entraremos em detalhes por não terem sido necessárias. Retorna-se um ponteiro para a instância de \textit{Thread} criada.
+\item \texttt{Thread * create(função, argumento, configurações)}: Cria uma \textit{thread} para executar uma função de assinatura \texttt{func(void *arg)}. O parâmetro \textbf{função} corresponde ao nome da função (neste caso, \texttt{func}) e \textbf{argumento}, a \texttt{arg}. Opcionalmente, podem ser passadas configurações adicionais como um terceiro parâmetro, mas não entraremos em detalhes por não terem sido necessárias. Retorna-se um ponteiro para a instância de \texttt{Thread} criada.
 
-\item \texttt{void wait\_to\_finish(thread)}: Recebe um ponteiro para uma instância de \textit{Thread}. Espera a \textit{thread} terminar, finalizando-a com segurança.
+\item \texttt{void wait\_to\_finish(thread)}: Recebe um ponteiro para uma instância de \texttt{Thread}. Espera a \textit{thread} terminar, finalizando-a com segurança.
 \end{itemize}
 
-O método \texttt{start()} cria uma \textit{thread} para realizar o reconhecimento de voz desde que o objeto \textit{STTRunner} já possua instâncias de \textit{STTConfig} e \textit{STTQueue}. Chama-se \texttt{Thread::create()} com um método estático como parâmetro (\texttt{\_thread\_recognize()}, que não aparece na figura \ref{stt-runner-diagram} por agir apenas como um intermédio) e a própria instância como argumento (isto é, \texttt{this}).
+O método \texttt{start()} da nossa classe cria uma \textit{thread} para realizar o reconhecimento de voz desde que o objeto \texttt{STTRunner} já possua instâncias de \texttt{STTConfig} e \texttt{STTQueue}. Chama-se \texttt{Thread::create()} com um método estático como parâmetro (\texttt{\_thread\_recognize()}, que não aparece na figura \ref{stt-runner-diagram} por agir apenas como um intermédio) e a própria instância como argumento (isto é, \texttt{this}).
 
 A listagem \ref{thread-recognize} mostra a implementação de \texttt{\_thread\_recognize()}, responsável por chamar o método privado \texttt{\_recognize()} da instância passada como argumento. É nesta última função que o laço de reconhecimento de voz ocorre, implementado de forma bastante similar ao que vimos na seção \ref{stt-continuous-algorithm}.
 
@@ -251,16 +253,16 @@ void STTRunner::_thread_recognize(void *runner) {
 }
 \end{lstlisting}
 
-Para controle sobre a \textit{thread}, o usuário do módulo pode verificar sua execução com \texttt{running()} e ordenar sua parada imediata com \texttt{stop()}. Definiu-se que apenas uma \textit{thread} pode existir por instância de \textit{STTRunner}, pois o controle de várias operações em paralelo não traria nenhum benefício ao módulo.
+Para controle sobre a \textit{thread}, o usuário do módulo pode verificar sua execução com \texttt{running()} e ordenar sua parada imediata com \texttt{stop()}. Definiu-se que apenas uma \textit{thread} pode existir por instância de \texttt{STTRunner}, pois o controle de várias operações em paralelo não traria nenhum benefício ao módulo.
 
 Por fim, oferece-se controle sobre o tamanho do \textit{buffer} de gravação de voz através do \textit{getter} e \textit{setter} de \texttt{buffer\_size}. É importante ressaltar que o uso de um \textit{setter} demanda a parada imediata da \textit{thread} de reconhecimento para evitar possíveis problemas de acesso antes e depois da alteração (\textit{race condition}, ou condição de corrida).
 
 % ---------------------------------------------------------------------
 
-\subsection{Classe \textit{STTQueue}}
+\subsection{Classe \texttt{STTQueue}}
 \label{stt-queue}
 
-\textit{STTQueue} implementa um \textit{buffer} para guardar palavras geradas no reconhecimento de voz, conforme planejado nos requisitos funcionais (seção \ref{moduleFunctionalRequirements}). Fizemos que com herdasse da classe \texttt{Reference} (visto na seção \ref{godotReference}) com o intuito de simplificar seu gerenciamento de memória.
+\texttt{STTQueue} implementa um \textit{buffer} para guardar palavras geradas no reconhecimento de voz, conforme planejado nos requisitos funcionais (seção \ref{moduleFunctionalRequirements}). Fizemos que com herdasse da classe \texttt{Reference} (visto na seção \ref{godotReference}) com o intuito de simplificar seu gerenciamento de memória.
 
 É usado por \texttt{STTRunner} para guardar termos do reconhecimento de voz. Ao mesmo tempo, o usuário do módulo pode retirar estes termos do módulo e usá-los no jogo.
 
@@ -273,7 +275,7 @@ A figura \ref{stt-queue-diagram} apresenta os atributos, métodos e relacionamen
   \label{stt-queue-diagram}
 \end{figure}
 
-Conforme o nome sugere, o tipo abstrato de dados usado para o \textit{buffer} da \texttt{STTQueue} é uma \textbf{fila}. \textit{Godot} implementa esta estrutura, com diversas funcionalidade a mais, em sua classe \texttt{Vector}. Como muitas de seus métodos seriam desnecessários (não é necessário, por exemplo, que o usuário possa ordenar a fila de reconhecimento de voz), \texttt{STTQueue} age como um intermédio do que pode e não pode ser feito em \texttt{Vector}.
+Conforme o nome sugere, o tipo abstrato de dados usado para o \textit{buffer} da \texttt{STTQueue} é uma \textbf{fila}. \textit{Godot} implementa esta estrutura, com diversas funcionalidade a mais, em sua classe \texttt{Vector}. Como muitos de seus métodos seriam desnecessários (não é necessário, por exemplo, que o usuário possa ordenar a fila de reconhecimento de voz), \texttt{STTQueue} age como um intermédio do que pode e não pode ser feito em \texttt{Vector}.
 
 Os principais métodos de \texttt{STTQueue} estão resumidos na tabela \ref{stt-queue-main-methods}.
 
@@ -334,7 +336,7 @@ A tabela \ref{stt-error-enum} contém os valores definidos no \texttt{enum Error
 \texttt{MULTIBYTE\_STR\_ERR} & Erro ao converter o nome do arquivo para uma sequência de vários bytes \\ \hline
 \texttt{MEM\_ALLOC\_ERR} & Não há memória disponível para alocação \\ \hline
 \texttt{CONFIG\_CREATE\_ERR} & Erro ao criar a variável de configuração de \textit{Pocketsphinx} \\ \hline
-\texttt{REC\_CREATE\_ERR} & Erro ao se conectar o aparelho de áudio (microfone) \\ \hline
+\texttt{REC\_CREATE\_ERR} & Erro ao se conectar ao aparelho de áudio (microfone) \\ \hline
 \texttt{DECODER\_CREATE\_ERR} & Erro ao criar a variável de decodificação de \textit{Sphinxbase} \\ \hline
 \texttt{REC\_START\_ERR} & Erro ao começar a gravar a voz do usuário \\ \hline
 \texttt{REC\_STOP\_ERR} & Não foi possível parar a gravação da voz do usuário \\ \hline
@@ -430,7 +432,7 @@ Já vimos que \textit{SCons} é a ferramenta usada na compilação de \textit{Go
 
 A implementação deste script envolve listar quais os arquivos a serem compilados e quais \textit{flags} o compilador deve usar.
 
-Percebemos que uma compilação em \textit{Windows} era possível devido à facilidade da ferramenta; bastou adicionar um arquivo próprio de \textit{Pocketsphinx} (\texttt{ad\_win32.c}) que opera especificamente sobre este sistema operacional.
+Percebemos que uma compilação em \textit{Windows} era possível devido à facilidade da ferramenta; bastou adicionar um arquivo próprio de \textit{Pocketsphinx}, \texttt{ad\_win32.c}, que opera especificamente sobre este sistema operacional.
 
 % ---------------------------------------------------------------------
 
@@ -484,9 +486,9 @@ def configure(env):
 \section{Divulgação}
 \label{modulePublishing}
 
-Todo o código fonte do módulo \textit{Speech to Text} encontra-se em um repositório no GitHub do autor \citep{sttModuleGitHub}, juntamente com instruções para compilação. Um tutorial para seu uso no editor, baseado no formato usado na documentação da própria \textit{game engine}, encontra-se no repositório \citep{sttModuleTutorial}. Também foram disponibilizados binários dos editores \textit{Godot} e \textit{templates de exportação}, ambos compilados previamente com o módulo, para \textit{Windows} e \textit{Unix} \citep{sttModuleDownload}.
+Todo o código fonte do módulo \textit{Speech to Text} encontra-se em um repositório no GitHub do autor \citep{sttModuleGitHub}, juntamente com instruções para compilação. Um tutorial para seu uso no editor, baseado no formato usado na documentação da própria \textit{game engine}, encontra-se em outro repositório \citep{sttModuleTutorial}. Também foram disponibilizados binários dos editores \textit{Godot} e \textit{templates de exportação}, ambos compilados previamente com o módulo, para \textit{Windows} e \textit{Unix} \citep{sttModuleDownload}.
 
-A compilação com o módulo é bastante simples: basta baixar o diretório de \textit{Speech to Text} que deve ser inserido em \texttt{modules/} e recompilar \textit{Godot}, seguindo os mesmos passos apresentados na seção \ref{godotCompile}.
+A compilação com o módulo é bastante simples: basta baixar o diretório de \textit{Speech to Text}, que deve ser inserido em \texttt{modules/}, e recompilar \textit{Godot}, seguindo os mesmos passos apresentados na seção \ref{godotCompile}.
 
 \textit{Speech to Text} foi divulgado em dois fóruns de \textit{Godot}, onde obteve algumas poucas aprovações:
 

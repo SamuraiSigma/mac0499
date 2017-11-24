@@ -1,4 +1,4 @@
-# Deletar a maioria dos arquivos/diretórios supérfluos de Sphinxbase
+# Deletar a maioria dos arquivos/diretórios supérfluos de Pocketsphinx
 $ find . -not -name "src" \
   -a -not -name "include" \
   -a -not -wholename "./src/libpocketsphinx*" \
