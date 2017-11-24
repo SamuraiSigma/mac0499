@@ -54,7 +54,7 @@ Uma explicação detalhada de todas as funcionalidades do editor fugiria do tema
 
 \subsection{Uso de \textit{nodes} e \textit{scenes}}
 
-No canto superior direito do editor (conforme a figura \ref{in-game-editor}, a \textit{scene} (explicada na seção \ref{godotScene}) atual do projeto é indicada na aba de mesmo nome. É neste espaço que a hierarquia de \textit{nodes} (definidos na seção \ref{godotNode} pertencentes a esta cena é apresentada.
+No canto superior direito do editor (conforme a figura \ref{in-game-editor}, o \textit{scene} (explicado na seção \ref{godotScene}) atual do projeto é indicada na aba de mesmo nome. É neste espaço que a hierarquia de \textit{nodes} (definidos na seção \ref{godotNode}) pertencentes a esta cena é apresentada.
 
 A criação de um \textit{node} para a cena é feita através do símbolo \textbf{\texttt{+}} desta aba, que leva o usuário a uma lista de nós existentes (figura \ref{editor-node}). Por curiosidade, recomenda-se que o leitor procure o nó \textbf{\textit{STTRunner}} (descrito na seção \ref{stt-runner}), fornecido pelo módulo \textit{Speech to Text}.
 
@@ -86,9 +86,9 @@ Suponha que desejamos executar o jogo com apenas o nó \textit{Label}, com ele a
 \begin{itemize}
 \item Alterar o texto do \textit{Label} para \textit{``Hello World!''}. Isto é facilmente feito pela propriedade \textbf{\textit{Text}} na aba \textit{Inspector} (\textbf{1} na figura \ref{editor-run-scene-edit}).
 
-\item Salvar a \textit{scene} atual. Uma forma de fazer isso para depois executar o jogo é clicar no botão \textit{Play the project} (triângulo no centro superior do editor; vide \textbf{2} na figura \ref{editor-run-scene-edit}). O editor apresentará uma janela para salvar a cena (\textbf{3} na figura \ref{editor-run-scene-edit}) como um arquivo cujo formato padrão é \texttt{.tscn}.
+\item Salvar o \textit{scene} atual. Uma forma de fazer isso para depois executar o jogo é clicar no botão \textit{Play the project} (triângulo no centro superior do editor; vide \textbf{2} na figura \ref{editor-run-scene-edit}). O editor apresentará uma janela para salvar a cena (\textbf{3} na figura \ref{editor-run-scene-edit}) como um arquivo cujo formato padrão é \texttt{.tscn}.
 
-\item Se \textit{Play the project} foi usado para salvar a cena, imediatamente outra janela será exibida, solicitando a escolha da \textit{scene} a ser usada quando o jogo é iniciado. Basta escolher o arquivo \texttt{.tscn} que foi salvo no passo anterior.
+\item Se \textit{Play the project} foi usado para salvar a cena, imediatamente outra janela será exibida, solicitando a escolha do \textit{scene} a ser usado quando o jogo é iniciado. Basta escolher o arquivo \texttt{.tscn} que foi salvo no passo anterior.
 \end{itemize}
 
 O resultado, apresentado na figura \ref{editor-hello-world}, será a abertura de uma nova janela para a execução do jogo. Note o texto \textit{``Hello World!''} em seu canto superior esquerdo.
@@ -144,9 +144,9 @@ A função \texttt{\_ready()} é chamada sempre que o \textit{node} é adicionad
 
 \subsubsection{\texttt{\_process(delta)}}
 
-\texttt{\_process()} é uma função chamada repetidamente enquanto o nó existir na cena e \texttt{set\_process(true)} tiver sido chamada previamente (em \_ready(), por exemplo) para solicitar seu uso. Seu único argumento, \texttt{delta}, representa o tempo desde a última atualização de \textit{frame} do jogo.
+\texttt{\_process()} é uma função chamada repetidamente enquanto o nó existir na cena e \texttt{set\_process(true)} tiver sido chamada previamente (em \texttt{\_ready()}, por exemplo) para solicitar seu uso. Seu único argumento, \texttt{delta}, representa o tempo desde a última atualização de \textit{frame} do jogo.
 
-Esta função é muito útil para executar trechos de código periodicamente durante um jogo. Por exemplo, imagine um jogo em que a personagem controlada pelo usuário possua um certo número de pontos de vida. Poderia-se utilizar \texttt{\_process()} para checar se este valor chegou a zero e, se afirmativo, alterar a \textit{scene} atual para a do fim de jogo.
+Esta função é muito útil para executar trechos de código periodicamente durante um jogo. Por exemplo, imagine um jogo em que o personagem controlado pelo usuário possua um certo número de pontos de vida. Poderia-se utilizar \texttt{\_process()} para checar se este valor chegou a zero e, se afirmativo, alterar o \textit{scene} atual para o do fim de jogo.
 
 % ---------------------------------------------------------------------
 
@@ -154,7 +154,7 @@ Esta função é muito útil para executar trechos de código periodicamente dur
 
 Além da escrita de código, jogos costumam usar diversos materiais, ou \emph{assets}, como modelos gráficos, música, sons, fontes e texturas. A criação destes demanda bastante tempo e em geral exige uma equipe diversificada e qualificada. Portanto, gostaríamos de produzir um jogo que utilize poucos \textit{assets}; buscaremos quaisquer materiais necessários em páginas Web que os disponibilizem para uso grátis e sem licença.
 
-Quanto à jogabilidade, desejamos colocar ênfase na funcionalidade de reconhecimento de voz; este é o objetivo em sua criação, afinal. O uso de alguns poucos comandos orais em um jogo curto é o ideal para deixar as regras simples, mas com interação razoável com o usuário.
+Quanto à jogabilidade, desejamos colocar ênfase na funcionalidade de reconhecimento de voz; este é o objetivo da criação do jogo, afinal. O uso de alguns poucos comandos orais em um projeto curto é o ideal para deixar as regras simples, mas com interação razoável com o usuário.
 
 Por fim, definiremos que o jogo e reconhecimento de voz usarão \textbf{inglês americano} (\textit{US English}), pois sabemos que um modelo acústico e arquivo de dicionário para \textit{Pocketsphinx} existem e são de uso livre para esta língua.
 
@@ -170,7 +170,7 @@ Uma típica tela do jogo consiste em um fundo totalmente preenchido com alguma c
 
 Para acrescentar um aspecto competitivo e tornar \textit{Color Clutter} mais lúdico, o jogo será no formato de rodadas, onde marcaremos quantos acertos o usuário consegue em 1 minuto. Cada resposta correta altera aleatoriamente as cores e a posição da palavra na tela; não há penalidade para uma resposta errada, exceto a perda de tempo acarretada pela mesma.
 
-A figura \ref{color-clutter-screen} apresenta a tela do jogo durante uma rodada. O canto superior esquerdo informa qual cor deve ser pronunciada, enquanto o canto superior direito exibem o tempo restante e o \textit{score} (pontuação) atual do jogador. Na situação apresentada, o usuário precisaria falar a cor correspondente ao \textit{background} (fundo): \textbf{\textit{blue}}.
+A figura \ref{color-clutter-screen} apresenta a tela do jogo durante uma rodada. O canto superior esquerdo informa qual cor deve ser pronunciada, enquanto o canto superior direito exibe o tempo restante e o \textit{score} (pontuação) atual do jogador. Na situação apresentada, o usuário precisaria falar a cor correspondente ao \textit{background} (fundo): \textbf{\textit{blue}}.
 
 \begin{figure}[H]
   \centering
@@ -183,7 +183,7 @@ A figura \ref{color-clutter-screen} apresenta a tela do jogo durante uma rodada.
 
 \section{Desenvolvimento}
 
-A simplicidade de \textit{Color Clutter} nos levou a implementá-lo com apenas uma \textit{scene}. A árvore de \textit{nodes} que o compõe é apresentada na figura \ref{color-clutter-nodes}.
+A simplicidade de \textit{Color Clutter} nos levou a implementá-lo com apenas um \textit{scene}. A árvore de \textit{nodes} que o compõe é apresentada na figura \ref{color-clutter-nodes}.
 
 \begin{figure}[H]
   \centering
@@ -192,7 +192,7 @@ A simplicidade de \textit{Color Clutter} nos levou a implementá-lo com apenas u
   \label{color-clutter-nodes}
 \end{figure}
 
-Explicamos, a seguir, o funcionamento geral do jogo e detalhamos alguns dos textit{nodes} utilizados.
+Explicamos, a seguir, o funcionamento geral do jogo e detalhamos alguns dos \textit{nodes} utilizados.
 
 % ---------------------------------------------------------------------
 
@@ -208,7 +208,7 @@ A qualquer momento, o usuário pode sair do jogo através do comando de voz \tex
 
 \texttt{Main} é um \textit{Node2D}, que é um nó base para jogos em 2D; por isso seu uso como o \textit{node} raiz da cena.
 
-Conforme indicado na figura \ref{color-clutter-nodes}, este nó contém \texttt{STT}, que é do tipo \textit{STTRunner}. Para poder utilizá-lo, \texttt{Main} prepara dois objetos em \texttt{\_ready()}:
+Conforme indicado na figura \ref{color-clutter-nodes}, este nó contém \texttt{STT}, que é do tipo \textit{STTRunner}. Para poder utilizá-lo, \texttt{Main} prepara dois objetos na função \texttt{\_ready()} de seu \textit{script}:
 
 \begin{itemize}
 \item Um objeto da classe \textit{STTConfig} (explicado na seção \ref{stt-config}). Definiram-se os arquivos de configuração necessários: um modelo acústico em inglês, um dicionário de palavras em inglês e um arquivo de palavras-chave contendo os comandos usados no jogo. Neste último, os valores de limiar escolhidos foram, em geral, baseados no número de fonemas existentes no comando. Por fim, utilizou-se o método \texttt{init()} para inicializar a instância, deixando-a pronta para uso no \textit{STTRunner}.
@@ -255,7 +255,7 @@ A função \texttt{update\_score()} é responsável por atualizar a pontuação 
 
 \subsection{\textit{Node} \texttt{Timer}}
 
-\texttt{Timer} é um nó de tipo homônimo. Como o nome indica, ela é usada como um relógio: após atribuir um valor de tempo e acioná-lo, o \textit{Timer} realizará realizar uma contagem regressiva, realizando automaticamente uma chamada de função (\textit{callback}) quando chegar a zero.
+\texttt{Timer} é um nó de tipo homônimo. Como o nome indica, ela é usada como um relógio: após atribuir um valor de tempo e acioná-lo, exerce-se uma contagem regressiva, realizando automaticamente uma chamada de função (\textit{callback}) quando chegar a zero.
 
 No contexto de \textit{Color Clutter}, este \textit{node} automaticamente atualiza seu filho \texttt{TimeLeft}, que é um \textit{Label} usado para indicar, na tela, o  tempo restante de jogo. \texttt{Timer} chama uma função em \texttt{Main} quando a partida acaba, com o objetivo de alterar o estado do jogo para \textit{Start}.
 
@@ -281,12 +281,12 @@ A efeito de comparação, executou-se uma API de reconhecimento de voz desenvolv
 
 \section{Divulgação}
 
-Todo o código fonte do projeto \textit{Color Clutter} encontra-se em um repositório no GitHub do autor \citep{colorClutterGitHub}, juntamente com as instruções do jogo. Também foram disponibilizados binários para \textit{Windows} e \textit{Unix} \citep{colorClutterDownload}.
+Todo o código fonte de \textit{Color Clutter} encontra-se em um repositório no GitHub do autor \citep{colorClutterGitHub}, juntamente com as instruções do jogo. Também foram disponibilizados binários para \textit{Windows} e \textit{Unix} \citep{colorClutterDownload}.
 
 \textit{Color Clutter} foi divulgado nos mesmos dois fóruns de \textit{Godot} onde publicou-se sobre \textit{Speech to Text}:
 
 \begin{itemize}
-\item \textbf{Godot Engine Q\&A} \citep{colorClutterGodotQA}: Embora não seja mais voltado para tirar dúvidas, publicou-se o jogo no site oficial de \textit{Godot}.
+\item \textbf{Godot Engine Q\&A} \citep{colorClutterGodotQA}: Embora seja mais voltado para tirar dúvidas, publicou-se o jogo no fórum oficial de \textit{Godot}.
 
 \item \textbf{Godot Developers} \citep{colorClutterGodotDevelopers}: Voltado principalmente para jogos produzidos na \textit{game engine}.
 \end{itemize}
