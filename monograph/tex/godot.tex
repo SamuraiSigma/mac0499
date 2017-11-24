@@ -93,25 +93,25 @@ A seguir, exemplificamos alguns tipos de nós existentes no editor \textit{Godot
 
 Suponha que desejamos criar um botão clicável, onde está escrito \textit{``Começar Jogo''}. Ao pensarmos que este botão deverá \emph{conter} um texto, a hierarquia de \textit{nodes} fica intuitiva: iremos criar um nó \textit{Button} que possui um filho \textit{Label}. Além disso, desejamos alterar a propriedade de texto deste último para o valor \textit{``Começar Jogo''}.
 
-Teremos uma visão mais prática de nós na seção \ref{cap:color-clutter}, onde criaremos um jogo em \textit{Godot}.
+Teremos uma visão mais prática de nós no capítulo \ref{cap:color-clutter}, onde criaremos um jogo em \textit{Godot}.
 
 % ---------------------------------------------------------------------
 
 \subsection{\textit{Scene}}
 \label{godotScene}
 
-Uma \textbf{\textit{scene}} (cena) é um grupo de \textit{nodes} organizados em uma hierarquia de árvore. Toda cena possui apenas um nó raiz \citep{godotScene}.
+Um \textbf{\textit{scene}} (cena) é um grupo de \textit{nodes} organizados em uma hierarquia de árvore. Toda cena possui apenas um nó raiz \citep{godotScene}.
 
-Em \textit{Godot}, executar um jogo é equivalente a executar uma ou mais cenas, que podem ser salvas ou carregadas do disco no decorrer do programa. Ressalta-se que, para o jogo começar, uma \textit{scene} deve ser previamente configurada como a inicial, isto é, a primeira a ser executada quando o jogo é iniciado.
+Em \textit{Godot}, executar um jogo é equivalente a executar uma ou mais cenas, que podem ser salvas ou carregadas do disco no decorrer do programa. Ressalta-se que, para o jogo começar, um \textit{scene} deve ser previamente configurada como a inicial, isto é, a primeira a ser executada quando o jogo é iniciado.
 
-A maior vantagem de um \textit{scene}, portanto, está em sua modularização. Ao invés de se criar um jogo grande com uma quantidade enorme de nós em hierarquia, podem-se fazer várias cenas, com uma \emph{instanciando} outra durante a execução. Tal instância é adicionada na árvore da \textit{scene} que fez a chamada. Quando a cena não é mais necessária, ela pode ser salva no disco, se necessário, e retirada da hierarquia.
+A maior vantagem de um \textit{scene}, portanto, está em sua modularização. Ao invés de se criar um jogo grande com uma quantidade enorme de nós em hierarquia, podem-se fazer várias cenas, com uma \emph{instanciando} outra durante a execução. Tal instância é adicionada na árvore do \textit{scene} que fez a chamada. Quando a cena não é mais necessária, ela pode ser salva no disco, se necessário, e retirada da hierarquia.
 
 A figura \ref{sceneInstance} exemplifica um instanciamento genérico de uma cena.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.5\textwidth]{image/scene.pdf}
-  \caption{Exemplo de instanciamento de uma \textit{scene} \citep{godotScene}}
+  \caption{Exemplo de instanciamento de um \textit{scene} \citep{godotScene}}
   \label{sceneInstance}
 \end{figure}
 
@@ -250,7 +250,7 @@ Algumas explicações devem ser dadas sobre a tabela \ref{sconsParams}. A opçã
 
 O binário produzido pode ser usado para executar jogos na plataforma para a qual foi criado. A opção \texttt{tools} controla se ele deverá conter ou não o editor \textit{Godot}. Executáveis gerados com o valor \texttt{no} são chamados de \emph{templates de exportação}, pois são usados para exportar jogos para um determinado sistema operacional.
 
-Por fim, a opção \texttt{target} apresenta três valores possíveis para controlar o uso símbolos de depuração em \textit{C++}, otimização e verificação de erros em tempo de execução (\textit{runtime}). Sintetizamos as características de cada valor na tabela \ref{sconsTarget}.
+Por fim, a opção \texttt{target} apresenta três valores possíveis para controlar o uso de símbolos de depuração em \textit{C++}, otimização e verificação de erros em tempo de execução (\textit{runtime}). Sintetizamos as características de cada valor na tabela \ref{sconsTarget}.
 
 \begin{table}[H]
 \centering
