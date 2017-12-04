@@ -46,6 +46,8 @@ done in the project (in *Portuguese*).
 recognition libraries, as well as instructions and code on how to build them. Any
 experiments done separately for each library are also located here.
 
+- [**video**](video/): Contains recorded demonstrations related to the project.
+
 ## Submodules
 
 There are a few *git* submodules in this project. To initialize and update all of
