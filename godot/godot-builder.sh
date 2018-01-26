@@ -29,6 +29,8 @@ function usage {
     echo -e "\t\e[1m-U\e[0m\tBuilds export templates for Unix (64 bits).\n"
     echo -e "\t\e[1m-w\e[0m\tBuilds export templates for Windows (32 bits).\n"
     echo -e "\t\e[1m-W\e[0m\tBuilds export templates for Windows (64 bits).\n"
+    echo -e "\t\e[1m-x\e[0m\tBuilds export templates for OS X (32 bits).\n"
+    echo -e "\t\e[1m-X\e[0m\tBuilds export templates for OS X (64 bits).\n"
     echo -e "\t\e[1m-h, --help\e[0m\n\t\tShows how to use the script, leaving it" \
             "afterwards."
 }
@@ -44,6 +46,8 @@ unix32=0
 unix64=0
 windows32=0
 windows64=0
+osx32=0
+osx64=0
 
 if (($# < 1)); then
     usage
@@ -74,6 +78,10 @@ while (($#)); do
         windows32=1;;
     -W)
         windows64=1;;
+    -x)
+        osx32=1;;
+    -X)
+        osx64=1;;
     -h|--help)
         usage
         exit 0;;
@@ -85,7 +93,8 @@ while (($#)); do
     shift
 done
 
-if (($compile || $unix32 || $unix64 || $windows32 || $windows64)); then
+if (($compile || $unix32 || $unix64 || $windows32 || $windows64 ||
+     $osx32 || $osx64)); then
     echo -e "\033[1;36m>> Cloning submodules\033[0m"
     git submodule update --init $GODOTDIR $MODDIR
     cp -rf $MODDIR/speech_to_text $GODOTDIR/modules
@@ -121,6 +130,18 @@ if (($windows64)); then
     echo -e "\033[1;36m>> Building export templates for Windows (64 bits)\033[0m"
     scons -j$cores tools=no p=windows target=release bits=64
     scons -j$cores tools=no p=windows target=release_debug bits=64
+fi
+
+if (($osx32)); then
+    echo -e "\033[1;36m>> Building export templates for OS X (32 bits)\033[0m"
+    scons -j$cores tools=no p=osx osxcross_sdk=darwin15 target=release bits=32
+    scons -j$cores tools=no p=osx osxcross_sdk=darwin15 target=release_debug bits=32
+fi
+
+if (($osx64)); then
+    echo -e "\033[1;36m>> Building export templates for OS X (64 bits)\033[0m"
+    scons -j$cores tools=no p=osx osxcross_sdk=darwin15 target=release bits=64
+    scons -j$cores tools=no p=osx osxcross_sdk=darwin15 target=release_debug bits=64
 fi
 
 if (($run)); then
