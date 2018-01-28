@@ -4,7 +4,10 @@
 set -e
 
 GODOTDIR=engine        # Godot engine directory
+BINDIR=bin             # Godot engine binaries directory
 MODDIR=speech-to-text  # Speech to text directory
+
+OSXCROSS_SDK=darwin15  # Version of OSXCross SDK to use
 
 #----------------------------------------------------------------------
 # Shows how to use the script.
@@ -29,10 +32,11 @@ function usage {
     echo -e "\t\e[1m-U\e[0m\tBuilds export templates for Unix (64 bits).\n"
     echo -e "\t\e[1m-w\e[0m\tBuilds export templates for Windows (32 bits).\n"
     echo -e "\t\e[1m-W\e[0m\tBuilds export templates for Windows (64 bits).\n"
-    echo -e "\t\e[1m-x\e[0m\tBuilds export templates for OS X (32 bits).\n"
-    echo -e "\t\e[1m-X\e[0m\tBuilds export templates for OS X (64 bits).\n"
-    echo -e "\t\e[1m-h, --help\e[0m\n\t\tShows how to use the script, leaving it" \
-            "afterwards."
+    echo -e "\t\e[1m-x, -X\e[0m\n" \
+            "\t\tBuilds fat export template (app) for OS X (32 and 64 bits).\n" \
+            "\t\tNote: You must define the OSXCross path with \$OSXCROSS_ROOT.\n"
+    echo -e "\t\e[1m-h, --help\e[0m\n" \
+            "\t\tShows how to use the script, leaving it afterwards."
 }
 
 # ---------------------------------------------------------------------
@@ -46,8 +50,7 @@ unix32=0
 unix64=0
 windows32=0
 windows64=0
-osx32=0
-osx64=0
+osx=0
 
 if (($# < 1)); then
     usage
@@ -78,10 +81,8 @@ while (($#)); do
         windows32=1;;
     -W)
         windows64=1;;
-    -x)
-        osx32=1;;
-    -X)
-        osx64=1;;
+    -x|-X)
+        osx=1;;
     -h|--help)
         usage
         exit 0;;
@@ -93,8 +94,7 @@ while (($#)); do
     shift
 done
 
-if (($compile || $unix32 || $unix64 || $windows32 || $windows64 ||
-     $osx32 || $osx64)); then
+if (($compile || $unix32 || $unix64 || $windows32 || $windows64 || $osx)); then
     echo -e "\033[1;36m>> Cloning submodules\033[0m"
     git submodule update --init $GODOTDIR $MODDIR
     cp -rf $MODDIR/speech_to_text $GODOTDIR/modules
@@ -132,16 +132,36 @@ if (($windows64)); then
     scons -j$cores tools=no p=windows target=release_debug bits=64
 fi
 
-if (($osx32)); then
-    echo -e "\033[1;36m>> Building export templates for OS X (32 bits)\033[0m"
-    scons -j$cores tools=no p=osx osxcross_sdk=darwin15 target=release bits=32
-    scons -j$cores tools=no p=osx osxcross_sdk=darwin15 target=release_debug bits=32
-fi
+if (($osx)); then
+    if ! [[ -n $OSXCROSS_ROOT ]]; then
+        echo -e "\033[1;31m>> Cannot build export templates for OS X;" \
+                "\$OSXCROSS_ROOT not defined!\033[0m"
+        exit 4
+    fi
 
-if (($osx64)); then
+    echo -e "\033[1;36m>> Building export templates for OS X (32 bits)\033[0m"
+    scons -j$cores tools=no p=osx osxcross_sdk=$OSXCROSS_SDK target=release bits=32
+    scons -j$cores tools=no p=osx osxcross_sdk=$OSXCROSS_SDK target=release_debug bits=32
     echo -e "\033[1;36m>> Building export templates for OS X (64 bits)\033[0m"
-    scons -j$cores tools=no p=osx osxcross_sdk=darwin15 target=release bits=64
-    scons -j$cores tools=no p=osx osxcross_sdk=darwin15 target=release_debug bits=64
+    scons -j$cores tools=no p=osx osxcross_sdk=$OSXCROSS_SDK target=release bits=64
+    scons -j$cores tools=no p=osx osxcross_sdk=$OSXCROSS_SDK target=release_debug bits=64
+
+    echo -e "\033[1;36m>> Creating app with fat binaries\033[0m"
+    cp -rf misc/dist/osx_template.app $BINDIR
+    cd $BINDIR
+    mkdir -p osx_template.app/Contents/MacOS
+
+    $OSXCROSS_ROOT/target/bin/x86_64-apple-${OSXCROSS_SDK}-lipo \
+    -create godot.osx.opt.32 godot.osx.opt.64 \
+    -output osx_template.app/Contents/MacOS/godot_osx_release.fat
+    $OSXCROSS_ROOT/target/bin/x86_64-apple-${OSXCROSS_SDK}-lipo \
+    -create godot.osx.opt.debug.32 godot.osx.opt.debug.64 \
+    -output osx_template.app/Contents/MacOS/godot_osx_debug.fat
+
+    zip -r osx.zip osx_template.app
+    rm -rf osx_template.app
+    cd ..
+    echo "Done!"
 fi
 
 if (($run)); then
