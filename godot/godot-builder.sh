@@ -3,14 +3,21 @@
 
 set -e
 
+# Enables iPhone platform to be detected
+export OSXCROSS_IOS=anything
+
+# ---------------------------------------------------------------------
+# Files and directories
+
 GODOTDIR=engine        # Godot engine directory
 BINDIR=bin             # Godot engine binaries directory
 MODDIR=speech-to-text  # Speech to text directory
 
-OSXCROSS_SDK=darwin15  # Version of OSXCross SDK to use
+OSXCROSS_SDK="darwin15"           # Version of OSXCross SDK to use
+IOS_TRIPLE="arm-apple-darwin11-"  # Toolchain to use on iOS
 
 #----------------------------------------------------------------------
-# Shows how to use the script.
+# Shows how to use the script
 
 function usage {
     echo -e "\e[1mUSAGE\e[0m"
@@ -35,6 +42,10 @@ function usage {
     echo -e "\t\e[1m-x, -X\e[0m\n" \
             "\t\tBuilds fat export template (app) for OS X (32 and 64 bits).\n" \
             "\t\tNote: You must define the OSXCross path with \$OSXCROSS_ROOT.\n"
+    echo -e "\t\e[1m-i, -I\e[0m\n" \
+            "\t\tBuilds fat export templates for iOS (arm and arm64).\n" \
+            "\t\tNote: You must define the iOS SDK and toolchain paths with" \
+            "\$IOS_SDK and \$IOS_TOOLCHAIN, respectively.\n"
     echo -e "\t\e[1m-h, --help\e[0m\n" \
             "\t\tShows how to use the script, leaving it afterwards."
 }
@@ -51,6 +62,7 @@ unix64=0
 windows32=0
 windows64=0
 osx=0
+ios=0
 
 if (($# < 1)); then
     usage
@@ -83,6 +95,8 @@ while (($#)); do
         windows64=1;;
     -x|-X)
         osx=1;;
+    -i|-I)
+        ios=1;;
     -h|--help)
         usage
         exit 0;;
@@ -94,7 +108,7 @@ while (($#)); do
     shift
 done
 
-if (($compile || $unix32 || $unix64 || $windows32 || $windows64 || $osx)); then
+if (($compile || $unix32 || $unix64 || $windows32 || $windows64 || $osx || $ios)); then
     echo -e "\033[1;36m>> Cloning submodules\033[0m"
     git submodule update --init $GODOTDIR $MODDIR
     cp -rf $MODDIR/speech_to_text $GODOTDIR/modules
@@ -146,7 +160,7 @@ if (($osx)); then
     scons -j$cores tools=no p=osx osxcross_sdk=$OSXCROSS_SDK target=release bits=64
     scons -j$cores tools=no p=osx osxcross_sdk=$OSXCROSS_SDK target=release_debug bits=64
 
-    echo -e "\033[1;36m>> Creating app with fat binaries\033[0m"
+    echo -e "\033[1;36m>> Creating OS X app with fat binaries\033[0m"
     cp -rf misc/dist/osx_template.app $BINDIR
     cd $BINDIR
     mkdir -p osx_template.app/Contents/MacOS
@@ -161,6 +175,40 @@ if (($osx)); then
     zip -r osx.zip osx_template.app
     rm -rf osx_template.app
     cd ..
+    echo "Done!"
+fi
+
+if (($ios)); then
+    if ! [[ -n $IOS_SDK ]]; then
+        echo -e "\033[1;31m>> Cannot build export templates for iOS;" \
+                "\$IOS_SDK not defined!\033[0m"
+        exit 5
+    fi
+    if ! [[ -n $IOS_TOOLCHAIN ]]; then
+        echo -e "\033[1;31m>> Cannot build export templates for iOS;" \
+                "\$IOS_TOOLCHAIN not defined!\033[0m"
+        exit 6
+    fi
+
+    echo -e "\033[1;36m>> Building export templates for iOS (arm)\033[0m"
+    scons -j$cores platform=iphone arch=arm target=release \
+          IPHONESDK=$IOS_SDK IPHONEPATH=$IOS_TOOLCHAIN ios_triple=$IOS_TRIPLE
+    scons -j$cores platform=iphone arch=arm target=release_debug \
+          IPHONESDK=$IOS_SDK IPHONEPATH=$IOS_TOOLCHAIN ios_triple=$IOS_TRIPLE
+    echo -e "\033[1;36m>> Building export templates for iOS (arm64)\033[0m"
+    scons -j$cores platform=iphone arch=arm64 target=release \
+          IPHONESDK=$IOS_SDK IPHONEPATH=$IOS_TOOLCHAIN ios_triple=$IOS_TRIPLE
+    scons -j$cores platform=iphone arch=arm64 target=release_debug \
+          IPHONESDK=$IOS_SDK IPHONEPATH=$IOS_TOOLCHAIN ios_triple=$IOS_TRIPLE
+
+    echo -e "\033[1;36m>> Creating fat iOS binaries\033[0m"
+    $IOS_TOOLCHAIN/usr/bin/${IOS_TRIPLE}lipo \
+    -create bin/godot.iphone.opt.arm bin/godot.iphone.opt.arm64 \
+    -output bin/godot.iphone.opt.fat
+    $IOS_TOOLCHAIN/usr/bin/${IOS_TRIPLE}lipo \
+    -create bin/godot.iphone.opt.debug.arm bin/godot.iphone.opt.debug.arm64 \
+    -output bin/godot.iphone.opt.debug.fat
+
     echo "Done!"
 fi
 
