@@ -47,7 +47,7 @@ function usage {
             "\t\tNote: You must define the iOS SDK and toolchain paths with" \
             "\$IOS_SDK and \$IOS_TOOLCHAIN, respectively.\n"
     echo -e "\t\e[1m-a, -A\e[0m\n" \
-            "\t\tBuilds fat export templates for Android (x86 and armv7).\n" \
+            "\t\tBuilds fat export templates (apks) for Android (x86 and armv7).\n" \
             "\t\tNote: You must define the Android SDK and NDK paths with" \
             "\$ANDROID_HOME and \$ANDROID_NDK_ROOT, respectively.\n"
     echo -e "\t\e[1m-h, --help\e[0m\n" \
@@ -124,15 +124,15 @@ fi
 cd $GODOTDIR
 
 if (($compile)); then
-    echo -e "\033[1;36m>> Building Godot engine\033[0m"
+    echo -e "\033[1;36m>> Building Godot engine editor\033[0m"
     scons -j$cores p=x11 speech_to_text_shared=yes bin/libspeech_to_text.x11.tools.64.so
     scons -j$cores p=x11 speech_to_text_shared=yes
 fi
 
 if (($unix32)); then
     echo -e "\033[1;36m>> Building export templates for Unix (32 bits)\033[0m"
-    scons -j$cores tools=no p=x11 target=release bits=32 pulseaudio=no
-    scons -j$cores tools=no p=x11 target=release_debug bits=32 pulseaudio=no
+    scons -j$cores tools=no p=x11 target=release bits=32
+    scons -j$cores tools=no p=x11 target=release_debug bits=32
 fi
 
 if (($unix64)); then
@@ -231,15 +231,17 @@ if (($android)); then
         exit 8
     fi
 
-    echo -e "\033[1;36m>> Building fat Android binaries\033[0m"
-    scons -j$cores p=android target=release
+    echo -e "\033[1;36m>> Building export templates for Android (x86)\033[0m"
     scons -j$cores p=android target=release android_arch=x86
-    pushd platform/android/java
-    ./gradlew build && popd
-    scons -j$cores p=android target=release_debug
     scons -j$cores p=android target=release_debug android_arch=x86
-    pushd platform/android/java
-    ./gradlew build && popd
+    echo -e "\033[1;36m>> Building export templates for Android (armv7)\033[0m"
+    scons -j$cores p=android target=release
+    scons -j$cores p=android target=release_debug
+
+    echo -e "\033[1;36m>> Creating fat Android apks with Gradle\033[0m"
+    pushd platform/android/java > /dev/null
+    ./gradlew build
+    popd > /dev/null
 fi
 
 if (($run)); then
