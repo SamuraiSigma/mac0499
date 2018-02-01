@@ -46,6 +46,10 @@ function usage {
             "\t\tBuilds fat export templates for iOS (arm and arm64).\n" \
             "\t\tNote: You must define the iOS SDK and toolchain paths with" \
             "\$IOS_SDK and \$IOS_TOOLCHAIN, respectively.\n"
+    echo -e "\t\e[1m-a, -A\e[0m\n" \
+            "\t\tBuilds fat export templates for Android (x86 and armv7).\n" \
+            "\t\tNote: You must define the Android SDK and NDK paths with" \
+            "\$ANDROID_HOME and \$ANDROID_NDK_ROOT, respectively.\n"
     echo -e "\t\e[1m-h, --help\e[0m\n" \
             "\t\tShows how to use the script, leaving it afterwards."
 }
@@ -63,6 +67,7 @@ windows32=0
 windows64=0
 osx=0
 ios=0
+android=0
 
 if (($# < 1)); then
     usage
@@ -97,6 +102,8 @@ while (($#)); do
         osx=1;;
     -i|-I)
         ios=1;;
+    -a|-A)
+        android=1;;
     -h|--help)
         usage
         exit 0;;
@@ -108,7 +115,7 @@ while (($#)); do
     shift
 done
 
-if (($compile || $unix32 || $unix64 || $windows32 || $windows64 || $osx || $ios)); then
+if (($compile || $unix32 || $unix64 || $windows32 || $windows64 || $osx || $ios || $android)); then
     echo -e "\033[1;36m>> Cloning submodules\033[0m"
     git submodule update --init $GODOTDIR $MODDIR
     cp -rf $MODDIR/speech_to_text $GODOTDIR/modules
@@ -124,8 +131,8 @@ fi
 
 if (($unix32)); then
     echo -e "\033[1;36m>> Building export templates for Unix (32 bits)\033[0m"
-    scons -j$cores tools=no p=x11 target=release bits=32
-    scons -j$cores tools=no p=x11 target=release_debug bits=32
+    scons -j$cores tools=no p=x11 target=release bits=32 pulseaudio=no
+    scons -j$cores tools=no p=x11 target=release_debug bits=32 pulseaudio=no
 fi
 
 if (($unix64)); then
@@ -191,14 +198,14 @@ if (($ios)); then
     fi
 
     echo -e "\033[1;36m>> Building export templates for iOS (arm)\033[0m"
-    scons -j$cores platform=iphone arch=arm target=release \
+    scons -j$cores p=iphone arch=arm target=release \
           IPHONESDK=$IOS_SDK IPHONEPATH=$IOS_TOOLCHAIN ios_triple=$IOS_TRIPLE
-    scons -j$cores platform=iphone arch=arm target=release_debug \
+    scons -j$cores p=iphone arch=arm target=release_debug \
           IPHONESDK=$IOS_SDK IPHONEPATH=$IOS_TOOLCHAIN ios_triple=$IOS_TRIPLE
     echo -e "\033[1;36m>> Building export templates for iOS (arm64)\033[0m"
-    scons -j$cores platform=iphone arch=arm64 target=release \
+    scons -j$cores p=iphone arch=arm64 target=release \
           IPHONESDK=$IOS_SDK IPHONEPATH=$IOS_TOOLCHAIN ios_triple=$IOS_TRIPLE
-    scons -j$cores platform=iphone arch=arm64 target=release_debug \
+    scons -j$cores p=iphone arch=arm64 target=release_debug \
           IPHONESDK=$IOS_SDK IPHONEPATH=$IOS_TOOLCHAIN ios_triple=$IOS_TRIPLE
 
     echo -e "\033[1;36m>> Creating fat iOS binaries\033[0m"
@@ -210,6 +217,29 @@ if (($ios)); then
     -output bin/godot.iphone.opt.debug.fat
 
     echo "Done!"
+fi
+
+if (($android)); then
+    if ! [[ -n $ANDROID_HOME ]]; then
+        echo -e "\033[1;31m>> Cannot build export templates for Android;" \
+                "\$ANDROID_HOME not defined!\033[0m"
+        exit 7
+    fi
+    if ! [[ -n $ANDROID_NDK_ROOT ]]; then
+        echo -e "\033[1;31m>> Cannot build export templates for Android;" \
+                "\$ANDROID_NDK_ROOT not defined!\033[0m"
+        exit 8
+    fi
+
+    echo -e "\033[1;36m>> Building fat Android binaries\033[0m"
+    scons -j$cores p=android target=release
+    scons -j$cores p=android target=release android_arch=x86
+    pushd platform/android/java
+    ./gradlew build && popd
+    scons -j$cores p=android target=release_debug
+    scons -j$cores p=android target=release_debug android_arch=x86
+    pushd platform/android/java
+    ./gradlew build && popd
 fi
 
 if (($run)); then
